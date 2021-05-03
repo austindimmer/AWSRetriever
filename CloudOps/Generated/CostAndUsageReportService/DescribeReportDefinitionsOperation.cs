@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.CostAndUsageReportService;
-using Amazon.CostAndUsageReportService.Model;
+using Amazon.CostAndUsageReport;
+using Amazon.CostAndUsageReport.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.CostAndUsageReportService
@@ -21,10 +21,10 @@ namespace CloudOps.CostAndUsageReportService
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonCostAndUsageReportServiceConfig config = new AmazonCostAndUsageReportServiceConfig();
+            AmazonCostAndUsageReportConfig config = new AmazonCostAndUsageReportConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonCostAndUsageReportServiceClient client = new AmazonCostAndUsageReportServiceClient(creds, config);
+            AmazonCostAndUsageReportClient client = new AmazonCostAndUsageReportClient(creds, config);
             
             DescribeReportDefinitionsResponse resp = new DescribeReportDefinitionsResponse();
             do

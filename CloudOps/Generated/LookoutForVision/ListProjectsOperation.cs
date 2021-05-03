@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.LookoutForVision;
-using Amazon.LookoutForVision.Model;
+using Amazon.LookoutforVision;
+using Amazon.LookoutforVision.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.LookoutForVision
+namespace CloudOps.LookoutforVision
 {
     public class ListProjectsOperation : Operation
     {
@@ -15,16 +15,16 @@ namespace CloudOps.LookoutForVision
 
         public override string Method => "GET";
 
-        public override string ServiceName => "LookoutForVision";
+        public override string ServiceName => "LookoutforVision";
 
         public override string ServiceID => "LookoutVision";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonLookoutForVisionConfig config = new AmazonLookoutForVisionConfig();
+            AmazonLookoutforVisionConfig config = new AmazonLookoutforVisionConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonLookoutForVisionClient client = new AmazonLookoutForVisionClient(creds, config);
+            AmazonLookoutforVisionClient client = new AmazonLookoutforVisionClient(creds, config);
             
             ListProjectsResponse resp = new ListProjectsResponse();
             do

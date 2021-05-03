@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.DynamoDB;
-using Amazon.DynamoDB.Model;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.DynamoDB
+namespace CloudOps.DynamoDBv2
 {
     public class ListExportsOperation : Operation
     {
@@ -15,9 +15,9 @@ namespace CloudOps.DynamoDB
 
         public override string Method => "POST";
 
-        public override string ServiceName => "DynamoDB";
+        public override string ServiceName => "DynamoDBv2";
 
-        public override string ServiceID => "DynamoDB";
+        public override string ServiceID => "DynamoDBv2";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {

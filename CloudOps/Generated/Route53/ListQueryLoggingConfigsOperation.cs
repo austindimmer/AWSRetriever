@@ -33,7 +33,7 @@ namespace CloudOps.Route53
                 {
                     NextToken = resp.NextToken
                     ,
-                    MaxResults = maxItems
+                    MaxResults = maxItems.ToString()
                                         
                 };
 

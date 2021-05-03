@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.DynamoDB;
-using Amazon.DynamoDB.Model;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.DynamoDB
@@ -49,7 +49,7 @@ namespace CloudOps.DynamoDB
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.UnprocessedKeys));
+            while ( resp.UnprocessedKeys.Count > 0);
         }
     }
 }

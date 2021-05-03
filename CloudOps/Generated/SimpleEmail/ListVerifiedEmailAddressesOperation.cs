@@ -21,10 +21,10 @@ namespace CloudOps.SimpleEmail
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSimpleEmailConfig config = new AmazonSimpleEmailConfig();
+            AmazonSimpleEmailServiceConfig config = new AmazonSimpleEmailServiceConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSimpleEmailClient client = new AmazonSimpleEmailClient(creds, config);
+            AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(creds, config);
             
             ListVerifiedEmailAddressesResponse resp = new ListVerifiedEmailAddressesResponse();
             ListVerifiedEmailAddressesRequest req = new ListVerifiedEmailAddressesRequest

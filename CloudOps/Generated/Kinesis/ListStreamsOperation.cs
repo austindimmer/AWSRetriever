@@ -31,7 +31,7 @@ namespace CloudOps.Kinesis
             {
                 ListStreamsRequest req = new ListStreamsRequest
                 {
-                    ExclusiveStartStreamName = resp.StreamNames1
+                    ExclusiveStartStreamName = resp.StreamNames[0]
                     ,
                     Limit = maxItems
                                         
@@ -46,7 +46,7 @@ namespace CloudOps.Kinesis
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.StreamNames1));
+            while (!string.IsNullOrEmpty(resp.StreamNames[0]));
         }
     }
 }

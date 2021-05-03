@@ -26,10 +26,10 @@ namespace CloudOps.ElasticLoadBalancing
             ConfigureClient(config);            
             AmazonElasticLoadBalancingClient client = new AmazonElasticLoadBalancingClient(creds, config);
             
-            DescribeAccessPointsResponse resp = new DescribeAccessPointsResponse();
+            DescribeLoadBalancersResponse resp = new DescribeLoadBalancersResponse();
             do
             {
-                DescribeAccessPointsRequest req = new DescribeAccessPointsRequest
+                DescribeLoadBalancersRequest req = new DescribeLoadBalancersRequest
                 {
                     Marker = resp.NextMarker
                                         

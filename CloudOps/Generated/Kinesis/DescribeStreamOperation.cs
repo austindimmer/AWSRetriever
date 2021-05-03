@@ -31,7 +31,7 @@ namespace CloudOps.Kinesis
             {
                 DescribeStreamRequest req = new DescribeStreamRequest
                 {
-                    ExclusiveStartShardId = resp.StreamDescriptionShards1ShardId
+                    ExclusiveStartShardId = resp.StreamDescription.Shards[0].ShardId
                     ,
                     Limit = maxItems
                                         
@@ -40,13 +40,13 @@ namespace CloudOps.Kinesis
                 resp = client.DescribeStream(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.StreamDescriptionShards)
+                foreach (var obj in resp.StreamDescription.Shards)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.StreamDescriptionShards1ShardId));
+            while (!string.IsNullOrEmpty(resp.StreamDescription.Shards[0].ShardId));
         }
     }
 }

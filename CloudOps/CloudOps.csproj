@@ -227,9 +227,8 @@
       <HintPath>..\packages\AWSSDK.CodeStar.3.7.0.16\lib\net45\AWSSDK.CodeStar.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AWSSDK.CodeStarconnections, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+    <Reference Include="AWSSDK.CodeStarconnections">
       <HintPath>..\packages\AWSSDK.CodeStarconnections.3.7.1.5\lib\net45\AWSSDK.CodeStarconnections.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.CodeStarNotifications, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.CodeStarNotifications.3.7.0.16\lib\net45\AWSSDK.CodeStarNotifications.dll</HintPath>
@@ -323,9 +322,8 @@
       <HintPath>..\packages\AWSSDK.DocDB.3.7.1.14\lib\net45\AWSSDK.DocDB.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="AWSSDK.DynamoDBv2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+    <Reference Include="AWSSDK.DynamoDBv2">
       <HintPath>..\packages\AWSSDK.DynamoDBv2.3.7.0.17\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="AWSSDK.EC2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.EC2.3.7.5.2\lib\net45\AWSSDK.EC2.dll</HintPath>
@@ -803,6 +801,10 @@
       <HintPath>..\packages\AWSSDK.S3Control.3.7.0.16\lib\net45\AWSSDK.S3Control.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AWSSDK.S3Outposts, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3Outposts.3.7.0.16\lib\net45\AWSSDK.S3Outposts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AWSSDK.SageMaker, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.SageMaker.3.7.1.13\lib\net45\AWSSDK.SageMaker.dll</HintPath>
       <Private>True</Private>
@@ -1034,7 +1036,6 @@
     <Compile Include="Generated\AppRegistry\ListApplicationsOperation.cs" />
     <Compile Include="Generated\AppRegistry\ListAttributeGroupsOperation.cs" />
     <Compile Include="Generated\AppStream\DescribeImagesOperation.cs" />
-    <Compile Include="Generated\Athena\GetQueryResultsOperation.cs" />
     <Compile Include="Generated\Athena\ListDatabasesOperation.cs" />
     <Compile Include="Generated\Athena\ListDataCatalogsOperation.cs" />
     <Compile Include="Generated\Athena\ListNamedQueriesOperation.cs" />
@@ -1109,9 +1110,6 @@
     <Compile Include="Generated\CloudFormation\ListTypeRegistrationsOperation.cs" />
     <Compile Include="Generated\CloudFormation\ListTypesOperation.cs" />
     <Compile Include="Generated\CloudFormation\ListTypeVersionsOperation.cs" />
-    <Compile Include="Generated\CloudFront\ListCloudFrontOriginAccessIdentitiesOperation.cs" />
-    <Compile Include="Generated\CloudFront\ListDistributionsOperation.cs" />
-    <Compile Include="Generated\CloudFront\ListStreamingDistributionsOperation.cs" />
     <Compile Include="Generated\CloudHSMV2\DescribeBackupsOperation.cs" />
     <Compile Include="Generated\CloudHSMV2\DescribeClustersOperation.cs" />
     <Compile Include="Generated\CloudSearch\DescribeDomainsOperation.cs" />
@@ -1144,13 +1142,10 @@
     <Compile Include="Generated\CodeBuild\ListReportsOperation.cs" />
     <Compile Include="Generated\CodeBuild\ListSharedProjectsOperation.cs" />
     <Compile Include="Generated\CodeBuild\ListSharedReportGroupsOperation.cs" />
-    <Compile Include="Generated\CodeCommit\DescribeMergeConflictsOperation.cs" />
-    <Compile Include="Generated\CodeCommit\DescribePullRequestEventsOperation.cs" />
     <Compile Include="Generated\CodeCommit\GetCommentReactionsOperation.cs" />
     <Compile Include="Generated\CodeCommit\GetCommentsForComparedCommitOperation.cs" />
     <Compile Include="Generated\CodeCommit\GetCommentsForPullRequestOperation.cs" />
     <Compile Include="Generated\CodeCommit\GetDifferencesOperation.cs" />
-    <Compile Include="Generated\CodeCommit\GetMergeConflictsOperation.cs" />
     <Compile Include="Generated\CodeCommit\ListApprovalRuleTemplatesOperation.cs" />
     <Compile Include="Generated\CodeCommit\ListAssociatedApprovalRuleTemplatesForRepositoryOperation.cs" />
     <Compile Include="Generated\CodeCommit\ListBranchesOperation.cs" />
@@ -1161,7 +1156,6 @@
     <Compile Include="Generated\CodeDeploy\ListApplicationsOperation.cs" />
     <Compile Include="Generated\CodeDeploy\ListDeploymentConfigsOperation.cs" />
     <Compile Include="Generated\CodeDeploy\ListDeploymentGroupsOperation.cs" />
-    <Compile Include="Generated\CodeDeploy\ListDeploymentInstancesOperation.cs" />
     <Compile Include="Generated\CodeDeploy\ListDeploymentsOperation.cs" />
     <Compile Include="Generated\CodeGuruProfiler\GetFindingsReportAccountSummaryOperation.cs" />
     <Compile Include="Generated\CodeGuruProfiler\ListProfilingGroupsOperation.cs" />
@@ -1234,7 +1228,6 @@
     <Compile Include="Generated\DirectConnect\DescribeLocationsOperation.cs" />
     <Compile Include="Generated\DirectConnect\DescribeVirtualGatewaysOperation.cs" />
     <Compile Include="Generated\DirectConnect\DescribeVirtualInterfacesOperation.cs" />
-    <Compile Include="Generated\DocDB\DescribeCertificatesOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBClusterParameterGroupsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBClusterParametersOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBClusterSnapshotsOperation.cs" />
@@ -1242,7 +1235,6 @@
     <Compile Include="Generated\DocDB\DescribeDBEngineVersionsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBInstancesOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBSubnetGroupsOperation.cs" />
-    <Compile Include="Generated\DocDB\DescribeEventsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeEventSubscriptionsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeOrderableDBInstanceOptionsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribePendingMaintenanceActionsOperation.cs" />
@@ -1251,7 +1243,6 @@
     <Compile Include="Generated\DynamoDB\ListContributorInsightsOperation.cs" />
     <Compile Include="Generated\DynamoDB\ListExportsOperation.cs" />
     <Compile Include="Generated\DynamoDB\ListTablesOperation.cs" />
-    <Compile Include="Generated\DynamoDB\QueryOperation.cs" />
     <Compile Include="Generated\DynamoDB\ScanOperation.cs" />
     <Compile Include="Generated\EC2\DescribeAccountAttributesOperation.cs" />
     <Compile Include="Generated\EC2\DescribeAddressesAttributeOperation.cs" />
@@ -1369,7 +1360,6 @@
     <Compile Include="Generated\ElastiCache\DescribeCacheParametersOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeCacheSecurityGroupsOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeCacheSubnetGroupsOperation.cs" />
-    <Compile Include="Generated\ElastiCache\DescribeEngineDefaultParametersOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeEventsOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeGlobalReplicationGroupsOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeReplicationGroupsOperation.cs" />
@@ -1405,7 +1395,6 @@
     <Compile Include="Generated\Elasticsearch\ListElasticsearchVersionsOperation.cs" />
     <Compile Include="Generated\ElasticTranscoder\ListPipelinesOperation.cs" />
     <Compile Include="Generated\ElasticTranscoder\ListPresetsOperation.cs" />
-    <Compile Include="Generated\EMR\DescribeJobFlowsOperation.cs" />
     <Compile Include="Generated\EMR\ListBootstrapActionsOperation.cs" />
     <Compile Include="Generated\EMR\ListClustersOperation.cs" />
     <Compile Include="Generated\EMR\ListInstanceFleetsOperation.cs" />
@@ -1464,7 +1453,6 @@
     <Compile Include="Generated\GameLift\ListScriptsOperation.cs" />
     <Compile Include="Generated\GameLift\SearchGameSessionsOperation.cs" />
     <Compile Include="Generated\Glacier\ListJobsOperation.cs" />
-    <Compile Include="Generated\Glacier\ListMultipartUploadsOperation.cs" />
     <Compile Include="Generated\Glacier\ListPartsOperation.cs" />
     <Compile Include="Generated\Glacier\ListVaultsOperation.cs" />
     <Compile Include="Generated\GlobalAccelerator\ListAcceleratorsOperation.cs" />
@@ -1560,10 +1548,8 @@
     <Compile Include="Generated\IoT\ListStreamsOperation.cs" />
     <Compile Include="Generated\IoT\ListThingGroupsOperation.cs" />
     <Compile Include="Generated\IoT\ListThingRegistrationTasksOperation.cs" />
-    <Compile Include="Generated\IoT\ListThingsOperation.cs" />
     <Compile Include="Generated\IoT\ListThingTypesOperation.cs" />
     <Compile Include="Generated\IoT\ListTopicRuleDestinationsOperation.cs" />
-    <Compile Include="Generated\IoT\ListTopicRulesOperation.cs" />
     <Compile Include="Generated\IoT\ListV2LoggingLevelsOperation.cs" />
     <Compile Include="Generated\IoTAnalytics\ListChannelsOperation.cs" />
     <Compile Include="Generated\IoTAnalytics\ListDatasetsOperation.cs" />
@@ -1634,15 +1620,6 @@
     <Compile Include="Generated\MachineLearning\DescribeMLModelsOperation.cs" />
     <Compile Include="Generated\Macie\ListMemberAccountsOperation.cs" />
     <Compile Include="Generated\Macie\ListS3ResourcesOperation.cs" />
-    <Compile Include="Generated\Macie2\DescribeBucketsOperation.cs" />
-    <Compile Include="Generated\Macie2\GetUsageStatisticsOperation.cs" />
-    <Compile Include="Generated\Macie2\ListClassificationJobsOperation.cs" />
-    <Compile Include="Generated\Macie2\ListCustomDataIdentifiersOperation.cs" />
-    <Compile Include="Generated\Macie2\ListFindingsFiltersOperation.cs" />
-    <Compile Include="Generated\Macie2\ListFindingsOperation.cs" />
-    <Compile Include="Generated\Macie2\ListInvitationsOperation.cs" />
-    <Compile Include="Generated\Macie2\ListMembersOperation.cs" />
-    <Compile Include="Generated\Macie2\ListOrganizationAdminAccountsOperation.cs" />
     <Compile Include="Generated\ManagedBlockchain\ListInvitationsOperation.cs" />
     <Compile Include="Generated\ManagedBlockchain\ListMembersOperation.cs" />
     <Compile Include="Generated\ManagedBlockchain\ListNetworksOperation.cs" />
@@ -1688,7 +1665,6 @@
     <Compile Include="Generated\Neptune\DescribeDBParameterGroupsOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeDBParametersOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeDBSubnetGroupsOperation.cs" />
-    <Compile Include="Generated\Neptune\DescribeEngineDefaultParametersOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeEventsOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeEventSubscriptionsOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeOrderableDBInstanceOptionsOperation.cs" />
@@ -1748,7 +1724,6 @@
     <Compile Include="Generated\QLDB\ListJournalS3ExportsOperation.cs" />
     <Compile Include="Generated\QLDB\ListLedgersOperation.cs" />
     <Compile Include="Generated\RAM\GetResourceShareInvitationsOperation.cs" />
-    <Compile Include="Generated\RDS\DescribeCertificatesOperation.cs" />
     <Compile Include="Generated\RDS\DescribeCustomAvailabilityZonesOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBClusterBacktracksOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBClusterEndpointsOperation.cs" />
@@ -1767,8 +1742,6 @@
     <Compile Include="Generated\RDS\DescribeDBSecurityGroupsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBSnapshotsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBSubnetGroupsOperation.cs" />
-    <Compile Include="Generated\RDS\DescribeEngineDefaultParametersOperation.cs" />
-    <Compile Include="Generated\RDS\DescribeEventsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeEventSubscriptionsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeExportTasksOperation.cs" />
     <Compile Include="Generated\RDS\DescribeGlobalClustersOperation.cs" />
@@ -1791,7 +1764,6 @@
     <Compile Include="Generated\Redshift\DescribeClusterSubnetGroupsOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeClusterTracksOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeClusterVersionsOperation.cs" />
-    <Compile Include="Generated\Redshift\DescribeDefaultClusterParametersOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeEndpointAccessOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeEndpointAuthorizationOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeEventsOperation.cs" />
@@ -1833,7 +1805,6 @@
     <Compile Include="Generated\RoboMaker\ListWorldTemplatesOperation.cs" />
     <Compile Include="Generated\Route53\ListHealthChecksOperation.cs" />
     <Compile Include="Generated\Route53\ListHostedZonesOperation.cs" />
-    <Compile Include="Generated\Route53\ListQueryLoggingConfigsOperation.cs" />
     <Compile Include="Generated\Route53Domains\ListDomainsOperation.cs" />
     <Compile Include="Generated\Route53Domains\ListOperationsOperation.cs" />
     <Compile Include="Generated\Route53Resolver\ListFirewallConfigsOperation.cs" />
@@ -2010,13 +1981,6 @@
     <Compile Include="Generated\StorageGateway\ListVolumesOperation.cs" />
     <Compile Include="Generated\Support\DescribeCasesOperation.cs" />
     <Compile Include="Generated\Support\DescribeServicesOperation.cs" />
-    <Compile Include="Generated\SWF\GetWorkflowExecutionHistoryOperation.cs" />
-    <Compile Include="Generated\SWF\ListActivityTypesOperation.cs" />
-    <Compile Include="Generated\SWF\ListClosedWorkflowExecutionsOperation.cs" />
-    <Compile Include="Generated\SWF\ListDomainsOperation.cs" />
-    <Compile Include="Generated\SWF\ListOpenWorkflowExecutionsOperation.cs" />
-    <Compile Include="Generated\SWF\ListWorkflowTypesOperation.cs" />
-    <Compile Include="Generated\SWF\PollForDecisionTaskOperation.cs" />
     <Compile Include="Generated\Synthetics\DescribeCanariesLastRunOperation.cs" />
     <Compile Include="Generated\Synthetics\DescribeCanariesOperation.cs" />
     <Compile Include="Generated\Synthetics\DescribeRuntimeVersionsOperation.cs" />
@@ -2033,10 +1997,6 @@
     <Compile Include="Generated\Translate\ListParallelDataOperation.cs" />
     <Compile Include="Generated\Translate\ListTerminologiesOperation.cs" />
     <Compile Include="Generated\Translate\ListTextTranslationJobsOperation.cs" />
-    <Compile Include="Generated\WellArchitected\ListAnswersOperation.cs" />
-    <Compile Include="Generated\WellArchitected\ListLensesOperation.cs" />
-    <Compile Include="Generated\WellArchitected\ListLensReviewImprovementsOperation.cs" />
-    <Compile Include="Generated\WellArchitected\ListLensReviewsOperation.cs" />
     <Compile Include="Generated\WellArchitected\ListMilestonesOperation.cs" />
     <Compile Include="Generated\WellArchitected\ListNotificationsOperation.cs" />
     <Compile Include="Generated\WellArchitected\ListShareInvitationsOperation.cs" />
@@ -2064,242 +2024,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AWSSDK.AccessAnalyzer.dll" />
-    <Content Include="AWSSDK.ACMPCA.dll" />
-    <Content Include="AWSSDK.AlexaForBusiness.dll" />
-    <Content Include="AWSSDK.Amplify.dll" />
-    <Content Include="AWSSDK.APIGateway.dll" />
-    <Content Include="AWSSDK.ApiGatewayManagementApi.dll" />
-    <Content Include="AWSSDK.AppConfig.dll" />
-    <Content Include="AWSSDK.Appflow.dll" />
-    <Content Include="AWSSDK.ApplicationAutoScaling.dll" />
-    <Content Include="AWSSDK.ApplicationDiscoveryService.dll" />
-    <Content Include="AWSSDK.ApplicationInsights.dll" />
-    <Content Include="AWSSDK.AppMesh.dll" />
-    <Content Include="AWSSDK.AppRegistry.dll" />
-    <Content Include="AWSSDK.AppStream.dll" />
-    <Content Include="AWSSDK.AppSync.dll" />
-    <Content Include="AWSSDK.Athena.dll" />
-    <Content Include="AWSSDK.AuditManager.dll" />
-    <Content Include="AWSSDK.AutoScaling.dll" />
-    <Content Include="AWSSDK.AutoScalingPlans.dll" />
-    <Content Include="AWSSDK.AWSHealth.dll" />
-    <Content Include="AWSSDK.AWSMarketplaceCommerceAnalytics.dll" />
-    <Content Include="AWSSDK.AWSMarketplaceMetering.dll" />
-    <Content Include="AWSSDK.AWSSupport.dll" />
-    <Content Include="AWSSDK.Backup.dll" />
-    <Content Include="AWSSDK.Batch.dll" />
-    <Content Include="AWSSDK.Budgets.dll" />
-    <Content Include="AWSSDK.CertificateManager.dll" />
-    <Content Include="AWSSDK.Chime.dll" />
-    <Content Include="AWSSDK.Cloud9.dll" />
-    <Content Include="AWSSDK.CloudDirectory.dll" />
-    <Content Include="AWSSDK.CloudFormation.dll" />
-    <Content Include="AWSSDK.CloudFront.dll" />
-    <Content Include="AWSSDK.CloudHSM.dll" />
-    <Content Include="AWSSDK.CloudHSMV2.dll" />
-    <Content Include="AWSSDK.CloudSearch.dll" />
-    <Content Include="AWSSDK.CloudSearchDomain.dll" />
-    <Content Include="AWSSDK.CloudTrail.dll" />
-    <Content Include="AWSSDK.CloudWatch.dll" />
-    <Content Include="AWSSDK.CloudWatchEvents.dll" />
-    <Content Include="AWSSDK.CloudWatchLogs.dll" />
-    <Content Include="AWSSDK.CodeArtifact.dll" />
-    <Content Include="AWSSDK.CodeBuild.dll" />
-    <Content Include="AWSSDK.CodeCommit.dll" />
-    <Content Include="AWSSDK.CodeDeploy.dll" />
-    <Content Include="AWSSDK.CodeGuruProfiler.dll" />
-    <Content Include="AWSSDK.CodeGuruReviewer.dll" />
-    <Content Include="AWSSDK.CodePipeline.dll" />
-    <Content Include="AWSSDK.CodeStar.dll" />
-    <Content Include="AWSSDK.CodeStarconnections.dll" />
-    <Content Include="AWSSDK.CodeStarNotifications.dll" />
-    <Content Include="AWSSDK.CognitoIdentity.dll" />
-    <Content Include="AWSSDK.CognitoIdentityProvider.dll" />
-    <Content Include="AWSSDK.CognitoSync.dll" />
-    <Content Include="AWSSDK.Comprehend.dll" />
-    <Content Include="AWSSDK.ComprehendMedical.dll" />
-    <Content Include="AWSSDK.ConfigService.dll" />
-    <Content Include="AWSSDK.Connect.dll" />
-    <Content Include="AWSSDK.Core.dll" />
-    <Content Include="AWSSDK.CostAndUsageReport.dll" />
-    <Content Include="AWSSDK.CostExplorer.dll" />
-    <Content Include="AWSSDK.DatabaseMigrationService.dll" />
-    <Content Include="AWSSDK.DataExchange.dll" />
-    <Content Include="AWSSDK.DataPipeline.dll" />
-    <Content Include="AWSSDK.DataSync.dll" />
-    <Content Include="AWSSDK.DAX.dll" />
-    <Content Include="AWSSDK.Detective.dll" />
-    <Content Include="AWSSDK.DeviceFarm.dll" />
-    <Content Include="AWSSDK.DevOpsGuru.dll" />
-    <Content Include="AWSSDK.DirectConnect.dll" />
-    <Content Include="AWSSDK.DirectoryService.dll" />
-    <Content Include="AWSSDK.DLM.dll" />
-    <Content Include="AWSSDK.DocDB.dll" />
-    <Content Include="AWSSDK.DynamoDBv2.dll" />
-    <Content Include="AWSSDK.EC2.dll" />
-    <Content Include="AWSSDK.ECR.dll" />
-    <Content Include="AWSSDK.ECRPublic.dll" />
-    <Content Include="AWSSDK.ECS.dll" />
-    <Content Include="AWSSDK.EKS.dll" />
-    <Content Include="AWSSDK.ElastiCache.dll" />
-    <Content Include="AWSSDK.ElasticBeanstalk.dll" />
-    <Content Include="AWSSDK.ElasticFileSystem.dll" />
-    <Content Include="AWSSDK.ElasticInference.dll" />
-    <Content Include="AWSSDK.ElasticLoadBalancing.dll" />
-    <Content Include="AWSSDK.ElasticLoadBalancingV2.dll" />
-    <Content Include="AWSSDK.ElasticMapReduce.dll" />
-    <Content Include="AWSSDK.Elasticsearch.dll" />
-    <Content Include="AWSSDK.ElasticTranscoder.dll" />
-    <Content Include="AWSSDK.EMRContainers.dll" />
-    <Content Include="AWSSDK.FIS.dll" />
-    <Content Include="AWSSDK.FMS.dll" />
-    <Content Include="AWSSDK.ForecastService.dll" />
-    <Content Include="AWSSDK.FraudDetector.dll" />
-    <Content Include="AWSSDK.FSx.dll" />
-    <Content Include="AWSSDK.GameLift.dll" />
-    <Content Include="AWSSDK.Glacier.dll" />
-    <Content Include="AWSSDK.GlobalAccelerator.dll" />
-    <Content Include="AWSSDK.Glue.dll" />
-    <Content Include="AWSSDK.GlueDataBrew.dll" />
-    <Content Include="AWSSDK.Greengrass.dll" />
-    <Content Include="AWSSDK.GreengrassV2.dll" />
-    <Content Include="AWSSDK.GroundStation.dll" />
-    <Content Include="AWSSDK.GuardDuty.dll" />
-    <Content Include="AWSSDK.HealthLake.dll" />
-    <Content Include="AWSSDK.IdentityManagement.dll" />
-    <Content Include="AWSSDK.Imagebuilder.dll" />
-    <Content Include="AWSSDK.ImportExport.dll" />
-    <Content Include="AWSSDK.Inspector.dll" />
-    <Content Include="AWSSDK.IoT.dll" />
-    <Content Include="AWSSDK.IoT1ClickDevicesService.dll" />
-    <Content Include="AWSSDK.IoT1ClickProjects.dll" />
-    <Content Include="AWSSDK.IoTAnalytics.dll" />
-    <Content Include="AWSSDK.IotData.dll" />
-    <Content Include="AWSSDK.IoTDeviceAdvisor.dll" />
-    <Content Include="AWSSDK.IoTFleetHub.dll" />
-    <Content Include="AWSSDK.IoTJobsDataPlane.dll" />
-    <Content Include="AWSSDK.IoTSecureTunneling.dll" />
-    <Content Include="AWSSDK.IoTSiteWise.dll" />
-    <Content Include="AWSSDK.IoTThingsGraph.dll" />
-    <Content Include="AWSSDK.IoTWireless.dll" />
-    <Content Include="AWSSDK.IVS.dll" />
-    <Content Include="AWSSDK.Kafka.dll" />
-    <Content Include="AWSSDK.Kendra.dll" />
-    <Content Include="AWSSDK.KeyManagementService.dll" />
-    <Content Include="AWSSDK.Kinesis.dll" />
-    <Content Include="AWSSDK.KinesisAnalytics.dll" />
-    <Content Include="AWSSDK.KinesisAnalyticsV2.dll" />
-    <Content Include="AWSSDK.KinesisFirehose.dll" />
-    <Content Include="AWSSDK.KinesisVideo.dll" />
-    <Content Include="AWSSDK.KinesisVideoArchivedMedia.dll" />
-    <Content Include="AWSSDK.KinesisVideoMedia.dll" />
-    <Content Include="AWSSDK.LakeFormation.dll" />
-    <Content Include="AWSSDK.Lambda.dll" />
-    <Content Include="AWSSDK.Lex.dll" />
-    <Content Include="AWSSDK.LexModelBuildingService.dll" />
-    <Content Include="AWSSDK.LexModelsV2.dll" />
-    <Content Include="AWSSDK.LicenseManager.dll" />
-    <Content Include="AWSSDK.Lightsail.dll" />
-    <Content Include="AWSSDK.LocationService.dll" />
-    <Content Include="AWSSDK.LookoutEquipment.dll" />
-    <Content Include="AWSSDK.LookoutforVision.dll" />
-    <Content Include="AWSSDK.LookoutMetrics.dll" />
-    <Content Include="AWSSDK.MachineLearning.dll" />
-    <Content Include="AWSSDK.Macie.dll" />
-    <Content Include="AWSSDK.ManagedBlockchain.dll" />
-    <Content Include="AWSSDK.MarketplaceEntitlementService.dll" />
-    <Content Include="AWSSDK.MediaConnect.dll" />
-    <Content Include="AWSSDK.MediaConvert.dll" />
-    <Content Include="AWSSDK.MediaLive.dll" />
-    <Content Include="AWSSDK.MediaPackage.dll" />
-    <Content Include="AWSSDK.MediaPackageVod.dll" />
-    <Content Include="AWSSDK.MediaStore.dll" />
-    <Content Include="AWSSDK.MediaStoreData.dll" />
-    <Content Include="AWSSDK.MediaTailor.dll" />
-    <Content Include="AWSSDK.MigrationHub.dll" />
-    <Content Include="AWSSDK.MigrationHubConfig.dll" />
-    <Content Include="AWSSDK.Mobile.dll" />
-    <Content Include="AWSSDK.MobileAnalytics.dll" />
-    <Content Include="AWSSDK.MQ.dll" />
-    <Content Include="AWSSDK.MTurk.dll" />
-    <Content Include="AWSSDK.MWAA.dll" />
-    <Content Include="AWSSDK.Neptune.dll" />
-    <Content Include="AWSSDK.NetworkFirewall.dll" />
-    <Content Include="AWSSDK.NetworkManager.dll" />
-    <Content Include="AWSSDK.NimbleStudio.dll" />
-    <Content Include="AWSSDK.OpsWorks.dll" />
-    <Content Include="AWSSDK.OpsWorksCM.dll" />
-    <Content Include="AWSSDK.Organizations.dll" />
-    <Content Include="AWSSDK.Outposts.dll" />
-    <Content Include="AWSSDK.Personalize.dll" />
-    <Content Include="AWSSDK.PI.dll" />
-    <Content Include="AWSSDK.Pinpoint.dll" />
-    <Content Include="AWSSDK.PinpointEmail.dll" />
-    <Content Include="AWSSDK.PinpointSMSVoice.dll" />
-    <Content Include="AWSSDK.Polly.dll" />
-    <Content Include="AWSSDK.Pricing.dll" />
-    <Content Include="AWSSDK.PrometheusService.dll" />
-    <Content Include="AWSSDK.QLDB.dll" />
-    <Content Include="AWSSDK.QuickSight.dll" />
-    <Content Include="AWSSDK.RAM.dll" />
-    <Content Include="AWSSDK.RDS.dll" />
-    <Content Include="AWSSDK.RDSDataService.dll" />
-    <Content Include="AWSSDK.Redshift.dll" />
-    <Content Include="AWSSDK.RedshiftDataAPIService.dll" />
-    <Content Include="AWSSDK.Rekognition.dll" />
-    <Content Include="AWSSDK.ResourceGroups.dll" />
-    <Content Include="AWSSDK.ResourceGroupsTaggingAPI.dll" />
-    <Content Include="AWSSDK.RoboMaker.dll" />
-    <Content Include="AWSSDK.Route53.dll" />
-    <Content Include="AWSSDK.Route53Domains.dll" />
-    <Content Include="AWSSDK.Route53Resolver.dll" />
-    <Content Include="AWSSDK.S3.dll" />
-    <Content Include="AWSSDK.S3Control.dll" />
-    <Content Include="AWSSDK.SageMaker.dll" />
-    <Content Include="AWSSDK.SageMakerRuntime.dll" />
-    <Content Include="AWSSDK.Schemas.dll" />
-    <Content Include="AWSSDK.SecretsManager.dll" />
-    <Content Include="AWSSDK.SecurityHub.dll" />
-    <Content Include="AWSSDK.SecurityToken.dll" />
-    <Content Include="AWSSDK.ServerlessApplicationRepository.dll" />
-    <Content Include="AWSSDK.ServerMigrationService.dll" />
-    <Content Include="AWSSDK.ServiceCatalog.dll" />
-    <Content Include="AWSSDK.ServiceDiscovery.dll" />
-    <Content Include="AWSSDK.ServiceQuotas.dll" />
-    <Content Include="AWSSDK.Shield.dll" />
-    <Content Include="AWSSDK.Signer.dll" />
-    <Content Include="AWSSDK.SimpleDB.dll" />
-    <Content Include="AWSSDK.SimpleEmail.dll" />
-    <Content Include="AWSSDK.SimpleEmailV2.dll" />
-    <Content Include="AWSSDK.SimpleNotificationService.dll" />
-    <Content Include="AWSSDK.SimpleSystemsManagement.dll" />
-    <Content Include="AWSSDK.SimpleWorkflow.dll" />
-    <Content Include="AWSSDK.Snowball.dll" />
-    <Content Include="AWSSDK.SQS.dll" />
-    <Content Include="AWSSDK.SSOAdmin.dll" />
-    <Content Include="AWSSDK.StepFunctions.dll" />
-    <Content Include="AWSSDK.StorageGateway.dll" />
-    <Content Include="AWSSDK.Synthetics.dll" />
-    <Content Include="AWSSDK.TimestreamWrite.dll" />
-    <Content Include="AWSSDK.TranscribeService.dll" />
-    <Content Include="AWSSDK.Transfer.dll" />
-    <Content Include="AWSSDK.Translate.dll" />
-    <Content Include="AWSSDK.WAF.dll" />
-    <Content Include="AWSSDK.WAFRegional.dll" />
-    <Content Include="AWSSDK.WellArchitected.dll" />
-    <Content Include="AWSSDK.WorkDocs.dll" />
-    <Content Include="AWSSDK.WorkLink.dll" />
-    <Content Include="AWSSDK.WorkMail.dll" />
-    <Content Include="AWSSDK.WorkSpaces.dll" />
-    <Content Include="AWSSDK.XRay.dll" />
-    <Content Include="EntityFramework.dll" />
-    <Content Include="EntityFramework.SqlServer.dll" />
     <Content Include="itemgroup.txt" />
-    <Content Include="Newtonsoft.Json.dll" />
-    <Content Include="System.Data.SQLite.dll" />
-    <Content Include="System.Data.SQLite.EF6.dll" />
-    <Content Include="System.Data.SQLite.Linq.dll" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.AccessAnalyzer.3.7.1.8\analyzers\dotnet\cs\AWSSDK.AccessAnalyzer.CodeAnalysis.dll" />
@@ -2493,6 +2218,7 @@
     <Analyzer Include="..\packages\AWSSDK.Route53Resolver.3.7.1.10\analyzers\dotnet\cs\AWSSDK.Route53Resolver.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.S3.3.7.0.18\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.S3Control.3.7.0.16\analyzers\dotnet\cs\AWSSDK.S3Control.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.S3Outposts.3.7.0.16\analyzers\dotnet\cs\AWSSDK.S3Outposts.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.SageMaker.3.7.1.13\analyzers\dotnet\cs\AWSSDK.SageMaker.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.SageMakerRuntime.3.7.0.16\analyzers\dotnet\cs\AWSSDK.SageMakerRuntime.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.Schemas.3.7.0.16\analyzers\dotnet\cs\AWSSDK.Schemas.CodeAnalysis.dll" />
@@ -2530,6 +2256,11 @@
     <Analyzer Include="..\packages\AWSSDK.WorkMail.3.7.1.12\analyzers\dotnet\cs\AWSSDK.WorkMail.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.WorkSpaces.3.7.0.16\analyzers\dotnet\cs\AWSSDK.WorkSpaces.CodeAnalysis.dll" />
     <Analyzer Include="..\packages\AWSSDK.XRay.3.7.0.16\analyzers\dotnet\cs\AWSSDK.XRay.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Generated\CloudFront\" />
+    <Folder Include="Generated\Macie2\" />
+    <Folder Include="Generated\SWF\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

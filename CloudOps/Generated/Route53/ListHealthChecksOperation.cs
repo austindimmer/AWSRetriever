@@ -33,7 +33,7 @@ namespace CloudOps.Route53
                 {
                     Marker = resp.NextMarker
                     ,
-                    MaxItems = maxItems
+                    MaxItems = maxItems.ToString()
                                         
                 };
 

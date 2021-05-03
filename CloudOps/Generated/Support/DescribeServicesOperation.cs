@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.Support;
-using Amazon.Support.Model;
+using Amazon.AWSSupport;
+using Amazon.AWSSupport.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.Support
@@ -21,10 +21,10 @@ namespace CloudOps.Support
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSupportConfig config = new AmazonSupportConfig();
+            AmazonAWSSupportConfig config = new AmazonAWSSupportConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSupportClient client = new AmazonSupportClient(creds, config);
+            AmazonAWSSupportClient client = new AmazonAWSSupportClient(creds, config);
             
             DescribeServicesResponse resp = new DescribeServicesResponse();
             DescribeServicesRequest req = new DescribeServicesRequest

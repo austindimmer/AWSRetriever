@@ -1,30 +1,30 @@
 using Amazon;
-using Amazon.EMR;
-using Amazon.EMR.Model;
+using Amazon.ElasticMapReduce;
+using Amazon.ElasticMapReduce.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.EMR
+namespace CloudOps.ElasticMapReduce
 {
     public class ListStudioSessionMappingsOperation : Operation
     {
         public override string Name => "ListStudioSessionMappings";
 
-        public override string Description => "Returns a list of all user or group session mappings for the Amazon EMR Studio specified by StudioId.";
+        public override string Description => "Returns a list of all user or group session mappings for the Amazon ElasticMapReduce Studio specified by StudioId.";
  
         public override string RequestURI => "/";
 
         public override string Method => "POST";
 
-        public override string ServiceName => "EMR";
+        public override string ServiceName => "ElasticMapReduce";
 
-        public override string ServiceID => "EMR";
+        public override string ServiceID => "ElasticMapReduce";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonEMRConfig config = new AmazonEMRConfig();
+            AmazonElasticMapReduceConfig config = new AmazonElasticMapReduceConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonEMRClient client = new AmazonEMRClient(creds, config);
+            AmazonElasticMapReduceClient client = new AmazonElasticMapReduceClient(creds, config);
             
             ListStudioSessionMappingsResponse resp = new ListStudioSessionMappingsResponse();
             do
