@@ -9,7 +9,7 @@ namespace CloudOps.IdentityManagement
     {
         public override string Name => "ListAccountAliases";
 
-        public override string Description => "Lists the account alias associated with the AWS account (Note: you can have only one). For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.";
+        public override string Description => "Lists the account alias associated with the AWS account (Note: you can have only one). For information about using an AWS account alias, see Using an alias for your AWS account ID in the IAM User Guide.";
  
         public override string RequestURI => "/";
 
@@ -21,11 +21,10 @@ namespace CloudOps.IdentityManagement
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
+            AmazonIdentityManagementConfig config = new AmazonIdentityManagementConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
+            AmazonIdentityManagementClient client = new AmazonIdentityManagementClient(creds, config);
             
             ListAccountAliasesResponse resp = new ListAccountAliasesResponse();
             do

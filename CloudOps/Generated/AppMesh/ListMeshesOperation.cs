@@ -11,7 +11,7 @@ namespace CloudOps.AppMesh
 
         public override string Description => "Returns a list of existing service meshes.";
  
-        public override string RequestURI => "/meshes";
+        public override string RequestURI => "/v20190125/meshes";
 
         public override string Method => "GET";
 

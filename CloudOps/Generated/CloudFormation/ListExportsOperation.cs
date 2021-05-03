@@ -9,7 +9,7 @@ namespace CloudOps.CloudFormation
     {
         public override string Name => "ListExports";
 
-        public override string Description => "Lists all exported output values in the account and region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.";
+        public override string Description => "Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue  function.  For more information, see  AWS CloudFormation Export Stack Output Values.";
  
         public override string RequestURI => "/";
 

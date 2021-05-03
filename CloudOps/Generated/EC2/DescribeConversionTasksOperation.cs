@@ -9,7 +9,7 @@ namespace CloudOps.EC2
     {
         public override string Name => "DescribeConversionTasks";
 
-        public override string Description => "Describes one or more of your conversion tasks. For more information, see the VM Import/Export User Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.";
+        public override string Description => "Describes the specified conversion tasks or all your conversion tasks. For more information, see the VM Import/Export User Guide. For information about the import manifest referenced by this API action, see VM Import Manifest.";
  
         public override string RequestURI => "/";
 

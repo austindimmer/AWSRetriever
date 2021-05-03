@@ -9,7 +9,7 @@ namespace CloudOps.SecurityHub
     {
         public override string Name => "ListEnabledProductsForImport";
 
-        public override string Description => "Lists all Security Hub-integrated third-party findings providers.";
+        public override string Description => "Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.";
  
         public override string RequestURI => "/productSubscriptions";
 

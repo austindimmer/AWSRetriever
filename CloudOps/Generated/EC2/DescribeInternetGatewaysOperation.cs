@@ -27,18 +27,26 @@ namespace CloudOps.EC2
             AmazonEC2Client client = new AmazonEC2Client(creds, config);
             
             DescribeInternetGatewaysResponse resp = new DescribeInternetGatewaysResponse();
-            DescribeInternetGatewaysRequest req = new DescribeInternetGatewaysRequest
-            {                    
-                                    
-            };
-            resp = client.DescribeInternetGateways(req);
-            CheckError(resp.HttpStatusCode, "200");                
-            
-            foreach (var obj in resp.InternetGateways)
+            do
             {
-                AddObject(obj);
+                DescribeInternetGatewaysRequest req = new DescribeInternetGatewaysRequest
+                {
+                    NextToken = resp.NextToken
+                    ,
+                    MaxResults = maxItems
+                                        
+                };
+
+                resp = client.DescribeInternetGateways(req);
+                CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.InternetGateways)
+                {
+                    AddObject(obj);
+                }
+                
             }
-            
+            while (!string.IsNullOrEmpty(resp.NextToken));
         }
     }
 }

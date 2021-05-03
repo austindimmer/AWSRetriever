@@ -9,7 +9,7 @@ namespace CloudOps.CloudWatchLogs
     {
         public override string Name => "DescribeMetricFilters";
 
-        public override string Description => "Lists the specified metric filters. You can list all the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.";
+        public override string Description => "Lists the specified metric filters. You can list all of the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.";
  
         public override string RequestURI => "/";
 

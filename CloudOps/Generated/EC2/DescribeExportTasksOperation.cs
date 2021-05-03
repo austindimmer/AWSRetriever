@@ -9,7 +9,7 @@ namespace CloudOps.EC2
     {
         public override string Name => "DescribeExportTasks";
 
-        public override string Description => "Describes one or more of your export tasks.";
+        public override string Description => "Describes the specified export instance tasks or all of your export instance tasks.";
  
         public override string RequestURI => "/";
 

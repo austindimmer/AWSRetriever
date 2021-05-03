@@ -21,11 +21,10 @@ namespace CloudOps.IdentityManagement
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
+            AmazonIdentityManagementConfig config = new AmazonIdentityManagementConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
+            AmazonIdentityManagementClient client = new AmazonIdentityManagementClient(creds, config);
             
             ListGroupsResponse resp = new ListGroupsResponse();
             do

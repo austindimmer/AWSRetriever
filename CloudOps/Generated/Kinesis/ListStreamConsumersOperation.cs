@@ -9,7 +9,7 @@ namespace CloudOps.Kinesis
     {
         public override string Name => "ListStreamConsumers";
 
-        public override string Description => "Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 10 transactions per second per account.";
+        public override string Description => "Lists the consumers registered to receive data from a stream using enhanced fan-out, and provides information about each consumer. This operation has a limit of 5 transactions per second per stream.";
  
         public override string RequestURI => "/";
 

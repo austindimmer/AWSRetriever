@@ -9,7 +9,7 @@ namespace CloudOps.ElastiCache
     {
         public override string Name => "DescribeCacheSubnetGroups";
 
-        public override string Description => "Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.";
+        public override string Description => "Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group. This is applicable only when you have ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default. ";
  
         public override string RequestURI => "/";
 

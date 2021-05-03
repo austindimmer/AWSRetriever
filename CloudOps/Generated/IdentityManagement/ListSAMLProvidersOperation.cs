@@ -9,7 +9,7 @@ namespace CloudOps.IdentityManagement
     {
         public override string Name => "ListSAMLProviders";
 
-        public override string Description => "Lists the SAML provider resource objects defined in IAM in the account.   This operation requires Signature Version 4. ";
+        public override string Description => "Lists the SAML provider resource objects defined in IAM in the account. IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a SAML provider, see GetSAMLProvider.   This operation requires Signature Version 4. ";
  
         public override string RequestURI => "/";
 
@@ -21,11 +21,10 @@ namespace CloudOps.IdentityManagement
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
+            AmazonIdentityManagementConfig config = new AmazonIdentityManagementConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
+            AmazonIdentityManagementClient client = new AmazonIdentityManagementClient(creds, config);
             
             ListSAMLProvidersResponse resp = new ListSAMLProvidersResponse();
             ListSAMLProvidersRequest req = new ListSAMLProvidersRequest

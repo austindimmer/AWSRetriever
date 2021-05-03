@@ -9,7 +9,7 @@ namespace CloudOps.SimpleSystemsManagement
     {
         public override string Name => "ListAssociations";
 
-        public override string Description => "Lists the associations for the specified Systems Manager document or instance.";
+        public override string Description => "Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.";
  
         public override string RequestURI => "/";
 

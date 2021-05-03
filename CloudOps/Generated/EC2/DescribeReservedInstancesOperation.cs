@@ -9,7 +9,7 @@ namespace CloudOps.EC2
     {
         public override string Name => "DescribeReservedInstances";
 
-        public override string Description => "Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved Instances in the Amazon Elastic Compute Cloud User Guide.";
+        public override string Description => "Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see Reserved Instances in the Amazon EC2 User Guide.";
  
         public override string RequestURI => "/";
 

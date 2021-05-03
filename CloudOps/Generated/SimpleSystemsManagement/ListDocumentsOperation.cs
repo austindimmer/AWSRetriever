@@ -9,7 +9,7 @@ namespace CloudOps.SimpleSystemsManagement
     {
         public override string Name => "ListDocuments";
 
-        public override string Description => "Describes one or more of your Systems Manager documents.";
+        public override string Description => "Returns all Systems Manager (SSM) documents in the current AWS account and Region. You can limit the results of this request by using a filter.";
  
         public override string RequestURI => "/";
 

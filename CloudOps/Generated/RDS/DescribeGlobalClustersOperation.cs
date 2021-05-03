@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeGlobalClusters";
 
-        public override string Description => " Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide. ";
+        public override string Description => " Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters. ";
  
         public override string RequestURI => "/";
 

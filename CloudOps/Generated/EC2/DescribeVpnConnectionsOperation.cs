@@ -9,7 +9,7 @@ namespace CloudOps.EC2
     {
         public override string Name => "DescribeVpnConnections";
 
-        public override string Description => "Describes one or more of your VPN connections. For more information about VPN connections, see AWS Managed VPN Connections in the Amazon Virtual Private Cloud User Guide.";
+        public override string Description => "Describes one or more of your VPN connections. For more information, see AWS Site-to-Site VPN in the AWS Site-to-Site VPN User Guide.";
  
         public override string RequestURI => "/";
 

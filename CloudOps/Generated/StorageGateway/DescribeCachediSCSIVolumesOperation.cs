@@ -9,7 +9,7 @@ namespace CloudOps.StorageGateway
     {
         public override string Name => "DescribeCachediSCSIVolumes";
 
-        public override string Description => "Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway types. The list of gateway volumes in the request must be from one gateway. In the response Amazon Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).";
+        public override string Description => "Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway types. The list of gateway volumes in the request must be from one gateway. In the response, AWS Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).";
  
         public override string RequestURI => "/";
 

@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "ListTagsForResource";
 
-        public override string Description => "Lists all tags on an Amazon RDS resource. For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the Amazon RDS User Guide.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

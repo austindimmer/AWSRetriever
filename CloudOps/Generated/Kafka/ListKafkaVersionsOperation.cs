@@ -9,9 +9,7 @@ namespace CloudOps.Kafka
     {
         public override string Name => "ListKafkaVersions";
 
-        public override string Description => "
-            Returns a list of Kafka versions.
-         ";
+        public override string Description => "Returns a list of Kafka versions.";
  
         public override string RequestURI => "/v1/kafka-versions";
 

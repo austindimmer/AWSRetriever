@@ -27,18 +27,26 @@ namespace CloudOps.EC2
             AmazonEC2Client client = new AmazonEC2Client(creds, config);
             
             DescribeDhcpOptionsResponse resp = new DescribeDhcpOptionsResponse();
-            DescribeDhcpOptionsRequest req = new DescribeDhcpOptionsRequest
-            {                    
-                                    
-            };
-            resp = client.DescribeDhcpOptions(req);
-            CheckError(resp.HttpStatusCode, "200");                
-            
-            foreach (var obj in resp.DhcpOptions)
+            do
             {
-                AddObject(obj);
+                DescribeDhcpOptionsRequest req = new DescribeDhcpOptionsRequest
+                {
+                    NextToken = resp.NextToken
+                    ,
+                    MaxResults = maxItems
+                                        
+                };
+
+                resp = client.DescribeDhcpOptions(req);
+                CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.DhcpOptions)
+                {
+                    AddObject(obj);
+                }
+                
             }
-            
+            while (!string.IsNullOrEmpty(resp.NextToken));
         }
     }
 }

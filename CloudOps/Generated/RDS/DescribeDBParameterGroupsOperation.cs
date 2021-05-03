@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeDBParameterGroups";
 
-        public override string Description => " Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group. ";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

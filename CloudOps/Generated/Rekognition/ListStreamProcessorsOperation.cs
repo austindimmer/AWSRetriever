@@ -9,7 +9,7 @@ namespace CloudOps.Rekognition
     {
         public override string Name => "ListStreamProcessors";
 
-        public override string Description => "Gets a list of stream processors that you have created with . ";
+        public override string Description => "Gets a list of stream processors that you have created with CreateStreamProcessor. ";
  
         public override string RequestURI => "/";
 

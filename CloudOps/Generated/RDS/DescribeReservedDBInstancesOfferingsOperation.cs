@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeReservedDBInstancesOfferings";
 
-        public override string Description => "Lists available reserved DB instance offerings.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

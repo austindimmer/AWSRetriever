@@ -11,7 +11,7 @@ namespace CloudOps.CloudFront
 
         public override string Description => "List streaming distributions. ";
  
-        public override string RequestURI => "/2018-11-05/streaming-distribution";
+        public override string RequestURI => "/2020-05-31/streaming-distribution";
 
         public override string Method => "GET";
 
@@ -31,23 +31,22 @@ namespace CloudOps.CloudFront
             {
                 ListStreamingDistributionsRequest req = new ListStreamingDistributionsRequest
                 {
-                    
-                    Marker = resp.StreamingDistributionList.NextMarker
+                    Marker = resp.StreamingDistributionListNextMarker
                     ,
-                    MaxItems = maxItems.ToString()
+                    MaxItems = maxItems
                                         
                 };
-                
+
                 resp = client.ListStreamingDistributions(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.StreamingDistributionList.Items)
+                foreach (var obj in resp.StreamingDistributionListItems)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.StreamingDistributionList.NextMarker));
+            while (!string.IsNullOrEmpty(resp.StreamingDistributionListNextMarker));
         }
     }
 }

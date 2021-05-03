@@ -9,7 +9,7 @@ namespace CloudOps.CodeDeploy
     {
         public override string Name => "ListDeploymentConfigs";
 
-        public override string Description => "Lists the deployment configurations with the applicable IAM user or AWS account.";
+        public override string Description => "Lists the deployment configurations with the IAM user or AWS account.";
  
         public override string RequestURI => "/";
 

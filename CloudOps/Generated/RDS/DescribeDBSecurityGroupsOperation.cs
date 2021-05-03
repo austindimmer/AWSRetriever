@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeDBSecurityGroups";
 
-        public override string Description => " Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group. ";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

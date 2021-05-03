@@ -9,7 +9,7 @@ namespace CloudOps.Route53Resolver
     {
         public override string Name => "ListResolverEndpoints";
 
-        public override string Description => "Lists all the resolver endpoints that were created using the current AWS account.";
+        public override string Description => "Lists all the Resolver endpoints that were created using the current AWS account.";
  
         public override string RequestURI => "/";
 

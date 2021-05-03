@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeDBInstances";
 
-        public override string Description => "Returns information about provisioned RDS instances. This API supports pagination.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

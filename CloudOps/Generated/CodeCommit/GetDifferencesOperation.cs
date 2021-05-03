@@ -9,7 +9,7 @@ namespace CloudOps.CodeCommit
     {
         public override string Name => "GetDifferences";
 
-        public override string Description => "Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference). Results can be limited to a specified path.";
+        public override string Description => "Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.";
  
         public override string RequestURI => "/";
 

@@ -9,7 +9,7 @@ namespace CloudOps.AWSHealth
     {
         public override string Name => "DescribeEventTypes";
 
-        public override string Description => "Returns the event types that meet the specified filter criteria. If no filter criteria are specified, all event types are returned, in no particular order.";
+        public override string Description => "Returns the event types that meet the specified filter criteria. You can use this API operation to find information about the AWS Health event, such as the category, AWS service, and event code. The metadata for each event appears in the EventType object.  If you don&#39;t specify a filter criteria, the API operation returns all event types, in no particular order.   This API operation uses pagination. Specify the nextToken parameter in the next request to return more results. ";
  
         public override string RequestURI => "/";
 

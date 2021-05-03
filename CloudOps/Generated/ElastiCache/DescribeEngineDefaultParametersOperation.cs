@@ -31,8 +31,7 @@ namespace CloudOps.ElastiCache
             {
                 DescribeEngineDefaultParametersRequest req = new DescribeEngineDefaultParametersRequest
                 {
-                    Marker = resp.EngineDefaults.Marker
-
+                    Marker = resp.EngineDefaultsMarker
                     ,
                     MaxRecords = maxItems
                                         
@@ -41,13 +40,13 @@ namespace CloudOps.ElastiCache
                 resp = client.DescribeEngineDefaultParameters(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.EngineDefaults.Parameters)
+                foreach (var obj in resp.EngineDefaultsParameters)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.EngineDefaults.Marker));
+            while (!string.IsNullOrEmpty(resp.EngineDefaultsMarker));
         }
     }
 }

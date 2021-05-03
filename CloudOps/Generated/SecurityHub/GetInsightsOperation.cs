@@ -9,7 +9,7 @@ namespace CloudOps.SecurityHub
     {
         public override string Name => "GetInsights";
 
-        public override string Description => "Lists and describes insights that are specified by insight ARNs.";
+        public override string Description => "Lists and describes insights for the specified insight ARNs.";
  
         public override string RequestURI => "/insights/get";
 

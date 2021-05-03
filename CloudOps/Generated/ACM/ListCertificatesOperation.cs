@@ -1,6 +1,4 @@
 using Amazon;
-using Amazon.ACM;
-using Amazon.ACM.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.ACM

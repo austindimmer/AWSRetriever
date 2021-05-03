@@ -9,7 +9,7 @@ namespace CloudOps.IdentityManagement
     {
         public override string Name => "ListMFADevices";
 
-        public override string Description => "Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request for this API. You can paginate the results using the MaxItems and Marker parameters.";
+        public override string Description => "Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request for this operation. You can paginate the results using the MaxItems and Marker parameters.";
  
         public override string RequestURI => "/";
 
@@ -21,11 +21,10 @@ namespace CloudOps.IdentityManagement
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
+            AmazonIdentityManagementConfig config = new AmazonIdentityManagementConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
+            AmazonIdentityManagementClient client = new AmazonIdentityManagementClient(creds, config);
             
             ListMFADevicesResponse resp = new ListMFADevicesResponse();
             do

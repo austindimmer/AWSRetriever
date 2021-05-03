@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeEngineDefaultParameters";
 
-        public override string Description => "Returns the default engine and system parameter information for the specified database engine.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 
@@ -31,7 +31,7 @@ namespace CloudOps.RDS
             {
                 DescribeEngineDefaultParametersRequest req = new DescribeEngineDefaultParametersRequest
                 {
-                    Marker = resp.EngineDefaults.Marker
+                    Marker = resp.EngineDefaultsMarker
                     ,
                     MaxRecords = maxItems
                                         
@@ -40,13 +40,13 @@ namespace CloudOps.RDS
                 resp = client.DescribeEngineDefaultParameters(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.EngineDefaults.Parameters)
+                foreach (var obj in resp.EngineDefaultsParameters)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.EngineDefaults.Marker));
+            while (!string.IsNullOrEmpty(resp.EngineDefaultsMarker));
         }
     }
 }

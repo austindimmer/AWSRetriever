@@ -26,7 +26,7 @@ namespace CloudOps.Redshift
             ConfigureClient(config);            
             AmazonRedshiftClient client = new AmazonRedshiftClient(creds, config);
             
-            DescribeEventsResponse resp = new DescribeEventsResponse();
+            EventsResponse resp = new EventsResponse();
             do
             {
                 DescribeEventsRequest req = new DescribeEventsRequest

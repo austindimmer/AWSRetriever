@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeDBEngineVersions";
 
-        public override string Description => "Returns a list of the available DB engines.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

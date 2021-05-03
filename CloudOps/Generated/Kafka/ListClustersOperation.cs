@@ -9,9 +9,7 @@ namespace CloudOps.Kafka
     {
         public override string Name => "ListClusters";
 
-        public override string Description => "
-            Returns a list of all the MSK clusters in the current Region.
-         ";
+        public override string Description => "Returns a list of all the MSK clusters in the current Region.";
  
         public override string RequestURI => "/v1/clusters";
 

@@ -9,7 +9,7 @@ namespace CloudOps.KeyManagementService
     {
         public override string Name => "ListKeys";
 
-        public override string Description => "Gets a list of all customer master keys (CMKs) in the caller&#39;s AWS account and region.";
+        public override string Description => "Gets a list of all customer master keys (CMKs) in the caller&#39;s AWS account and Region.  Cross-account use: No. You cannot perform this operation on a CMK in a different AWS account.  Required permissions: kms:ListKeys (IAM policy)  Related operations:     CreateKey     DescribeKey     ListAliases     ListResourceTags   ";
  
         public override string RequestURI => "/";
 

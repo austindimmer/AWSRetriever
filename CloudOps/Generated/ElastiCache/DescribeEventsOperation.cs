@@ -26,7 +26,7 @@ namespace CloudOps.ElastiCache
             ConfigureClient(config);            
             AmazonElastiCacheClient client = new AmazonElastiCacheClient(creds, config);
             
-            DescribeEventsResponse resp = new DescribeEventsResponse();
+            EventsResponse resp = new EventsResponse();
             do
             {
                 DescribeEventsRequest req = new DescribeEventsRequest

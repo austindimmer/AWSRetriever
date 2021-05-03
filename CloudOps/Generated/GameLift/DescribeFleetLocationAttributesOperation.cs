@@ -40,17 +40,17 @@ namespace CloudOps.GameLift
                 resp = client.DescribeFleetLocationAttributes(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
+                foreach (var obj in resp.LocationAttributes)
+                {
+                    AddObject(obj);
+                }
+                
                 foreach (var obj in resp.FleetId)
                 {
                     AddObject(obj);
                 }
                 
                 foreach (var obj in resp.FleetArn)
-                {
-                    AddObject(obj);
-                }
-                
-                foreach (var obj in resp.LocationAttributes)
                 {
                     AddObject(obj);
                 }

@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeOrderableDBInstanceOptions";
 
-        public override string Description => "Returns a list of orderable DB instance options for the specified engine.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

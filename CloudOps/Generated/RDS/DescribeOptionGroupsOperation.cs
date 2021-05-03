@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeOptionGroups";
 
-        public override string Description => "Describes the available option groups.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

@@ -9,7 +9,7 @@ namespace CloudOps.IdentityManagement
     {
         public override string Name => "ListUsers";
 
-        public override string Description => "Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the AWS account. If there are none, the operation returns an empty list. You can paginate the results using the MaxItems and Marker parameters.";
+        public override string Description => "Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the AWS account. If there are none, the operation returns an empty list.  IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a user, see GetUser.  You can paginate the results using the MaxItems and Marker parameters.";
  
         public override string RequestURI => "/";
 
@@ -21,11 +21,10 @@ namespace CloudOps.IdentityManagement
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
+            AmazonIdentityManagementConfig config = new AmazonIdentityManagementConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
+            AmazonIdentityManagementClient client = new AmazonIdentityManagementClient(creds, config);
             
             ListUsersResponse resp = new ListUsersResponse();
             do

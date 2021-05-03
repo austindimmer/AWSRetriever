@@ -9,7 +9,7 @@ namespace CloudOps.DataSync
     {
         public override string Name => "ListLocations";
 
-        public override string Description => "Returns a lists of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.";
+        public override string Description => "Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.";
  
         public override string RequestURI => "/";
 

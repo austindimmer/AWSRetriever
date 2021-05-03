@@ -9,7 +9,7 @@ namespace CloudOps.SimpleSystemsManagement
     {
         public override string Name => "DescribeActivations";
 
-        public override string Description => "Details about the activation, including: the date and time the activation was created, the expiration date, the IAM role assigned to the instances in the activation, and the number of instances activated by this registration.";
+        public override string Description => "Describes details about the activation, such as the date and time the activation was created, its expiration date, the IAM role assigned to the instances in the activation, and the number of instances registered by using this activation.";
  
         public override string RequestURI => "/";
 

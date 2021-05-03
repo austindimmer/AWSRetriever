@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeDBSnapshots";
 
-        public override string Description => "Returns information about DB snapshots. This API action supports pagination.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

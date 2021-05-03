@@ -9,7 +9,7 @@ namespace CloudOps.SQS
     {
         public override string Name => "ListQueues";
 
-        public override string Description => "Returns a list of your queues. The maximum number of queues that can be returned is 1,000. If you specify a value for the optional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned.  Cross-account permissions don&#39;t apply to this action. For more information, see see Grant Cross-Account Permissions to a Role and a User Name in the Amazon Simple Queue Service Developer Guide. ";
+        public override string Description => "Returns a list of your queues in the current region. The response includes a maximum of 1,000 results. If you specify a value for the optional QueueNamePrefix parameter, only queues with a name that begins with the specified value are returned.  The listQueues methods supports pagination. Set parameter MaxResults in the request to specify the maximum number of results to be returned in the response. If you do not set MaxResults, the response includes a maximum of 1,000 results. If you set MaxResults and there are additional results to display, the response includes a value for NextToken. Use NextToken as a parameter in your next request to listQueues to receive the next page of results.   Cross-account permissions don&#39;t apply to this action. For more information, see Grant cross-account permissions to a role and a user name in the Amazon Simple Queue Service Developer Guide. ";
  
         public override string RequestURI => "/";
 
@@ -27,18 +27,26 @@ namespace CloudOps.SQS
             AmazonSQSClient client = new AmazonSQSClient(creds, config);
             
             ListQueuesResponse resp = new ListQueuesResponse();
-            ListQueuesRequest req = new ListQueuesRequest
-            {                    
-                                    
-            };
-            resp = client.ListQueues(req);
-            CheckError(resp.HttpStatusCode, "200");                
-            
-            foreach (var obj in resp.QueueUrls)
+            do
             {
-                AddObject(obj);
+                ListQueuesRequest req = new ListQueuesRequest
+                {
+                    NextToken = resp.NextToken
+                    ,
+                    MaxResults = maxItems
+                                        
+                };
+
+                resp = client.ListQueues(req);
+                CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.QueueUrls)
+                {
+                    AddObject(obj);
+                }
+                
             }
-            
+            while (!string.IsNullOrEmpty(resp.NextToken));
         }
     }
 }

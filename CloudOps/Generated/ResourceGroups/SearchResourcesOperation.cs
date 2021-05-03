@@ -9,7 +9,7 @@ namespace CloudOps.ResourceGroups
     {
         public override string Name => "SearchResources";
 
-        public override string Description => "Returns a list of AWS resource identifiers that matches a specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.";
+        public override string Description => "Returns a list of AWS resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:SearchResources   ";
  
         public override string RequestURI => "/resources/search";
 
@@ -41,11 +41,6 @@ namespace CloudOps.ResourceGroups
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ResourceIdentifiers)
-                {
-                    AddObject(obj);
-                }
-                
-                foreach (var obj in resp.QueryErrors)
                 {
                     AddObject(obj);
                 }
