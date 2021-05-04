@@ -15,7 +15,7 @@ namespace Retriever
         private int pageSize = 18;
         private int concurrentConnections = 15;
         private int timeout = 900000;
-        private string profile = "default.profile.js";
+        private string profile = "profile.default.js";
         private string awsUser;
         private string proxyHost;
         private int proxyPort = 1080;

@@ -16,7 +16,7 @@ namespace Retriever
             {
                 get
                 {
-                    return "Profile (*.profile.js)|*.profile.js";
+                    return "Profile (profile.*.js)|profile.*.js";
                 }
             }
 
@@ -24,7 +24,7 @@ namespace Retriever
             {
                 get
                 {
-                    return ".profile.js";
+                    return ".js";
                 }
             }
 
