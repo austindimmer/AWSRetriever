@@ -332,7 +332,7 @@
 		"ServiceName": "CloudFormation",
 		"Name": "DescribeStacks",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -353,7 +353,7 @@
 		"ServiceName": "CloudFormation",
 		"Name": "DescribeStackResources",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -367,14 +367,14 @@
 		"ServiceName": "CloudFormation",
 		"Name": "DescribeStackResourceDrifts",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "CloudFormation",
 		"Name": "ListStackResources",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -388,28 +388,28 @@
 		"ServiceName": "CloudFormation",
 		"Name": "ListStackSets",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "CloudFront",
 		"Name": "ListDistributions",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "CloudFront",
 		"Name": "ListStreamingDistributions",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "CloudFront",
 		"Name": "ListCloudFrontOriginAccessIdentities",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -422,6 +422,13 @@
 	{
 		"ServiceName": "CloudHSMV2",
 		"Name": "DescribeBackups",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CloudSearch",
+		"Name": "DescribeDomains",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
 		"Enabled": true,
 		"PageSize": 18
@@ -444,7 +451,7 @@
 		"ServiceName": "CloudWatch",
 		"Name": "DescribeAlarms",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -458,7 +465,7 @@
 		"ServiceName": "CloudWatch",
 		"Name": "ListMetrics",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -479,12 +486,40 @@
 		"ServiceName": "CloudWatchLogs",
 		"Name": "DescribeLogGroups",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "CloudWatchLogs",
 		"Name": "DescribeDestinations",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeArtifact",
+		"Name": "ListDomains",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeArtifact",
+		"Name": "ListRepositories",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeBuild",
+		"Name": "ListBuilds",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeBuild",
+		"Name": "ListProjects",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
 		"Enabled": true,
 		"PageSize": 18
@@ -570,7 +605,7 @@
 		"ServiceName": "CodeDeploy",
 		"Name": "ListDeploymentInstances",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -578,6 +613,48 @@
 		"Name": "ListDeploymentGroups",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
 		"Enabled": false,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodePipelines",
+		"Name": "ListPipelines",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeStarconnections",
+		"Name": "ListConnections",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeStarconnections",
+		"Name": "ListHosts",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CodeStarNotifications",
+		"Name": "ListTargets",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "CognitoIdentity",
+		"Name": "ListIdentityPools",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "Comprehend",
+		"Name": "ListDocumentClassificationJobs",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -615,11 +692,33 @@
 		"Enabled": true,
 		"PageSize": 18
 	},
+
+	{
+		"ServiceName": "DataExchange",
+		"Name": "ListDataSets",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "DataExchange",
+		"Name": "ListJobs",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "DataPipeline",
+		"Name": "ListPipelines",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
 	{
 		"ServiceName": "DataSync",
 		"Name": "ListAgents",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -640,7 +739,7 @@
 		"ServiceName": "DataSync",
 		"Name": "ListTasks",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -654,7 +753,7 @@
 		"ServiceName": "DatabaseMigrationService",
 		"Name": "DescribeEndpoints",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -682,21 +781,21 @@
 		"ServiceName": "DatabaseMigrationService",
 		"Name": "DescribeConnections",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "DatabaseMigrationService",
 		"Name": "DescribeReplicationTasks",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
 		"ServiceName": "DatabaseMigrationService",
 		"Name": "DescribeCertificates",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -742,6 +841,13 @@
 		"PageSize": 18
 	},
 	{
+		"ServiceName": "Detective",
+		"Name": "ListGraphs",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
 		"ServiceName": "DeviceFarm",
 		"Name": "ListOfferingTransactions",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
@@ -759,7 +865,7 @@
 		"ServiceName": "DeviceFarm",
 		"Name": "ListDevices",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -794,7 +900,7 @@
 		"ServiceName": "DirectConnect",
 		"Name": "DescribeConnections",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -808,7 +914,14 @@
 		"ServiceName": "DirectConnect",
 		"Name": "DescribeLocations",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
+		"PageSize": 18
+	},
+	{
+		"ServiceName": "DocDB",
+		"Name": "DescribeDBInstances",
+		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -864,7 +977,7 @@
 		"ServiceName": "EC2",
 		"Name": "DescribeImages",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
@@ -948,7 +1061,7 @@
 		"ServiceName": "EC2",
 		"Name": "DescribeVolumes",
 		"Regions": "ap-northeast-1 ap-northeast-2 ap-south-1 ap-southeast-1 ap-southeast-2 ca-central-1 eu-central-1 eu-north-1 eu-west-1 eu-west-2 eu-west-3 sa-east-1 us-east-1 us-east-2 us-west-1 us-west-2",
-		"Enabled": false,
+		"Enabled": true,
 		"PageSize": 18
 	},
 	{
