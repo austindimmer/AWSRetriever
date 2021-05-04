@@ -25,8 +25,8 @@ namespace CloudOps.RDS
             config.RegionEndpoint = region;
             ConfigureClient(config);            
             AmazonRDSClient client = new AmazonRDSClient(creds, config);
-            
-            DescribeCertificateResponse resp = new DescribeCertificateResponse();
+
+            DescribeCertificatesResponse resp = new DescribeCertificatesResponse();
             do
             {
                 DescribeCertificatesRequest req = new DescribeCertificatesRequest

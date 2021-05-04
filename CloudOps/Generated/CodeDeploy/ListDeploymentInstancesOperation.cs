@@ -32,7 +32,6 @@ namespace CloudOps.CodeDeploy
                 ListDeploymentInstancesRequest req = new ListDeploymentInstancesRequest
                 {
                     NextToken = resp.NextToken
-                                        
                 };
 
                 resp = client.ListDeploymentInstances(req);

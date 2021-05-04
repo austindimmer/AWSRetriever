@@ -31,7 +31,7 @@ namespace CloudOps.IoT
             {
                 ListTopicRulesRequest req = new ListTopicRulesRequest
                 {
-                    NextToken = resp.NextToken
+                    Marker = resp.NextMarker
                     ,
                     MaxResults = maxItems
                                         
@@ -46,7 +46,7 @@ namespace CloudOps.IoT
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.NextToken));
+            while (!string.IsNullOrEmpty(resp.NextMarker));
         }
     }
 }

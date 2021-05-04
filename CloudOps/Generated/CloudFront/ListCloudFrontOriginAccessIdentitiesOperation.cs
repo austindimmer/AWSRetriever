@@ -31,22 +31,20 @@ namespace CloudOps.CloudFront
             {
                 ListCloudFrontOriginAccessIdentitiesRequest req = new ListCloudFrontOriginAccessIdentitiesRequest
                 {
-                    Marker = resp.CloudFrontOriginAccessIdentityListNextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
+                    Marker = resp.CloudFrontOriginAccessIdentityList.NextMarker,
+                    MaxItems = maxItems.ToString()
                 };
 
                 resp = client.ListCloudFrontOriginAccessIdentities(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.CloudFrontOriginAccessIdentityListItems)
+                foreach (var obj in resp.CloudFrontOriginAccessIdentityList.Items)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.CloudFrontOriginAccessIdentityListNextMarker));
+            while (!string.IsNullOrEmpty(resp.CloudFrontOriginAccessIdentityList.NextMarker));
         }
     }
 }

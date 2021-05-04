@@ -1042,7 +1042,7 @@ namespace CloudOps
                 new TranscribeService.ListLanguageModelsOperation(),
                 new TranscribeService.ListMedicalTranscriptionJobsOperation(),
                 new TranscribeService.ListMedicalVocabulariesOperation(),
-                new TranscribeService.ListTranscriptionJobsOperation(),
+                //new TranscribeService.ListTranscriptionJobsOperation(),
                 new TranscribeService.ListVocabulariesOperation(),
                 new TranscribeService.ListVocabularyFiltersOperation(),
                 new Transfer.ListSecurityPoliciesOperation(),

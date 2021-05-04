@@ -31,22 +31,20 @@ namespace CloudOps.CloudFront
             {
                 ListStreamingDistributionsRequest req = new ListStreamingDistributionsRequest
                 {
-                    Marker = resp.StreamingDistributionListNextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
+                    Marker = resp.StreamingDistributionList.NextMarker,
+                    MaxItems = maxItems.ToString()
                 };
 
                 resp = client.ListStreamingDistributions(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.StreamingDistributionListItems)
+                foreach (var obj in resp.StreamingDistributionList.Items)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.StreamingDistributionListNextMarker));
+            while (!string.IsNullOrEmpty(resp.StreamingDistributionList.NextMarker));
         }
     }
 }

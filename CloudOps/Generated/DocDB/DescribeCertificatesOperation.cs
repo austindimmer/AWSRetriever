@@ -26,7 +26,7 @@ namespace CloudOps.DocDB
             ConfigureClient(config);            
             AmazonDocDBClient client = new AmazonDocDBClient(creds, config);
             
-            DescribeCertificateResponse resp = new DescribeCertificateResponse();
+            DescribeCertificatesResponse resp = new DescribeCertificatesResponse();
             do
             {
                 DescribeCertificatesRequest req = new DescribeCertificatesRequest

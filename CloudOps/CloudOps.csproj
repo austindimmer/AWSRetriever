@@ -1110,6 +1110,9 @@
     <Compile Include="Generated\CloudFormation\ListTypeRegistrationsOperation.cs" />
     <Compile Include="Generated\CloudFormation\ListTypesOperation.cs" />
     <Compile Include="Generated\CloudFormation\ListTypeVersionsOperation.cs" />
+    <Compile Include="Generated\CloudFront\ListCloudFrontOriginAccessIdentitiesOperation.cs" />
+    <Compile Include="Generated\CloudFront\ListDistributionsOperation.cs" />
+    <Compile Include="Generated\CloudFront\ListStreamingDistributionsOperation.cs" />
     <Compile Include="Generated\CloudHSMV2\DescribeBackupsOperation.cs" />
     <Compile Include="Generated\CloudHSMV2\DescribeClustersOperation.cs" />
     <Compile Include="Generated\CloudSearch\DescribeDomainsOperation.cs" />
@@ -1156,6 +1159,7 @@
     <Compile Include="Generated\CodeDeploy\ListApplicationsOperation.cs" />
     <Compile Include="Generated\CodeDeploy\ListDeploymentConfigsOperation.cs" />
     <Compile Include="Generated\CodeDeploy\ListDeploymentGroupsOperation.cs" />
+    <Compile Include="Generated\CodeDeploy\ListDeploymentInstancesOperation.cs" />
     <Compile Include="Generated\CodeDeploy\ListDeploymentsOperation.cs" />
     <Compile Include="Generated\CodeGuruProfiler\GetFindingsReportAccountSummaryOperation.cs" />
     <Compile Include="Generated\CodeGuruProfiler\ListProfilingGroupsOperation.cs" />
@@ -1228,6 +1232,7 @@
     <Compile Include="Generated\DirectConnect\DescribeLocationsOperation.cs" />
     <Compile Include="Generated\DirectConnect\DescribeVirtualGatewaysOperation.cs" />
     <Compile Include="Generated\DirectConnect\DescribeVirtualInterfacesOperation.cs" />
+    <Compile Include="Generated\DocDB\DescribeCertificatesOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBClusterParameterGroupsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBClusterParametersOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBClusterSnapshotsOperation.cs" />
@@ -1235,6 +1240,7 @@
     <Compile Include="Generated\DocDB\DescribeDBEngineVersionsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBInstancesOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeDBSubnetGroupsOperation.cs" />
+    <Compile Include="Generated\DocDB\DescribeEventsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeEventSubscriptionsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribeOrderableDBInstanceOptionsOperation.cs" />
     <Compile Include="Generated\DocDB\DescribePendingMaintenanceActionsOperation.cs" />
@@ -1243,6 +1249,7 @@
     <Compile Include="Generated\DynamoDB\ListContributorInsightsOperation.cs" />
     <Compile Include="Generated\DynamoDB\ListExportsOperation.cs" />
     <Compile Include="Generated\DynamoDB\ListTablesOperation.cs" />
+    <Compile Include="Generated\DynamoDB\QueryOperation.cs" />
     <Compile Include="Generated\DynamoDB\ScanOperation.cs" />
     <Compile Include="Generated\EC2\DescribeAccountAttributesOperation.cs" />
     <Compile Include="Generated\EC2\DescribeAddressesAttributeOperation.cs" />
@@ -1360,6 +1367,7 @@
     <Compile Include="Generated\ElastiCache\DescribeCacheParametersOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeCacheSecurityGroupsOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeCacheSubnetGroupsOperation.cs" />
+    <Compile Include="Generated\ElastiCache\DescribeEngineDefaultParametersOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeEventsOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeGlobalReplicationGroupsOperation.cs" />
     <Compile Include="Generated\ElastiCache\DescribeReplicationGroupsOperation.cs" />
@@ -1548,8 +1556,10 @@
     <Compile Include="Generated\IoT\ListStreamsOperation.cs" />
     <Compile Include="Generated\IoT\ListThingGroupsOperation.cs" />
     <Compile Include="Generated\IoT\ListThingRegistrationTasksOperation.cs" />
+    <Compile Include="Generated\IoT\ListThingsOperation.cs" />
     <Compile Include="Generated\IoT\ListThingTypesOperation.cs" />
     <Compile Include="Generated\IoT\ListTopicRuleDestinationsOperation.cs" />
+    <Compile Include="Generated\IoT\ListTopicRulesOperation.cs" />
     <Compile Include="Generated\IoT\ListV2LoggingLevelsOperation.cs" />
     <Compile Include="Generated\IoTAnalytics\ListChannelsOperation.cs" />
     <Compile Include="Generated\IoTAnalytics\ListDatasetsOperation.cs" />
@@ -1618,6 +1628,7 @@
     <Compile Include="Generated\MachineLearning\DescribeDataSourcesOperation.cs" />
     <Compile Include="Generated\MachineLearning\DescribeEvaluationsOperation.cs" />
     <Compile Include="Generated\MachineLearning\DescribeMLModelsOperation.cs" />
+    <Compile Include="Generated\Macie2\ListMembersOperation.cs" />
     <Compile Include="Generated\Macie\ListMemberAccountsOperation.cs" />
     <Compile Include="Generated\Macie\ListS3ResourcesOperation.cs" />
     <Compile Include="Generated\ManagedBlockchain\ListInvitationsOperation.cs" />
@@ -1724,6 +1735,7 @@
     <Compile Include="Generated\QLDB\ListJournalS3ExportsOperation.cs" />
     <Compile Include="Generated\QLDB\ListLedgersOperation.cs" />
     <Compile Include="Generated\RAM\GetResourceShareInvitationsOperation.cs" />
+    <Compile Include="Generated\RDS\DescribeCertificatesOperation.cs" />
     <Compile Include="Generated\RDS\DescribeCustomAvailabilityZonesOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBClusterBacktracksOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBClusterEndpointsOperation.cs" />
@@ -1742,6 +1754,8 @@
     <Compile Include="Generated\RDS\DescribeDBSecurityGroupsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBSnapshotsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeDBSubnetGroupsOperation.cs" />
+    <Compile Include="Generated\RDS\DescribeEngineDefaultParametersOperation.cs" />
+    <Compile Include="Generated\RDS\DescribeEventsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeEventSubscriptionsOperation.cs" />
     <Compile Include="Generated\RDS\DescribeExportTasksOperation.cs" />
     <Compile Include="Generated\RDS\DescribeGlobalClustersOperation.cs" />
@@ -1764,6 +1778,7 @@
     <Compile Include="Generated\Redshift\DescribeClusterSubnetGroupsOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeClusterTracksOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeClusterVersionsOperation.cs" />
+    <Compile Include="Generated\Redshift\DescribeDefaultClusterParametersOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeEndpointAccessOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeEndpointAuthorizationOperation.cs" />
     <Compile Include="Generated\Redshift\DescribeEventsOperation.cs" />
@@ -1997,6 +2012,10 @@
     <Compile Include="Generated\Translate\ListParallelDataOperation.cs" />
     <Compile Include="Generated\Translate\ListTerminologiesOperation.cs" />
     <Compile Include="Generated\Translate\ListTextTranslationJobsOperation.cs" />
+    <Compile Include="Generated\WellArchitected\ListAnswersOperation.cs" />
+    <Compile Include="Generated\WellArchitected\ListLensesOperation.cs" />
+    <Compile Include="Generated\WellArchitected\ListLensReviewImprovementsOperation.cs" />
+    <Compile Include="Generated\WellArchitected\ListLensReviewsOperation.cs" />
     <Compile Include="Generated\WellArchitected\ListMilestonesOperation.cs" />
     <Compile Include="Generated\WellArchitected\ListNotificationsOperation.cs" />
     <Compile Include="Generated\WellArchitected\ListShareInvitationsOperation.cs" />
@@ -2258,8 +2277,6 @@
     <Analyzer Include="..\packages\AWSSDK.XRay.3.7.0.16\analyzers\dotnet\cs\AWSSDK.XRay.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Generated\CloudFront\" />
-    <Folder Include="Generated\Macie2\" />
     <Folder Include="Generated\SWF\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

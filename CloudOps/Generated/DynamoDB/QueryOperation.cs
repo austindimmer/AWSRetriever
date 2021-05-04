@@ -46,7 +46,7 @@ namespace CloudOps.DynamoDB
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.LastEvaluatedKey));
+            while (!string.IsNullOrEmpty(resp.LastEvaluatedKey.ToString()));
         }
     }
 }

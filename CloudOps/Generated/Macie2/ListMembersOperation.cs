@@ -26,10 +26,10 @@ namespace CloudOps.Macie
             ConfigureClient(config);            
             AmazonMacieClient client = new AmazonMacieClient(creds, config);
             
-            ListMembersResponse resp = new ListMembersResponse();
+            ListMemberAccountsResponse resp = new ListMemberAccountsResponse();
             do
             {
-                ListMembersRequest req = new ListMembersRequest
+                ListMemberAccountsRequest req = new ListMemberAccountsRequest()
                 {
                     NextToken = resp.NextToken
                     ,
@@ -37,10 +37,10 @@ namespace CloudOps.Macie
                                         
                 };
 
-                resp = client.ListMembers(req);
+                resp = client.ListMemberAccounts(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.Members)
+                foreach (var obj in resp.MemberAccounts)
                 {
                     AddObject(obj);
                 }

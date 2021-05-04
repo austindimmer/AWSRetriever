@@ -26,7 +26,7 @@ namespace CloudOps.DocDB
             ConfigureClient(config);            
             AmazonDocDBClient client = new AmazonDocDBClient(creds, config);
             
-            EventsResponse resp = new EventsResponse();
+            DescribeEventsResponse resp = new DescribeEventsResponse();
             do
             {
                 DescribeEventsRequest req = new DescribeEventsRequest

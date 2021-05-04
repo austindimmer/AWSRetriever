@@ -45,11 +45,6 @@ namespace CloudOps.WellArchitected
                     AddObject(obj);
                 }
                 
-                foreach (var obj in resp.MilestoneNumber)
-                {
-                    AddObject(obj);
-                }
-                
                 foreach (var obj in resp.LensReviewSummaries)
                 {
                     AddObject(obj);

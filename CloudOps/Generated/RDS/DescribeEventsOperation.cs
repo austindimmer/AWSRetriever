@@ -26,7 +26,7 @@ namespace CloudOps.RDS
             ConfigureClient(config);            
             AmazonRDSClient client = new AmazonRDSClient(creds, config);
             
-            EventsResponse resp = new EventsResponse();
+            DescribeEventsResponse resp = new DescribeEventsResponse();
             do
             {
                 DescribeEventsRequest req = new DescribeEventsRequest

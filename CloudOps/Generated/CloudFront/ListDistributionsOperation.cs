@@ -31,22 +31,20 @@ namespace CloudOps.CloudFront
             {
                 ListDistributionsRequest req = new ListDistributionsRequest
                 {
-                    Marker = resp.DistributionListNextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
+                    Marker = resp.DistributionList.NextMarker,
+                    MaxItems = maxItems.ToString()
                 };
 
                 resp = client.ListDistributions(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.DistributionListItems)
+                foreach (var obj in resp.DistributionList.Items)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.DistributionListNextMarker));
+            while (!string.IsNullOrEmpty(resp.DistributionList.NextMarker));
         }
     }
 }
