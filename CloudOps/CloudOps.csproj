@@ -1676,6 +1676,7 @@
     <Compile Include="Generated\Neptune\DescribeDBParameterGroupsOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeDBParametersOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeDBSubnetGroupsOperation.cs" />
+    <Compile Include="Generated\Neptune\DescribeEngineDefaultParametersOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeEventsOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeEventSubscriptionsOperation.cs" />
     <Compile Include="Generated\Neptune\DescribeOrderableDBInstanceOptionsOperation.cs" />
