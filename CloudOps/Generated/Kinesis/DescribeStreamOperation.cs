@@ -27,20 +27,26 @@ namespace CloudOps.Kinesis
             AmazonKinesisClient client = new AmazonKinesisClient(creds, config);
             
             DescribeStreamResponse resp = new DescribeStreamResponse();
-          
+            do
+            {
                 DescribeStreamRequest req = new DescribeStreamRequest
                 {
-                    Limit = maxItems                                        
+                    ExclusiveStartShardId = resp.StreamDescription.Shards[0].ShardId
+                    ,
+                    Limit = maxItems
+                                        
                 };
 
                 resp = client.DescribeStream(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-            foreach (var obj in resp.StreamDescription.Shards)
+                foreach (var obj in resp.StreamDescription.Shards)
                 {
                     AddObject(obj);
                 }
                 
-            }            
+            }
+            while (!string.IsNullOrEmpty(resp.StreamDescription.Shards[0].ShardId));
         }
+    }
 }

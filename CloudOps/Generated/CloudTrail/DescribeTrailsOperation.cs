@@ -9,7 +9,7 @@ namespace CloudOps.CloudTrail
     {
         public override string Name => "DescribeTrails";
 
-        public override string Description => "Retrieves settings for the trail associated with the current region for your account.";
+        public override string Description => "Retrieves settings for one or more trails associated with the current region for your account.";
  
         public override string RequestURI => "/";
 

@@ -9,7 +9,7 @@ namespace CloudOps.Athena
     {
         public override string Name => "ListNamedQueries";
 
-        public override string Description => "Provides a list of all available query IDs. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.";
+        public override string Description => "Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.";
  
         public override string RequestURI => "/";
 

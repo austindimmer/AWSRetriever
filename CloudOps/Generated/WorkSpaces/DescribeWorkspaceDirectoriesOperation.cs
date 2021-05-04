@@ -9,7 +9,7 @@ namespace CloudOps.WorkSpaces
     {
         public override string Name => "DescribeWorkspaceDirectories";
 
-        public override string Description => "Describes the available AWS Directory Service directories that are registered with Amazon WorkSpaces.";
+        public override string Description => "Describes the available directories that are registered with Amazon WorkSpaces.";
  
         public override string RequestURI => "/";
 

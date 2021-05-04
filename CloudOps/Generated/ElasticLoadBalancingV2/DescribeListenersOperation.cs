@@ -9,7 +9,7 @@ namespace CloudOps.ElasticLoadBalancingV2
     {
         public override string Name => "DescribeListeners";
 
-        public override string Description => "Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners.";
+        public override string Description => "Describes the specified listeners or the listeners for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load balancer or one or more listeners.";
  
         public override string RequestURI => "/";
 

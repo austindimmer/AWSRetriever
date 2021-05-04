@@ -27,13 +27,12 @@ namespace CloudOps.Kinesis
             AmazonKinesisClient client = new AmazonKinesisClient(creds, config);
             
             ListStreamsResponse resp = new ListStreamsResponse();
-            string lastStream = "";
             do
             {
-                
                 ListStreamsRequest req = new ListStreamsRequest
                 {
-                    ExclusiveStartStreamName = lastStream,
+                    ExclusiveStartStreamName = resp.StreamNames[0]
+                    ,
                     Limit = maxItems
                                         
                 };
@@ -45,9 +44,9 @@ namespace CloudOps.Kinesis
                 {
                     AddObject(obj);
                 }
-                lastStream = resp.StreamNames[resp.StreamNames.Count];
+                
             }
-            while (resp.HasMoreStreams);
+            while (!string.IsNullOrEmpty(resp.StreamNames[0]));
         }
     }
 }

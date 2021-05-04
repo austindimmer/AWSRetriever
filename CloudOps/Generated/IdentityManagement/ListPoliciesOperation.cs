@@ -9,7 +9,7 @@ namespace CloudOps.IdentityManagement
     {
         public override string Name => "ListPolicies";
 
-        public override string Description => "Lists all the managed policies that are available in your AWS account, including your own customer-defined managed policies and all AWS managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your AWS account, set Scope to Local. To list only AWS managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide.";
+        public override string Description => "Lists all the managed policies that are available in your AWS account, including your own customer-defined managed policies and all AWS managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your AWS account, set Scope to Local. To list only AWS managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed policies and inline policies in the IAM User Guide.  IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for a customer manged policy, see GetPolicy. ";
  
         public override string RequestURI => "/";
 
@@ -25,7 +25,6 @@ namespace CloudOps.IdentityManagement
             config.RegionEndpoint = region;
             ConfigureClient(config);            
             AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
             
             ListPoliciesResponse resp = new ListPoliciesResponse();
             do

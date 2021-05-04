@@ -9,7 +9,7 @@ namespace CloudOps.SageMaker
     {
         public override string Name => "ListWorkteams";
 
-        public override string Description => "Gets a list of work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.";
+        public override string Description => "Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.";
  
         public override string RequestURI => "/";
 

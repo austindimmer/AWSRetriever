@@ -9,7 +9,7 @@ namespace CloudOps.ElastiCache
     {
         public override string Name => "DescribeCacheSecurityGroups";
 
-        public override string Description => "Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group.";
+        public override string Description => "Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group. This applicable only when you have ElastiCache in Classic setup ";
  
         public override string RequestURI => "/";
 

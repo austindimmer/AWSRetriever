@@ -9,9 +9,9 @@ namespace CloudOps.CloudFront
     {
         public override string Name => "ListDistributions";
 
-        public override string Description => "List distributions. ";
+        public override string Description => "List CloudFront distributions.";
  
-        public override string RequestURI => "/2018-11-05/distribution";
+        public override string RequestURI => "/2020-05-31/distribution";
 
         public override string Method => "GET";
 
@@ -31,22 +31,22 @@ namespace CloudOps.CloudFront
             {
                 ListDistributionsRequest req = new ListDistributionsRequest
                 {
-                    Marker = resp.DistributionList.NextMarker
+                    Marker = resp.DistributionListNextMarker
                     ,
-                    MaxItems = maxItems.ToString()
+                    MaxItems = maxItems
                                         
                 };
 
                 resp = client.ListDistributions(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.DistributionList.Items)
+                foreach (var obj in resp.DistributionListItems)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.DistributionList.NextMarker));
+            while (!string.IsNullOrEmpty(resp.DistributionListNextMarker));
         }
     }
 }

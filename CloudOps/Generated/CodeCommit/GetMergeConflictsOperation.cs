@@ -40,6 +40,11 @@ namespace CloudOps.CodeCommit
                 resp = client.GetMergeConflicts(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
+                foreach (var obj in resp.Mergeable)
+                {
+                    AddObject(obj);
+                }
+                
                 foreach (var obj in resp.DestinationCommitId)
                 {
                     AddObject(obj);
@@ -56,11 +61,6 @@ namespace CloudOps.CodeCommit
                 }
                 
                 foreach (var obj in resp.ConflictMetadataList)
-                {
-                    AddObject(obj);
-                }
-                
-                foreach (var obj in resp.Mergeable)
                 {
                     AddObject(obj);
                 }

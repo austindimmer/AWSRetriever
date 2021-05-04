@@ -11,7 +11,7 @@ namespace CloudOps.AppMesh
 
         public override string Description => "Returns a list of existing routes in a service mesh.";
  
-        public override string RequestURI => "/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes";
+        public override string RequestURI => "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes";
 
         public override string Method => "GET";
 

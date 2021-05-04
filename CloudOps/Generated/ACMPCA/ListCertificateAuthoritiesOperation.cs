@@ -9,7 +9,7 @@ namespace CloudOps.ACMPCA
     {
         public override string Name => "ListCertificateAuthorities";
 
-        public override string Description => "Lists the private certificate authorities that you created by using the CreateCertificateAuthority operation.";
+        public override string Description => "Lists the private certificate authorities that you created by using the CreateCertificateAuthority action.";
  
         public override string RequestURI => "/";
 

@@ -25,7 +25,6 @@ namespace CloudOps.IdentityManagement
             config.RegionEndpoint = region;
             ConfigureClient(config);            
             AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
             
             ListAccessKeysResponse resp = new ListAccessKeysResponse();
             do

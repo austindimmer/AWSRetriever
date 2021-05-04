@@ -9,7 +9,7 @@ namespace CloudOps.RAM
     {
         public override string Name => "GetResourceShareInvitations";
 
-        public override string Description => "Gets the specified invitations for resource sharing.";
+        public override string Description => "Gets the invitations for resource sharing that you&#39;ve received.";
  
         public override string RequestURI => "/getresourceshareinvitations";
 

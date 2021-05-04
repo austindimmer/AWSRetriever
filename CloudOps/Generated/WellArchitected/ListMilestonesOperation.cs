@@ -40,12 +40,12 @@ namespace CloudOps.WellArchitected
                 resp = client.ListMilestones(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.WorkloadId)
+                foreach (var obj in resp.MilestoneSummaries)
                 {
                     AddObject(obj);
                 }
                 
-                foreach (var obj in resp.MilestoneSummaries)
+                foreach (var obj in resp.WorkloadId)
                 {
                     AddObject(obj);
                 }

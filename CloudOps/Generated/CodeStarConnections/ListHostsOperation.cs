@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.CodeStarConnections;
-using Amazon.CodeStarConnections.Model;
+using Amazon.CodeStarconnections;
+using Amazon.CodeStarconnections.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.CodeStarConnections
+namespace CloudOps.CodeStarconnections
 {
     public class ListHostsOperation : Operation
     {
@@ -15,16 +15,16 @@ namespace CloudOps.CodeStarConnections
 
         public override string Method => "POST";
 
-        public override string ServiceName => "CodeStarConnections";
+        public override string ServiceName => "CodeStarconnections";
 
         public override string ServiceID => "CodeStar connections";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonCodeStarConnectionsConfig config = new AmazonCodeStarConnectionsConfig();
+            AmazonCodeStarconnectionsConfig config = new AmazonCodeStarconnectionsConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonCodeStarConnectionsClient client = new AmazonCodeStarConnectionsClient(creds, config);
+            AmazonCodeStarconnectionsClient client = new AmazonCodeStarconnectionsClient(creds, config);
             
             ListHostsResponse resp = new ListHostsResponse();
             do

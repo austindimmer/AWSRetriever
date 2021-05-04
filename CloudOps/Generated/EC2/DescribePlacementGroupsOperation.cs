@@ -9,7 +9,7 @@ namespace CloudOps.EC2
     {
         public override string Name => "DescribePlacementGroups";
 
-        public override string Description => "Describes one or more of your placement groups. For more information, see Placement Groups in the Amazon Elastic Compute Cloud User Guide.";
+        public override string Description => "Describes the specified placement groups or all of your placement groups. For more information, see Placement groups in the Amazon EC2 User Guide.";
  
         public override string RequestURI => "/";
 

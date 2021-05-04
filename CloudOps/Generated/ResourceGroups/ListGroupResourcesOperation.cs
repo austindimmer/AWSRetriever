@@ -9,9 +9,9 @@ namespace CloudOps.ResourceGroups
     {
         public override string Name => "ListGroupResources";
 
-        public override string Description => "Returns a list of ARNs of resources that are members of a specified resource group.";
+        public override string Description => "Returns a list of ARNs of the resources that are members of a specified resource group.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroupResources   ";
  
-        public override string RequestURI => "/groups/{GroupName}/resource-identifiers-list";
+        public override string RequestURI => "/list-group-resources";
 
         public override string Method => "POST";
 
@@ -39,6 +39,11 @@ namespace CloudOps.ResourceGroups
 
                 resp = client.ListGroupResources(req);
                 CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.Resources)
+                {
+                    AddObject(obj);
+                }
                 
                 foreach (var obj in resp.ResourceIdentifiers)
                 {

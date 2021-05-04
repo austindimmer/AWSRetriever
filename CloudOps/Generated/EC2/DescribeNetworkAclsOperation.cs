@@ -27,18 +27,26 @@ namespace CloudOps.EC2
             AmazonEC2Client client = new AmazonEC2Client(creds, config);
             
             DescribeNetworkAclsResponse resp = new DescribeNetworkAclsResponse();
-            DescribeNetworkAclsRequest req = new DescribeNetworkAclsRequest
-            {                    
-                                    
-            };
-            resp = client.DescribeNetworkAcls(req);
-            CheckError(resp.HttpStatusCode, "200");                
-            
-            foreach (var obj in resp.NetworkAcls)
+            do
             {
-                AddObject(obj);
+                DescribeNetworkAclsRequest req = new DescribeNetworkAclsRequest
+                {
+                    NextToken = resp.NextToken
+                    ,
+                    MaxResults = maxItems
+                                        
+                };
+
+                resp = client.DescribeNetworkAcls(req);
+                CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.NetworkAcls)
+                {
+                    AddObject(obj);
+                }
+                
             }
-            
+            while (!string.IsNullOrEmpty(resp.NextToken));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace CloudOps.CodeCommit
     {
         public override string Name => "GetCommentsForPullRequest";
 
-        public override string Description => "Returns comments made on a pull request.";
+        public override string Description => "Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. ";
  
         public override string RequestURI => "/";
 

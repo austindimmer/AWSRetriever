@@ -9,7 +9,7 @@ namespace CloudOps.Glue
     {
         public override string Name => "GetDevEndpoints";
 
-        public override string Description => "Retrieves all the DevEndpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. ";
+        public override string Description => "Retrieves all the development endpoints in this AWS account.  When you create a development endpoint in a virtual private cloud (VPC), AWS Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, AWS Glue returns only a public IP address. ";
  
         public override string RequestURI => "/";
 

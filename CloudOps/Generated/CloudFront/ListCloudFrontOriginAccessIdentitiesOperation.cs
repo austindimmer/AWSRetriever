@@ -11,7 +11,7 @@ namespace CloudOps.CloudFront
 
         public override string Description => "Lists origin access identities.";
  
-        public override string RequestURI => "/2018-11-05/origin-access-identity/cloudfront";
+        public override string RequestURI => "/2020-05-31/origin-access-identity/cloudfront";
 
         public override string Method => "GET";
 
@@ -31,22 +31,22 @@ namespace CloudOps.CloudFront
             {
                 ListCloudFrontOriginAccessIdentitiesRequest req = new ListCloudFrontOriginAccessIdentitiesRequest
                 {
-                    Marker = resp.CloudFrontOriginAccessIdentityList.NextMarker
+                    Marker = resp.CloudFrontOriginAccessIdentityListNextMarker
                     ,
-                    MaxItems = maxItems.ToString()
+                    MaxItems = maxItems
                                         
                 };
 
                 resp = client.ListCloudFrontOriginAccessIdentities(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
-                foreach (var obj in resp.CloudFrontOriginAccessIdentityList.Items)
+                foreach (var obj in resp.CloudFrontOriginAccessIdentityListItems)
                 {
                     AddObject(obj);
                 }
                 
             }
-            while (!string.IsNullOrEmpty(resp.CloudFrontOriginAccessIdentityList.NextMarker));
+            while (!string.IsNullOrEmpty(resp.CloudFrontOriginAccessIdentityListNextMarker));
         }
     }
 }

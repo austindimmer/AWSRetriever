@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.ACM;
-using Amazon.ACM.Model;
+using Amazon.CertificateManager;
+using Amazon.CertificateManager.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.ACM
@@ -21,10 +21,10 @@ namespace CloudOps.ACM
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonACMConfig config = new AmazonACMConfig();
+            AmazonCertificateManagerConfig config = new AmazonCertificateManagerConfig();
             config.RegionEndpoint = region;
-            ConfigureClient(config);            
-            AmazonACMClient client = new AmazonACMClient(creds, config);
+            ConfigureClient(config);
+            AmazonCertificateManagerClient client = new AmazonCertificateManagerClient(creds, config);
             
             ListCertificatesResponse resp = new ListCertificatesResponse();
             do

@@ -9,7 +9,7 @@ namespace CloudOps.IdentityManagement
     {
         public override string Name => "ListInstanceProfiles";
 
-        public override string Description => "Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, go to About Instance Profiles. You can paginate the results using the MaxItems and Marker parameters.";
+        public override string Description => "Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, see About instance profiles.  IAM resource-listing operations return a subset of the available attributes for the resource. For example, this operation does not return tags, even though they are an attribute of the returned object. To view all of the information for an instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems and Marker parameters.";
  
         public override string RequestURI => "/";
 
@@ -25,7 +25,6 @@ namespace CloudOps.IdentityManagement
             config.RegionEndpoint = region;
             ConfigureClient(config);            
             AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
-
             
             ListInstanceProfilesResponse resp = new ListInstanceProfilesResponse();
             do

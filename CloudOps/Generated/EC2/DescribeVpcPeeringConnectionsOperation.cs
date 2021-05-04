@@ -27,18 +27,26 @@ namespace CloudOps.EC2
             AmazonEC2Client client = new AmazonEC2Client(creds, config);
             
             DescribeVpcPeeringConnectionsResponse resp = new DescribeVpcPeeringConnectionsResponse();
-            DescribeVpcPeeringConnectionsRequest req = new DescribeVpcPeeringConnectionsRequest
-            {                    
-                                    
-            };
-            resp = client.DescribeVpcPeeringConnections(req);
-            CheckError(resp.HttpStatusCode, "200");                
-            
-            foreach (var obj in resp.VpcPeeringConnections)
+            do
             {
-                AddObject(obj);
+                DescribeVpcPeeringConnectionsRequest req = new DescribeVpcPeeringConnectionsRequest
+                {
+                    NextToken = resp.NextToken
+                    ,
+                    MaxResults = maxItems
+                                        
+                };
+
+                resp = client.DescribeVpcPeeringConnections(req);
+                CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.VpcPeeringConnections)
+                {
+                    AddObject(obj);
+                }
+                
             }
-            
+            while (!string.IsNullOrEmpty(resp.NextToken));
         }
     }
 }

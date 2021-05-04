@@ -27,18 +27,26 @@ namespace CloudOps.EC2
             AmazonEC2Client client = new AmazonEC2Client(creds, config);
             
             DescribeSubnetsResponse resp = new DescribeSubnetsResponse();
-            DescribeSubnetsRequest req = new DescribeSubnetsRequest
-            {                    
-                                    
-            };
-            resp = client.DescribeSubnets(req);
-            CheckError(resp.HttpStatusCode, "200");                
-            
-            foreach (var obj in resp.Subnets)
+            do
             {
-                AddObject(obj);
+                DescribeSubnetsRequest req = new DescribeSubnetsRequest
+                {
+                    NextToken = resp.NextToken
+                    ,
+                    MaxResults = maxItems
+                                        
+                };
+
+                resp = client.DescribeSubnets(req);
+                CheckError(resp.HttpStatusCode, "200");                
+                
+                foreach (var obj in resp.Subnets)
+                {
+                    AddObject(obj);
+                }
+                
             }
-            
+            while (!string.IsNullOrEmpty(resp.NextToken));
         }
     }
 }

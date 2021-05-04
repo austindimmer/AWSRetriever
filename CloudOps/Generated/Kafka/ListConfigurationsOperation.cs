@@ -9,9 +9,7 @@ namespace CloudOps.Kafka
     {
         public override string Name => "ListConfigurations";
 
-        public override string Description => "
-            Returns a list of all the MSK configurations in this Region.
-         ";
+        public override string Description => "Returns a list of all the MSK configurations in this Region.";
  
         public override string RequestURI => "/v1/configurations";
 
@@ -33,10 +31,8 @@ namespace CloudOps.Kafka
             {
                 ListConfigurationsRequest req = new ListConfigurationsRequest
                 {
-                    NextToken = resp.NextToken
-                    ,
+                    NextToken = resp.NextToken,
                     MaxResults = maxItems
-                                        
                 };
 
                 resp = client.ListConfigurations(req);

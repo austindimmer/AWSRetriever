@@ -9,7 +9,7 @@ namespace CloudOps.CodeDeploy
     {
         public override string Name => "ListDeploymentInstances";
 
-        public override string Description => "  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the applicable IAM user or AWS account. ";
+        public override string Description => "  The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or AWS Lambda.    Lists the instance for a deployment associated with the IAM user or AWS account. ";
  
         public override string RequestURI => "/";
 

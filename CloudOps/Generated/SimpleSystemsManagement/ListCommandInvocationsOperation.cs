@@ -9,7 +9,7 @@ namespace CloudOps.SimpleSystemsManagement
     {
         public override string Name => "ListCommandInvocations";
 
-        public override string Description => "An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user executes SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.";
+        public override string Description => "An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.";
  
         public override string RequestURI => "/";
 

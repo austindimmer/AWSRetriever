@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.SESV2;
-using Amazon.SESV2.Model;
+using Amazon.SimpleEmailV2;
+using Amazon.SimpleEmailV2.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.SESV2
+namespace CloudOps.SimpleEmailV2
 {
     public class ListEmailTemplatesOperation : Operation
     {
@@ -15,16 +15,16 @@ namespace CloudOps.SESV2
 
         public override string Method => "GET";
 
-        public override string ServiceName => "SESV2";
+        public override string ServiceName => "SimpleEmailV2";
 
-        public override string ServiceID => "SESv2";
+        public override string ServiceID => "SimpleEmailV2";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSESV2Config config = new AmazonSESV2Config();
+            AmazonSimpleEmailServiceV2Config config = new AmazonSimpleEmailServiceV2Config();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSESV2Client client = new AmazonSESV2Client(creds, config);
+            AmazonSimpleEmailServiceV2Client client = new AmazonSimpleEmailServiceV2Client(creds, config);
             
             ListEmailTemplatesResponse resp = new ListEmailTemplatesResponse();
             do

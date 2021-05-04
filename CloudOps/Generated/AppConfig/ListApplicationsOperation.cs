@@ -26,7 +26,7 @@ namespace CloudOps.AppConfig
             ConfigureClient(config);            
             AmazonAppConfigClient client = new AmazonAppConfigClient(creds, config);
             
-            ApplicationsResponse resp = new ApplicationsResponse();
+            ListApplicationsResponse resp = new ListApplicationsResponse();
             do
             {
                 ListApplicationsRequest req = new ListApplicationsRequest

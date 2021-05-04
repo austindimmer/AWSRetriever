@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeDBLogFiles";
 
-        public override string Description => "Returns a list of DB log files for the DB instance.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

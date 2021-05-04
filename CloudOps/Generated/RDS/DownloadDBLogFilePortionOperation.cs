@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DownloadDBLogFilePortion";
 
-        public override string Description => "Downloads all or a portion of the specified log file, up to 1 MB in size.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 

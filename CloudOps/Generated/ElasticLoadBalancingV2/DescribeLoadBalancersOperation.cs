@@ -9,7 +9,7 @@ namespace CloudOps.ElasticLoadBalancingV2
     {
         public override string Name => "DescribeLoadBalancers";
 
-        public override string Description => "Describes the specified load balancers or all of your load balancers. To describe the listeners for a load balancer, use DescribeListeners. To describe the attributes for a load balancer, use DescribeLoadBalancerAttributes.";
+        public override string Description => "Describes the specified load balancers or all of your load balancers.";
  
         public override string RequestURI => "/";
 

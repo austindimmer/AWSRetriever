@@ -25,7 +25,7 @@ namespace CloudOps.Redshift
             config.RegionEndpoint = region;
             ConfigureClient(config);            
             AmazonRedshiftClient client = new AmazonRedshiftClient(creds, config);
-            
+
             DescribeEventsResponse resp = new DescribeEventsResponse();
             do
             {

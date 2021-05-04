@@ -1,30 +1,30 @@
 using Amazon;
-using Amazon.EMR;
-using Amazon.EMR.Model;
+using Amazon.ElasticMapReduce;
+using Amazon.ElasticMapReduce.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.EMR
+namespace CloudOps.ElasticMapReduce
 {
     public class ListStudiosOperation : Operation
     {
         public override string Name => "ListStudios";
 
-        public override string Description => "Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.";
+        public override string Description => "Returns a list of all Amazon ElasticMapReduce Studios associated with the AWS account. The list includes details such as ID, Studio Access URL, and creation time for each Studio.";
  
         public override string RequestURI => "/";
 
         public override string Method => "POST";
 
-        public override string ServiceName => "EMR";
+        public override string ServiceName => "ElasticMapReduce";
 
-        public override string ServiceID => "EMR";
+        public override string ServiceID => "ElasticMapReduce";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonEMRConfig config = new AmazonEMRConfig();
+            AmazonElasticMapReduceConfig config = new AmazonElasticMapReduceConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonEMRClient client = new AmazonEMRClient(creds, config);
+            AmazonElasticMapReduceClient client = new AmazonElasticMapReduceClient(creds, config);
             
             ListStudiosResponse resp = new ListStudiosResponse();
             do

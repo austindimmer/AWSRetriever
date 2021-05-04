@@ -9,7 +9,7 @@ namespace CloudOps.SecurityHub
     {
         public override string Name => "GetFindings";
 
-        public override string Description => "Lists and describes Security Hub-aggregated findings that are specified by filter attributes.";
+        public override string Description => "Returns a list of findings that match the specified criteria.";
  
         public override string RequestURI => "/findings";
 

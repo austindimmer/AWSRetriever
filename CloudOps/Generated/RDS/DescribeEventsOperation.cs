@@ -9,7 +9,7 @@ namespace CloudOps.RDS
     {
         public override string Name => "DescribeEvents";
 
-        public override string Description => "Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.";
+        public override string Description => "";
  
         public override string RequestURI => "/";
 
@@ -26,7 +26,7 @@ namespace CloudOps.RDS
             ConfigureClient(config);            
             AmazonRDSClient client = new AmazonRDSClient(creds, config);
             
-            DescribeEventsResponse resp = new DescribeEventsResponse();
+            EventsResponse resp = new EventsResponse();
             do
             {
                 DescribeEventsRequest req = new DescribeEventsRequest

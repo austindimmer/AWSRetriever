@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.Macie2;
-using Amazon.Macie2.Model;
+using Amazon.Macie;
+using Amazon.Macie.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.Macie2
+namespace CloudOps.Macie
 {
     public class GetUsageStatisticsOperation : Operation
     {
@@ -15,16 +15,16 @@ namespace CloudOps.Macie2
 
         public override string Method => "POST";
 
-        public override string ServiceName => "Macie2";
+        public override string ServiceName => "Macie";
 
-        public override string ServiceID => "Macie2";
+        public override string ServiceID => "Macie";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonMacie2Config config = new AmazonMacie2Config();
+            AmazonMacieConfig config = new AmazonMacieConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonMacie2Client client = new AmazonMacie2Client(creds, config);
+            AmazonMacieClient client = new AmazonMacieClient(creds, config);
             
             GetUsageStatisticsResponse resp = new GetUsageStatisticsResponse();
             do

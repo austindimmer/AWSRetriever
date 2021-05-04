@@ -9,7 +9,7 @@ namespace CloudOps.CodeCommit
     {
         public override string Name => "GetCommentsForComparedCommit";
 
-        public override string Description => "Returns information about comments made on the comparison between two commits.";
+        public override string Description => "Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions. ";
  
         public override string RequestURI => "/";
 

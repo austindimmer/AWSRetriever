@@ -9,7 +9,7 @@ namespace CloudOps.EMRContainers
     {
         public override string Name => "ListVirtualClusters";
 
-        public override string Description => "Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.";
+        public override string Description => "Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon ElasticMapReduce on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.";
  
         public override string RequestURI => "/virtualclusters";
 
@@ -17,7 +17,7 @@ namespace CloudOps.EMRContainers
 
         public override string ServiceName => "EMRContainers";
 
-        public override string ServiceID => "EMR containers";
+        public override string ServiceID => "ElasticMapReduce containers";
 
         public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {

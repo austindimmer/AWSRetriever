@@ -9,7 +9,7 @@ namespace CloudOps.DynamoDB
     {
         public override string Name => "ListTables";
 
-        public override string Description => "Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.";
+        public override string Description => "Retrieves a paginated list of table names created by the AWS Account of the caller in the AWS Region (e.g. us-east-1).";
  
         public override string RequestURI => "/";
 

@@ -9,7 +9,7 @@ namespace CloudOps.AutoScaling
     {
         public override string Name => "DescribeScalingActivities";
 
-        public override string Description => "Describes one or more scaling activities for the specified Auto Scaling group.";
+        public override string Description => "Describes one or more scaling activities for the specified Auto Scaling group. To view the scaling activities from the Amazon EC2 Auto Scaling console, choose the Activity tab of the Auto Scaling group. When scaling events occur, you see scaling activity messages in the Activity history. For more information, see Verifying a scaling activity for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.";
  
         public override string RequestURI => "/";
 

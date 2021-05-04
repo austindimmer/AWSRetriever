@@ -9,7 +9,7 @@ namespace CloudOps.ResourceGroups
     {
         public override string Name => "ListGroups";
 
-        public override string Description => "Returns a list of existing resource groups in your account.";
+        public override string Description => "Returns a list of existing resource groups in your account.  Minimum permissions  To run this command, you must have the following permissions:    resource-groups:ListGroups   ";
  
         public override string RequestURI => "/groups-list";
 
@@ -43,7 +43,8 @@ namespace CloudOps.ResourceGroups
                 foreach (var obj in resp.GroupIdentifiers)
                 {
                     AddObject(obj);
-                }                               
+                }
+                
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

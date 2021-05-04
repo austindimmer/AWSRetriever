@@ -9,7 +9,7 @@ namespace CloudOps.CodeDeploy
     {
         public override string Name => "ListDeploymentGroups";
 
-        public override string Description => "Lists the deployment groups for an application registered with the applicable IAM user or AWS account.";
+        public override string Description => "Lists the deployment groups for an application registered with the IAM user or AWS account.";
  
         public override string RequestURI => "/";
 

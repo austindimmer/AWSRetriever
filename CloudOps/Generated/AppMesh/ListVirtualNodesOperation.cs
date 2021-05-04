@@ -11,7 +11,7 @@ namespace CloudOps.AppMesh
 
         public override string Description => "Returns a list of existing virtual nodes.";
  
-        public override string RequestURI => "/meshes/{meshName}/virtualNodes";
+        public override string RequestURI => "/v20190125/meshes/{meshName}/virtualNodes";
 
         public override string Method => "GET";
 

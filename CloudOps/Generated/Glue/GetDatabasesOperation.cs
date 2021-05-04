@@ -9,7 +9,7 @@ namespace CloudOps.Glue
     {
         public override string Name => "GetDatabases";
 
-        public override string Description => "Retrieves all Databases defined in a given Data Catalog.";
+        public override string Description => "Retrieves all databases defined in a given Data Catalog.";
  
         public override string RequestURI => "/";
 
