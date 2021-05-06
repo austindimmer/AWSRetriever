@@ -19,7 +19,7 @@ namespace CloudOps.ForecastService
 
         public override string ServiceID => "forecast";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonForecastServiceConfig config = new AmazonForecastServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ForecastService
                                         
                 };
 
-                resp = client.ListPredictors(req);
+                resp = await client.ListPredictorsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Predictors)

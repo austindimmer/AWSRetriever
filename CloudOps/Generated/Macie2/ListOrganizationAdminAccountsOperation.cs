@@ -19,7 +19,7 @@ namespace CloudOps.Macie
 
         public override string ServiceID => "Macie";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMacieConfig config = new AmazonMacieConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Macie
                                         
                 };
 
-                resp = client.ListOrganizationAdminAccounts(req);
+                resp = await client.ListOrganizationAdminAccounts(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.AdminAccounts)

@@ -19,7 +19,7 @@ namespace CloudOps.SQS
 
         public override string ServiceID => "SQS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSQSConfig config = new AmazonSQSConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SQS
                                         
                 };
 
-                resp = client.ListQueues(req);
+                resp = await client.ListQueuesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.QueueUrls)

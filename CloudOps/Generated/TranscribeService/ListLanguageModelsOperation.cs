@@ -19,7 +19,7 @@ namespace CloudOps.TranscribeService
 
         public override string ServiceID => "Transcribe";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonTranscribeServiceConfig config = new AmazonTranscribeServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.TranscribeService
                                         
                 };
 
-                resp = client.ListLanguageModels(req);
+                resp = await client.ListLanguageModelsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Models)

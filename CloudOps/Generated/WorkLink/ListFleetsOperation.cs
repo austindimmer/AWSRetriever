@@ -19,7 +19,7 @@ namespace CloudOps.WorkLink
 
         public override string ServiceID => "WorkLink";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonWorkLinkConfig config = new AmazonWorkLinkConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.WorkLink
                                         
                 };
 
-                resp = client.ListFleets(req);
+                resp = await client.ListFleetsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.FleetSummaryList)

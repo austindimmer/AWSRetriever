@@ -19,7 +19,7 @@ namespace CloudOps.ServiceCatalog
 
         public override string ServiceID => "Service Catalog";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonServiceCatalogConfig config = new AmazonServiceCatalogConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ServiceCatalog
                                         
                 };
 
-                resp = client.ListTagOptions(req);
+                resp = await client.ListTagOptionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.TagOptionDetails)

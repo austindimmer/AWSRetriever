@@ -19,7 +19,7 @@ namespace CloudOps.MQ
 
         public override string ServiceID => "mq";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMQConfig config = new AmazonMQConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MQ
                                         
                 };
 
-                resp = client.ListBrokers(req);
+                resp = await client.ListBrokersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.BrokerSummaries)

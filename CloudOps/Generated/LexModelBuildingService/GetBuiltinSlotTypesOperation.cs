@@ -19,7 +19,7 @@ namespace CloudOps.LexModelBuildingService
 
         public override string ServiceID => "Lex Model Building Service";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLexModelBuildingServiceConfig config = new AmazonLexModelBuildingServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LexModelBuildingService
                                         
                 };
 
-                resp = client.GetBuiltinSlotTypes(req);
+                resp = await client.GetBuiltinSlotTypesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SlotTypes)

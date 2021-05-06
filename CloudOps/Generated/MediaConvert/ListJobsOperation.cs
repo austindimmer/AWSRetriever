@@ -19,7 +19,7 @@ namespace CloudOps.MediaConvert
 
         public override string ServiceID => "MediaConvert";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMediaConvertConfig config = new AmazonMediaConvertConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MediaConvert
                                         
                 };
 
-                resp = client.ListJobs(req);
+                resp = await client.ListJobsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Jobs)

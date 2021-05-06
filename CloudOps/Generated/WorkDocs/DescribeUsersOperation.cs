@@ -19,7 +19,7 @@ namespace CloudOps.WorkDocs
 
         public override string ServiceID => "WorkDocs";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonWorkDocsConfig config = new AmazonWorkDocsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.WorkDocs
                                         
                 };
 
-                resp = client.DescribeUsers(req);
+                resp = await client.DescribeUsersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Users)

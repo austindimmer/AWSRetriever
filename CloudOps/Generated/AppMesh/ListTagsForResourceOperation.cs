@@ -19,7 +19,7 @@ namespace CloudOps.AppMesh
 
         public override string ServiceID => "App Mesh";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAppMeshConfig config = new AmazonAppMeshConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AppMesh
                                         
                 };
 
-                resp = client.ListTagsForResource(req);
+                resp = await client.ListTagsForResourceAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Tags)

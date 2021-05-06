@@ -19,7 +19,7 @@ namespace CloudOps.DirectConnect
 
         public override string ServiceID => "Direct Connect";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDirectConnectConfig config = new AmazonDirectConnectConfig();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.DirectConnect
             {                    
                                     
             };
-            resp = client.DescribeVirtualInterfaces(req);
+            resp = await client.DescribeVirtualInterfacesAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.VirtualInterfaces)

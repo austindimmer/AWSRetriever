@@ -19,7 +19,7 @@ namespace CloudOps.APIGateway
 
         public override string ServiceID => "API Gateway";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAPIGatewayConfig config = new AmazonAPIGatewayConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.APIGateway
                                         
                 };
 
-                resp = client.GetDomainNames(req);
+                resp = await client.GetDomainNamesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Items)

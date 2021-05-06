@@ -19,7 +19,7 @@ namespace CloudOps.DeviceFarm
 
         public override string ServiceID => "Device Farm";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDeviceFarmConfig config = new AmazonDeviceFarmConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.DeviceFarm
                                         
                 };
 
-                resp = client.ListOfferingTransactions(req);
+                resp = await client.ListOfferingTransactionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.OfferingTransactions)

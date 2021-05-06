@@ -19,7 +19,7 @@ namespace CloudOps.DynamoDBv2
 
         public override string ServiceID => "DynamoDBv2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDynamoDBConfig config = new AmazonDynamoDBConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.DynamoDBv2
                                         
                 };
 
-                resp = client.ListExports(req);
+                resp = await client.ListExportsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ExportSummaries)

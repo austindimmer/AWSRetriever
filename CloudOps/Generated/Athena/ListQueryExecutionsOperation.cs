@@ -19,7 +19,7 @@ namespace CloudOps.Athena
 
         public override string ServiceID => "Athena";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAthenaConfig config = new AmazonAthenaConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Athena
                                         
                 };
 
-                resp = client.ListQueryExecutions(req);
+                resp = await client.ListQueryExecutionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.QueryExecutionIds)

@@ -19,7 +19,7 @@ namespace CloudOps.SimpleWorkflow
 
         public override string ServiceID => "SimpleWorkflow";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSimpleWorkflowConfig config = new AmazonSimpleWorkflowConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SimpleWorkflow
                                         
                 };
 
-                resp = client.ListActivityTypes(req);
+                resp = await client.ListActivityTypes(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.TypeInfos)

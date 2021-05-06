@@ -19,7 +19,7 @@ namespace CloudOps.SecurityHub
 
         public override string ServiceID => "SecurityHub";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSecurityHubConfig config = new AmazonSecurityHubConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SecurityHub
                                         
                 };
 
-                resp = client.ListMembers(req);
+                resp = await client.ListMembersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Members)

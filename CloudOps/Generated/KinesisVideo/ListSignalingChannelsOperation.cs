@@ -19,7 +19,7 @@ namespace CloudOps.KinesisVideo
 
         public override string ServiceID => "Kinesis Video";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonKinesisVideoConfig config = new AmazonKinesisVideoConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.KinesisVideo
                                         
                 };
 
-                resp = client.ListSignalingChannels(req);
+                resp = await client.ListSignalingChannelsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ChannelInfoList)

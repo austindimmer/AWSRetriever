@@ -19,7 +19,7 @@ namespace CloudOps.RedshiftDataAPIService
 
         public override string ServiceID => "Redshift Data";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRedshiftDataAPIServiceConfig config = new AmazonRedshiftDataAPIServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.RedshiftDataAPIService
                                         
                 };
 
-                resp = client.ListStatements(req);
+                resp = await client.ListStatementsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Statements)

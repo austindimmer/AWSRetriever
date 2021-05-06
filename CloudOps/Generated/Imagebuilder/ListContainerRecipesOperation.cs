@@ -19,7 +19,7 @@ namespace CloudOps.Imagebuilder
 
         public override string ServiceID => "imagebuilder";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonImagebuilderConfig config = new AmazonImagebuilderConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Imagebuilder
                                         
                 };
 
-                resp = client.ListContainerRecipes(req);
+                resp = await client.ListContainerRecipesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ContainerRecipeSummaryList)

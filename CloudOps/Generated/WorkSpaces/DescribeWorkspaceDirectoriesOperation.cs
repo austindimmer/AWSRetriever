@@ -19,7 +19,7 @@ namespace CloudOps.WorkSpaces
 
         public override string ServiceID => "WorkSpaces";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonWorkSpacesConfig config = new AmazonWorkSpacesConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.WorkSpaces
                                         
                 };
 
-                resp = client.DescribeWorkspaceDirectories(req);
+                resp = await client.DescribeWorkspaceDirectoriesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Directories)

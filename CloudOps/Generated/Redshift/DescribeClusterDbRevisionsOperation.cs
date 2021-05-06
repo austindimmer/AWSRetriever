@@ -19,7 +19,7 @@ namespace CloudOps.Redshift
 
         public override string ServiceID => "Redshift";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRedshiftConfig config = new AmazonRedshiftConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Redshift
                                         
                 };
 
-                resp = client.DescribeClusterDbRevisions(req);
+                resp = await client.DescribeClusterDbRevisionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ClusterDbRevisions)

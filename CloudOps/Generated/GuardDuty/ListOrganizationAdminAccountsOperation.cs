@@ -19,7 +19,7 @@ namespace CloudOps.GuardDuty
 
         public override string ServiceID => "GuardDuty";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGuardDutyConfig config = new AmazonGuardDutyConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.GuardDuty
                                         
                 };
 
-                resp = client.ListOrganizationAdminAccounts(req);
+                resp = await client.ListOrganizationAdminAccountsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.AdminAccounts)

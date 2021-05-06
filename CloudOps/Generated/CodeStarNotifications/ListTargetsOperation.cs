@@ -19,7 +19,7 @@ namespace CloudOps.CodeStarNotifications
 
         public override string ServiceID => "codestar notifications";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeStarNotificationsConfig config = new AmazonCodeStarNotificationsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeStarNotifications
                                         
                 };
 
-                resp = client.ListTargets(req);
+                resp = await client.ListTargetsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Targets)

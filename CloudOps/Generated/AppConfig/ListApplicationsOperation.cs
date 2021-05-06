@@ -19,7 +19,7 @@ namespace CloudOps.AppConfig
 
         public override string ServiceID => "AppConfig";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAppConfigConfig config = new AmazonAppConfigConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AppConfig
                                         
                 };
 
-                resp = client.ListApplications(req);
+                resp = await client.ListApplicationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Items)

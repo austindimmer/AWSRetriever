@@ -19,7 +19,7 @@ namespace CloudOps.FraudDetector
 
         public override string ServiceID => "FraudDetector";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonFraudDetectorConfig config = new AmazonFraudDetectorConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.FraudDetector
                                         
                 };
 
-                resp = client.GetModels(req);
+                resp = await client.GetModelsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Models)

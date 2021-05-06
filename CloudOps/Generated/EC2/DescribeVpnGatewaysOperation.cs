@@ -19,7 +19,7 @@ namespace CloudOps.EC2
 
         public override string ServiceID => "EC2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonEC2Config config = new AmazonEC2Config();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.EC2
             {                    
                                     
             };
-            resp = client.DescribeVpnGateways(req);
+            resp = await client.DescribeVpnGatewaysAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.VpnGateways)

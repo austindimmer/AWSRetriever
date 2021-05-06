@@ -19,7 +19,7 @@ namespace CloudOps.MediaTailor
 
         public override string ServiceID => "MediaTailor";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMediaTailorConfig config = new AmazonMediaTailorConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MediaTailor
                                         
                 };
 
-                resp = client.ListSourceLocations(req);
+                resp = await client.ListSourceLocationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Items)

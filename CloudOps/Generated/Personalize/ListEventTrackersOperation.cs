@@ -19,7 +19,7 @@ namespace CloudOps.Personalize
 
         public override string ServiceID => "Personalize";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonPersonalizeConfig config = new AmazonPersonalizeConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Personalize
                                         
                 };
 
-                resp = client.ListEventTrackers(req);
+                resp = await client.ListEventTrackersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.EventTrackers)

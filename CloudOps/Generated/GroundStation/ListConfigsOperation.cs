@@ -19,7 +19,7 @@ namespace CloudOps.GroundStation
 
         public override string ServiceID => "GroundStation";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGroundStationConfig config = new AmazonGroundStationConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.GroundStation
                                         
                 };
 
-                resp = client.ListConfigs(req);
+                resp = await client.ListConfigsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ConfigList)

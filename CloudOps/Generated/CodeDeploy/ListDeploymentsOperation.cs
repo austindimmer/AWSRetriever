@@ -19,7 +19,7 @@ namespace CloudOps.CodeDeploy
 
         public override string ServiceID => "CodeDeploy";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeDeployConfig config = new AmazonCodeDeployConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.CodeDeploy
                                         
                 };
 
-                resp = client.ListDeployments(req);
+                resp = await client.ListDeploymentsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Deployments)

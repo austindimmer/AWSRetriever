@@ -19,7 +19,7 @@ namespace CloudOps.Comprehend
 
         public override string ServiceID => "Comprehend";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonComprehendConfig config = new AmazonComprehendConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Comprehend
                                         
                 };
 
-                resp = client.ListDocumentClassifiers(req);
+                resp = await client.ListDocumentClassifiersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DocumentClassifierPropertiesList)

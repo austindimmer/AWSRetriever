@@ -19,7 +19,7 @@ namespace CloudOps.Cloud9
 
         public override string ServiceID => "Cloud9";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloud9Config config = new AmazonCloud9Config();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Cloud9
                                         
                 };
 
-                resp = client.ListEnvironments(req);
+                resp = await client.ListEnvironmentsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.EnvironmentIds)

@@ -19,7 +19,7 @@ namespace CloudOps.Route53Resolver
 
         public override string ServiceID => "Route53Resolver";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRoute53ResolverConfig config = new AmazonRoute53ResolverConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Route53Resolver
                                         
                 };
 
-                resp = client.ListResolverEndpoints(req);
+                resp = await client.ListResolverEndpointsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ResolverEndpoints)

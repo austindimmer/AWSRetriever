@@ -19,7 +19,7 @@ namespace CloudOps.Elasticsearch
 
         public override string ServiceID => "Elasticsearch Service";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticsearchConfig config = new AmazonElasticsearchConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Elasticsearch
                                         
                 };
 
-                resp = client.DescribeOutboundCrossClusterSearchConnections(req);
+                resp = await client.DescribeOutboundCrossClusterSearchConnectionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CrossClusterSearchConnections)

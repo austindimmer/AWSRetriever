@@ -19,7 +19,7 @@ namespace CloudOps.Neptune
 
         public override string ServiceID => "Neptune";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonNeptuneConfig config = new AmazonNeptuneConfig();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.Neptune
             {                    
                                     
             };
-            resp = client.ListTagsForResource(req);
+            resp = await client.ListTagsForResourceAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.TagList)

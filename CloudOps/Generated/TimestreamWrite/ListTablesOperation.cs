@@ -19,7 +19,7 @@ namespace CloudOps.TimestreamWrite
 
         public override string ServiceID => "Timestream Write";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonTimestreamWriteConfig config = new AmazonTimestreamWriteConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.TimestreamWrite
                                         
                 };
 
-                resp = client.ListTables(req);
+                resp = await client.ListTablesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Tables)

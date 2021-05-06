@@ -19,7 +19,7 @@ namespace CloudOps.CodeArtifact
 
         public override string ServiceID => "codeartifact";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeArtifactConfig config = new AmazonCodeArtifactConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeArtifact
                                         
                 };
 
-                resp = client.ListDomains(req);
+                resp = await client.ListDomainsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Domains)

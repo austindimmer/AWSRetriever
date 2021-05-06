@@ -19,7 +19,7 @@ namespace CloudOps.KinesisVideoArchivedMedia
 
         public override string ServiceID => "Kinesis Video Archived Media";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonKinesisVideoArchivedMediaConfig config = new AmazonKinesisVideoArchivedMediaConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.KinesisVideoArchivedMedia
                                         
                 };
 
-                resp = client.ListFragments(req);
+                resp = await client.ListFragmentsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Fragments)

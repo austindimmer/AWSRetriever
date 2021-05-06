@@ -19,7 +19,7 @@ namespace CloudOps.DataExchange
 
         public override string ServiceID => "DataExchange";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDataExchangeConfig config = new AmazonDataExchangeConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.DataExchange
                                         
                 };
 
-                resp = client.ListDataSets(req);
+                resp = await client.ListDataSetsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DataSets)

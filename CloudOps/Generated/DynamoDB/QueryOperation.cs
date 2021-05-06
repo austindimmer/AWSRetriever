@@ -19,7 +19,7 @@ namespace CloudOps.DynamoDB
 
         public override string ServiceID => "DynamoDB";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDynamoDBConfig config = new AmazonDynamoDBConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.DynamoDB
                                         
                 };
 
-                resp = client.Query(req);
+                resp = await client.QueryAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Items)

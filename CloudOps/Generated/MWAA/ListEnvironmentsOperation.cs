@@ -19,7 +19,7 @@ namespace CloudOps.MWAA
 
         public override string ServiceID => "MWAA";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMWAAConfig config = new AmazonMWAAConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MWAA
                                         
                 };
 
-                resp = client.ListEnvironments(req);
+                resp = await client.ListEnvironmentsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Environments)

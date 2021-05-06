@@ -19,7 +19,7 @@ namespace CloudOps.ElasticFileSystem
 
         public override string ServiceID => "ElasticFileSystem";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticFileSystemConfig config = new AmazonElasticFileSystemConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ElasticFileSystem
                                         
                 };
 
-                resp = client.DescribeFileSystems(req);
+                resp = await client.DescribeFileSystemsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.FileSystems)

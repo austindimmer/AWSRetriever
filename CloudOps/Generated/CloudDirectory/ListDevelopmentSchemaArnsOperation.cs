@@ -19,7 +19,7 @@ namespace CloudOps.CloudDirectory
 
         public override string ServiceID => "CloudDirectory";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudDirectoryConfig config = new AmazonCloudDirectoryConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CloudDirectory
                                         
                 };
 
-                resp = client.ListDevelopmentSchemaArns(req);
+                resp = await client.ListDevelopmentSchemaArnsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SchemaArns)

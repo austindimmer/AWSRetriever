@@ -19,7 +19,7 @@ namespace CloudOps.Kafka
 
         public override string ServiceID => "Kafka";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonKafkaConfig config = new AmazonKafkaConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Kafka
                                         
                 };
 
-                resp = client.ListKafkaVersions(req);
+                resp = await client.ListKafkaVersionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.KafkaVersions)

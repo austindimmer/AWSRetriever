@@ -19,7 +19,7 @@ namespace CloudOps.ACM
 
         public override string ServiceID => "ACM";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCertificateManagerConfig config = new AmazonCertificateManagerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ACM
                                         
                 };
 
-                resp = client.ListCertificates(req);
+                resp = await client.ListCertificatesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CertificateSummaryList)

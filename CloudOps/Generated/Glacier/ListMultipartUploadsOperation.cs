@@ -19,7 +19,7 @@ namespace CloudOps.Glacier
 
         public override string ServiceID => "Glacier";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGlacierConfig config = new AmazonGlacierConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Glacier
                                         
                 };
 
-                resp = client.ListMultipartUploads(req);
+                resp = await client.ListMultipartUploads(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.UploadsList)

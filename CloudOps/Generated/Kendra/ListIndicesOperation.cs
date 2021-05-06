@@ -19,7 +19,7 @@ namespace CloudOps.Kendra
 
         public override string ServiceID => "kendra";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonKendraConfig config = new AmazonKendraConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Kendra
                                         
                 };
 
-                resp = client.ListIndices(req);
+                resp = await client.ListIndicesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.IndexConfigurationSummaryItems)

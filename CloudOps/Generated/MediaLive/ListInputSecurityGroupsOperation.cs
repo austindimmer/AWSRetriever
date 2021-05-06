@@ -19,7 +19,7 @@ namespace CloudOps.MediaLive
 
         public override string ServiceID => "MediaLive";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMediaLiveConfig config = new AmazonMediaLiveConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MediaLive
                                         
                 };
 
-                resp = client.ListInputSecurityGroups(req);
+                resp = await client.ListInputSecurityGroupsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.InputSecurityGroups)

@@ -19,7 +19,7 @@ namespace CloudOps.NimbleStudio
 
         public override string ServiceID => "nimble";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonNimbleStudioConfig config = new AmazonNimbleStudioConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.NimbleStudio
                                         
                 };
 
-                resp = client.ListEulas(req);
+                resp = await client.ListEulasAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Eulas)

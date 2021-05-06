@@ -19,7 +19,7 @@ namespace CloudOps.SimpleEmailV2
 
         public override string ServiceID => "SimpleEmailV2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSimpleEmailServiceV2Config config = new AmazonSimpleEmailServiceV2Config();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SimpleEmailV2
                                         
                 };
 
-                resp = client.GetDedicatedIps(req);
+                resp = await client.GetDedicatedIpsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DedicatedIps)

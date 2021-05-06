@@ -19,7 +19,7 @@ namespace CloudOps.AlexaForBusiness
 
         public override string ServiceID => "Alexa For Business";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAlexaForBusinessConfig config = new AmazonAlexaForBusinessConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AlexaForBusiness
                                         
                 };
 
-                resp = client.ListBusinessReportSchedules(req);
+                resp = await client.ListBusinessReportSchedulesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.BusinessReportSchedules)

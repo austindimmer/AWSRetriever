@@ -19,7 +19,7 @@ namespace CloudOps.GlueDataBrew
 
         public override string ServiceID => "DataBrew";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGlueDataBrewConfig config = new AmazonGlueDataBrewConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.GlueDataBrew
                                         
                 };
 
-                resp = client.ListDatasets(req);
+                resp = await client.ListDatasetsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Datasets)

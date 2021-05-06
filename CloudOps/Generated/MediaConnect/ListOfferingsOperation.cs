@@ -19,7 +19,7 @@ namespace CloudOps.MediaConnect
 
         public override string ServiceID => "MediaConnect";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMediaConnectConfig config = new AmazonMediaConnectConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MediaConnect
                                         
                 };
 
-                resp = client.ListOfferings(req);
+                resp = await client.ListOfferingsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Offerings)

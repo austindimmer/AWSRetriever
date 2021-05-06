@@ -19,7 +19,7 @@ namespace CloudOps.IoTFleetHub
 
         public override string ServiceID => "IoTFleetHub";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTFleetHubConfig config = new AmazonIoTFleetHubConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.IoTFleetHub
                                         
                 };
 
-                resp = client.ListApplications(req);
+                resp = await client.ListApplicationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ApplicationSummaries)

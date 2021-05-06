@@ -19,7 +19,7 @@ namespace CloudOps.OpsWorksCM
 
         public override string ServiceID => "OpsWorksCM";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonOpsWorksCMConfig config = new AmazonOpsWorksCMConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.OpsWorksCM
                                         
                 };
 
-                resp = client.DescribeBackups(req);
+                resp = await client.DescribeBackupsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Backups)

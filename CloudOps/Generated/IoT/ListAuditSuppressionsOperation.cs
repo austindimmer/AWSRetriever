@@ -19,7 +19,7 @@ namespace CloudOps.IoT
 
         public override string ServiceID => "IoT";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTConfig config = new AmazonIoTConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IoT
                                         
                 };
 
-                resp = client.ListAuditSuppressions(req);
+                resp = await client.ListAuditSuppressionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Suppressions)

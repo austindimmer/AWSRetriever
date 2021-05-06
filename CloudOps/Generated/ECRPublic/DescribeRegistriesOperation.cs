@@ -19,7 +19,7 @@ namespace CloudOps.ECRPublic
 
         public override string ServiceID => "ECR PUBLIC";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonECRPublicConfig config = new AmazonECRPublicConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ECRPublic
                                         
                 };
 
-                resp = client.DescribeRegistries(req);
+                resp = await client.DescribeRegistriesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Registries)

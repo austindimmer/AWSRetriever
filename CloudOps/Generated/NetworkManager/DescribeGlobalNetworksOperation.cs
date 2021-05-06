@@ -19,7 +19,7 @@ namespace CloudOps.NetworkManager
 
         public override string ServiceID => "NetworkManager";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonNetworkManagerConfig config = new AmazonNetworkManagerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.NetworkManager
                                         
                 };
 
-                resp = client.DescribeGlobalNetworks(req);
+                resp = await client.DescribeGlobalNetworksAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.GlobalNetworks)

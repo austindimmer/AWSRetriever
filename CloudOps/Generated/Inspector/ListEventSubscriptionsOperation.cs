@@ -19,7 +19,7 @@ namespace CloudOps.Inspector
 
         public override string ServiceID => "Inspector";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonInspectorConfig config = new AmazonInspectorConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Inspector
                                         
                 };
 
-                resp = client.ListEventSubscriptions(req);
+                resp = await client.ListEventSubscriptionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Subscriptions)

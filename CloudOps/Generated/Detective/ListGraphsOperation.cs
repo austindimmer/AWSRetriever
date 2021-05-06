@@ -19,7 +19,7 @@ namespace CloudOps.Detective
 
         public override string ServiceID => "Detective";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDetectiveConfig config = new AmazonDetectiveConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Detective
                                         
                 };
 
-                resp = client.ListGraphs(req);
+                resp = await client.ListGraphsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.GraphList)

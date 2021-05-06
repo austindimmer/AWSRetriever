@@ -19,7 +19,7 @@ namespace CloudOps.AWSHealth
 
         public override string ServiceID => "Health";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAWSHealthConfig config = new AmazonAWSHealthConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AWSHealth
                                         
                 };
 
-                resp = client.DescribeEvents(req);
+                resp = await client.DescribeEventsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Events)

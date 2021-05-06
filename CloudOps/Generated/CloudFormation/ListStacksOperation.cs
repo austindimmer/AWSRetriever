@@ -19,7 +19,7 @@ namespace CloudOps.CloudFormation
 
         public override string ServiceID => "CloudFormation";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudFormationConfig config = new AmazonCloudFormationConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.CloudFormation
                                         
                 };
 
-                resp = client.ListStacks(req);
+                resp = await client.ListStacksAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.StackSummaries)

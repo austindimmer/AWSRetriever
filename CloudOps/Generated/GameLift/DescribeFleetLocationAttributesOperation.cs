@@ -19,7 +19,7 @@ namespace CloudOps.GameLift
 
         public override string ServiceID => "GameLift";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGameLiftConfig config = new AmazonGameLiftConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.GameLift
                                         
                 };
 
-                resp = client.DescribeFleetLocationAttributes(req);
+                resp = await client.DescribeFleetLocationAttributesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.LocationAttributes)

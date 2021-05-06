@@ -19,7 +19,7 @@ namespace CloudOps.SimpleSystemsManagement
 
         public override string ServiceID => "SSM";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSimpleSystemsManagementConfig config = new AmazonSimpleSystemsManagementConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SimpleSystemsManagement
                                         
                 };
 
-                resp = client.ListResourceComplianceSummaries(req);
+                resp = await client.ListResourceComplianceSummariesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ResourceComplianceSummaryItems)

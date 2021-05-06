@@ -19,7 +19,7 @@ namespace CloudOps.SimpleEmail
 
         public override string ServiceID => "SES";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSimpleEmailServiceConfig config = new AmazonSimpleEmailServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SimpleEmail
                                         
                 };
 
-                resp = client.ListIdentities(req);
+                resp = await client.ListIdentitiesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Identities)

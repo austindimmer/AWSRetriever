@@ -19,7 +19,7 @@ namespace CloudOps.CloudHSMV2
 
         public override string ServiceID => "CloudHSM V2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudHSMV2Config config = new AmazonCloudHSMV2Config();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CloudHSMV2
                                         
                 };
 
-                resp = client.DescribeClusters(req);
+                resp = await client.DescribeClustersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Clusters)

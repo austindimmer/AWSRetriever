@@ -19,7 +19,7 @@ namespace CloudOps.AutoScaling
 
         public override string ServiceID => "Auto Scaling";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAutoScalingConfig config = new AmazonAutoScalingConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AutoScaling
                                         
                 };
 
-                resp = client.DescribeAutoScalingInstances(req);
+                resp = await client.DescribeAutoScalingInstancesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.AutoScalingInstances)

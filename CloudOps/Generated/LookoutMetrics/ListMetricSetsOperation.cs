@@ -19,7 +19,7 @@ namespace CloudOps.LookoutMetrics
 
         public override string ServiceID => "LookoutMetrics";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLookoutMetricsConfig config = new AmazonLookoutMetricsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LookoutMetrics
                                         
                 };
 
-                resp = client.ListMetricSets(req);
+                resp = await client.ListMetricSetsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.MetricSetSummaryList)

@@ -19,7 +19,7 @@ namespace CloudOps.ElasticTranscoder
 
         public override string ServiceID => "Elastic Transcoder";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticTranscoderConfig config = new AmazonElasticTranscoderConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.ElasticTranscoder
                                         
                 };
 
-                resp = client.ListPipelines(req);
+                resp = await client.ListPipelinesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Pipelines)

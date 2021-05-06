@@ -19,7 +19,7 @@ namespace CloudOps.PrometheusService
 
         public override string ServiceID => "amp";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonPrometheusServiceConfig config = new AmazonPrometheusServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.PrometheusService
                                         
                 };
 
-                resp = client.ListWorkspaces(req);
+                resp = await client.ListWorkspacesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Workspaces)

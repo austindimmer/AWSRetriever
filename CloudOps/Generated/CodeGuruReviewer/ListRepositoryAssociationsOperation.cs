@@ -19,7 +19,7 @@ namespace CloudOps.CodeGuruReviewer
 
         public override string ServiceID => "CodeGuru Reviewer";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeGuruReviewerConfig config = new AmazonCodeGuruReviewerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeGuruReviewer
                                         
                 };
 
-                resp = client.ListRepositoryAssociations(req);
+                resp = await client.ListRepositoryAssociationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.RepositoryAssociationSummaries)

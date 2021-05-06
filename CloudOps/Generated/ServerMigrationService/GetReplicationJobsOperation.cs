@@ -19,7 +19,7 @@ namespace CloudOps.ServerMigrationService
 
         public override string ServiceID => "SMS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonServerMigrationServiceConfig config = new AmazonServerMigrationServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ServerMigrationService
                                         
                 };
 
-                resp = client.GetReplicationJobs(req);
+                resp = await client.GetReplicationJobsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ReplicationJobList)

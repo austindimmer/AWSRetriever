@@ -19,7 +19,7 @@ namespace CloudOps.HealthLake
 
         public override string ServiceID => "HealthLake";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonHealthLakeConfig config = new AmazonHealthLakeConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.HealthLake
                                         
                 };
 
-                resp = client.ListFHIRDatastores(req);
+                resp = await client.ListFHIRDatastoresAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DatastorePropertiesList)

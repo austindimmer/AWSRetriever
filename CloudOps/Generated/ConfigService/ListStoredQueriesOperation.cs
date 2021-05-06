@@ -19,7 +19,7 @@ namespace CloudOps.ConfigService
 
         public override string ServiceID => "Config Service";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonConfigServiceConfig config = new AmazonConfigServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ConfigService
                                         
                 };
 
-                resp = client.ListStoredQueries(req);
+                resp = await client.ListStoredQueriesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.StoredQueryMetadata)

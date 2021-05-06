@@ -1,20 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{20B2599D-0678-4501-BCD3-26BEC04FEB93}</ProjectGuid>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Retriever</RootNamespace>
     <AssemblyName>AWSRetriever</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -36,26 +24,13 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>false</BootstrapperEnabled>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>Retriever.Program</StartupObject>
@@ -72,7 +47,6 @@
   <PropertyGroup>
     <SignManifests>false</SignManifests>
   </PropertyGroup>
-  <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon>Images\korra_circle.ico</ApplicationIcon>
   </PropertyGroup>
@@ -80,106 +54,12 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Configuration.cs" />
-    <Compile Include="ConsoleScanner.cs" />
-    <Compile Include="FormAbout.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormAbout.Designer.cs">
-      <DependentUpon>FormAbout.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormConfig.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormConfig.Designer.cs">
-      <DependentUpon>FormConfig.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormProfileEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormProfileEditor.Designer.cs">
-      <DependentUpon>FormProfileEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormRegions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormRegions.Designer.cs">
-      <DependentUpon>FormRegions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\CloudObjects.cs" />
-    <Compile Include="FormCredentials.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormCredentials.Designer.cs">
-      <DependentUpon>FormCredentials.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormMain.Designer.cs">
-      <DependentUpon>FormMain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormRun.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormRun.Designer.cs">
-      <DependentUpon>FormRun.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Profile.cs" />
-    <Compile Include="Model\ProfileRecord.cs" />
-    <Compile Include="Model\ProgressMessage.cs" />
-    <Compile Include="ModernMessageBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModernMessageBox.Designer.cs">
-      <DependentUpon>ModernMessageBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Model\ProgressMessages.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Content Include="profile.CloudFormation.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -197,58 +77,14 @@
     <Content Include="Images\icons8-private-50.png" />
     <Content Include="Images\icons8-save-as-50.png" />
     <Content Include="Images\icons8-xls-import-50.png" />
-    <None Include="app.config" />
-    <None Include="Images\korra_circle.png" />
-    <None Include="Images\korra.png" />
-    <EmbeddedResource Include="FormAbout.resx">
-      <DependentUpon>FormAbout.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormConfig.resx">
-      <DependentUpon>FormConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormCredentials.resx">
-      <DependentUpon>FormCredentials.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormMain.resx">
-      <DependentUpon>FormMain.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormProfileEditor.resx">
-      <DependentUpon>FormProfileEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRegions.resx">
-      <DependentUpon>FormRegions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRun.resx">
-      <DependentUpon>FormRun.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModernMessageBox.resx">
-      <DependentUpon>ModernMessageBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <Content Include="profile.default.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="RunRetriever.cmd" />
-    <None Include="RunRetriever.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AWSRetriver.Controls\AWSRetriver.Controls.csproj">
-      <Project>{984ef6d3-aa85-4d8f-86fa-9be685c4f456}</Project>
-      <Name>AWSRetriver.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CloudOps\CloudOps.csproj">
-      <Project>{38dc0e7f-af8d-4a2e-8e7e-e42e3839d2bb}</Project>
-      <Name>CloudOps</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModernUIDoneRight\ModernUIDoneRight\ModernUIDoneRight.csproj">
-      <Project>{2b12bd1b-9601-4b60-9515-f9a756d10753}</Project>
-      <Name>ModernUIDoneRight</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\AWSRetriver.Controls\AWSRetriver.Controls.csproj" />
+    <ProjectReference Include="..\CloudOps\CloudOps.csproj" />
+    <ProjectReference Include="..\ModernUIDoneRight\ModernUIDoneRight\ModernUIDoneRight.csproj" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -260,110 +96,88 @@
   <ItemGroup>
     <PublishFile Include="Images\icons8-about-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-box-important-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-checkmark-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-error-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-load-resume-template-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-map-editing-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-ok-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-private-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-save-as-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\icons8-xls-import-50.png">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>False</IncludeHash>
       <FileType>File</FileType>
     </PublishFile>
     <PublishFile Include="Images\korra_circle.ico">
       <Visible>False</Visible>
-      <Group>
-      </Group>
-      <TargetPath>
-      </TargetPath>
+      <Group></Group>
+      <TargetPath></TargetPath>
       <PublishState>Exclude</PublishState>
       <IncludeHash>True</IncludeHash>
       <FileType>File</FileType>
@@ -376,9 +190,10 @@
     <PackageReference Include="FluentCommandLineParser">
       <Version>1.4.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

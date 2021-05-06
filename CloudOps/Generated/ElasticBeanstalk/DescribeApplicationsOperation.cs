@@ -19,7 +19,7 @@ namespace CloudOps.ElasticBeanstalk
 
         public override string ServiceID => "Elastic Beanstalk";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticBeanstalkConfig config = new AmazonElasticBeanstalkConfig();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.ElasticBeanstalk
             {                    
                                     
             };
-            resp = client.DescribeApplications(req);
+            resp = await client.DescribeApplicationsAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.Applications)

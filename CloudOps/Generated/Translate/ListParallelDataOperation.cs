@@ -19,7 +19,7 @@ namespace CloudOps.Translate
 
         public override string ServiceID => "Translate";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonTranslateConfig config = new AmazonTranslateConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Translate
                                         
                 };
 
-                resp = client.ListParallelData(req);
+                resp = await client.ListParallelDataAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ParallelDataPropertiesList)

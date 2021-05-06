@@ -19,7 +19,7 @@ namespace CloudOps.ResourceGroups
 
         public override string ServiceID => "Resource Groups";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonResourceGroupsConfig config = new AmazonResourceGroupsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ResourceGroups
                                         
                 };
 
-                resp = client.SearchResources(req);
+                resp = await client.SearchResourcesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ResourceIdentifiers)

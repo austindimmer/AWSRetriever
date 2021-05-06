@@ -19,7 +19,7 @@ namespace CloudOps.AWSSupport
 
         public override string ServiceID => "AWSSupport";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAWSSupportConfig config = new AmazonAWSSupportConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AWSSupport
                                         
                 };
 
-                resp = client.DescribeCases(req);
+                resp = await client.DescribeCasesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Cases)

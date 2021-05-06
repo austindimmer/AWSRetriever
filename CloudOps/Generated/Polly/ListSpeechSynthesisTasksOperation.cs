@@ -19,7 +19,7 @@ namespace CloudOps.Polly
 
         public override string ServiceID => "Polly";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonPollyConfig config = new AmazonPollyConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Polly
                                         
                 };
 
-                resp = client.ListSpeechSynthesisTasks(req);
+                resp = await client.ListSpeechSynthesisTasksAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SynthesisTasks)

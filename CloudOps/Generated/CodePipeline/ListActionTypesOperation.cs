@@ -19,7 +19,7 @@ namespace CloudOps.CodePipeline
 
         public override string ServiceID => "CodePipeline";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodePipelineConfig config = new AmazonCodePipelineConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.CodePipeline
                                         
                 };
 
-                resp = client.ListActionTypes(req);
+                resp = await client.ListActionTypesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ActionTypes)

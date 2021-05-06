@@ -19,7 +19,7 @@ namespace CloudOps.SimpleNotificationService
 
         public override string ServiceID => "SNS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSimpleNotificationServiceConfig config = new AmazonSimpleNotificationServiceConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.SimpleNotificationService
                                         
                 };
 
-                resp = client.ListEndpointsByPlatformApplication(req);
+                resp = await client.ListEndpointsByPlatformApplicationAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Endpoints)

@@ -19,7 +19,7 @@ namespace CloudOps.Pricing
 
         public override string ServiceID => "Pricing";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonPricingConfig config = new AmazonPricingConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Pricing
                                         
                 };
 
-                resp = client.GetProducts(req);
+                resp = await client.GetProductsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.FormatVersion)

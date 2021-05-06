@@ -19,7 +19,7 @@ namespace CloudOps.StepFunctions
 
         public override string ServiceID => "SFN";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonStepFunctionsConfig config = new AmazonStepFunctionsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.StepFunctions
                                         
                 };
 
-                resp = client.ListStateMachines(req);
+                resp = await client.ListStateMachinesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.StateMachines)

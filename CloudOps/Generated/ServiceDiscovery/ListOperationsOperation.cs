@@ -19,7 +19,7 @@ namespace CloudOps.ServiceDiscovery
 
         public override string ServiceID => "ServiceDiscovery";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonServiceDiscoveryConfig config = new AmazonServiceDiscoveryConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ServiceDiscovery
                                         
                 };
 
-                resp = client.ListOperations(req);
+                resp = await client.ListOperationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Operations)

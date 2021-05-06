@@ -19,7 +19,7 @@ namespace CloudOps.SageMaker
 
         public override string ServiceID => "SageMaker";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSageMakerConfig config = new AmazonSageMakerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SageMaker
                                         
                 };
 
-                resp = client.ListPipelineExecutionSteps(req);
+                resp = await client.ListPipelineExecutionStepsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.PipelineExecutionSteps)

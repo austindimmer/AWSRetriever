@@ -19,7 +19,7 @@ namespace CloudOps.CostAndUsageReportService
 
         public override string ServiceID => "Cost and Usage Report Service";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCostAndUsageReportConfig config = new AmazonCostAndUsageReportConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CostAndUsageReportService
                                         
                 };
 
-                resp = client.DescribeReportDefinitions(req);
+                resp = await client.DescribeReportDefinitionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ReportDefinitions)

@@ -19,7 +19,7 @@ namespace CloudOps.Snowball
 
         public override string ServiceID => "Snowball";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSnowballConfig config = new AmazonSnowballConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Snowball
                                         
                 };
 
-                resp = client.DescribeAddresses(req);
+                resp = await client.DescribeAddressesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Addresses)

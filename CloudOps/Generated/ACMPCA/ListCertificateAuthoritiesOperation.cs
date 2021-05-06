@@ -19,7 +19,7 @@ namespace CloudOps.ACMPCA
 
         public override string ServiceID => "ACM PCA";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonACMPCAConfig config = new AmazonACMPCAConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ACMPCA
                                         
                 };
 
-                resp = client.ListCertificateAuthorities(req);
+                resp = await client.ListCertificateAuthoritiesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CertificateAuthorities)

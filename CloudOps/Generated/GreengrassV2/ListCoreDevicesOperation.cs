@@ -19,7 +19,7 @@ namespace CloudOps.GreengrassV2
 
         public override string ServiceID => "GreengrassV2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGreengrassV2Config config = new AmazonGreengrassV2Config();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.GreengrassV2
                                         
                 };
 
-                resp = client.ListCoreDevices(req);
+                resp = await client.ListCoreDevicesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CoreDevices)

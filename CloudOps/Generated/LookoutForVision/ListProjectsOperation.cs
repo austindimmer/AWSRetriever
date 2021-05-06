@@ -19,7 +19,7 @@ namespace CloudOps.LookoutforVision
 
         public override string ServiceID => "LookoutVision";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLookoutforVisionConfig config = new AmazonLookoutforVisionConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LookoutforVision
                                         
                 };
 
-                resp = client.ListProjects(req);
+                resp = await client.ListProjectsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Projects)

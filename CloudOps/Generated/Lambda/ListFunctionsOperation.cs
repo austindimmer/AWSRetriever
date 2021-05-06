@@ -19,7 +19,7 @@ namespace CloudOps.Lambda
 
         public override string ServiceID => "Lambda";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLambdaConfig config = new AmazonLambdaConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Lambda
                                         
                 };
 
-                resp = client.ListFunctions(req);
+                resp = await client.ListFunctionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Functions)

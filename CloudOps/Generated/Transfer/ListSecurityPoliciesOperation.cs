@@ -19,7 +19,7 @@ namespace CloudOps.Transfer
 
         public override string ServiceID => "Transfer";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonTransferConfig config = new AmazonTransferConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Transfer
                                         
                 };
 
-                resp = client.ListSecurityPolicies(req);
+                resp = await client.ListSecurityPoliciesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SecurityPolicyNames)

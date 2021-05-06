@@ -19,7 +19,7 @@ namespace CloudOps.AccessAnalyzer
 
         public override string ServiceID => "AccessAnalyzer";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAccessAnalyzerConfig config = new AmazonAccessAnalyzerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AccessAnalyzer
                                         
                 };
 
-                resp = client.ListAnalyzers(req);
+                resp = await client.ListAnalyzersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Analyzers)

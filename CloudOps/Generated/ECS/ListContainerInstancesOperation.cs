@@ -19,7 +19,7 @@ namespace CloudOps.ECS
 
         public override string ServiceID => "ECS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonECSConfig config = new AmazonECSConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ECS
                                         
                 };
 
-                resp = client.ListContainerInstances(req);
+                resp = await client.ListContainerInstancesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ContainerInstanceArns)

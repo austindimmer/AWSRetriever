@@ -19,7 +19,7 @@ namespace CloudOps.ApplicationInsights
 
         public override string ServiceID => "Application Insights";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonApplicationInsightsConfig config = new AmazonApplicationInsightsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ApplicationInsights
                                         
                 };
 
-                resp = client.ListConfigurationHistory(req);
+                resp = await client.ListConfigurationHistoryAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.EventList)

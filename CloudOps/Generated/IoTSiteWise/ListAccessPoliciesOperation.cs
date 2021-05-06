@@ -19,7 +19,7 @@ namespace CloudOps.IoTSiteWise
 
         public override string ServiceID => "IoTSiteWise";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTSiteWiseConfig config = new AmazonIoTSiteWiseConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IoTSiteWise
                                         
                 };
 
-                resp = client.ListAccessPolicies(req);
+                resp = await client.ListAccessPoliciesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.AccessPolicySummaries)

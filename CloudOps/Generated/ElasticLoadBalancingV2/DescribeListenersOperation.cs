@@ -19,7 +19,7 @@ namespace CloudOps.ElasticLoadBalancingV2
 
         public override string ServiceID => "Elastic Load Balancing v2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticLoadBalancingV2Config config = new AmazonElasticLoadBalancingV2Config();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.ElasticLoadBalancingV2
                                         
                 };
 
-                resp = client.DescribeListeners(req);
+                resp = await client.DescribeListenersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Listeners)

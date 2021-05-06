@@ -19,7 +19,7 @@ namespace CloudOps.ServiceQuotas
 
         public override string ServiceID => "Service Quotas";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonServiceQuotasConfig config = new AmazonServiceQuotasConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ServiceQuotas
                                         
                 };
 
-                resp = client.ListRequestedServiceQuotaChangeHistory(req);
+                resp = await client.ListRequestedServiceQuotaChangeHistoryAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.RequestedQuotas)

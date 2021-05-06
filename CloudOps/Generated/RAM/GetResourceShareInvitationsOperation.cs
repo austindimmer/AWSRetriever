@@ -19,7 +19,7 @@ namespace CloudOps.RAM
 
         public override string ServiceID => "RAM";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRAMConfig config = new AmazonRAMConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.RAM
                                         
                 };
 
-                resp = client.GetResourceShareInvitations(req);
+                resp = await client.GetResourceShareInvitationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ResourceShareInvitations)

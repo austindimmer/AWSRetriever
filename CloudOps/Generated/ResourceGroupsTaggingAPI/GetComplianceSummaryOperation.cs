@@ -19,7 +19,7 @@ namespace CloudOps.ResourceGroupsTaggingAPI
 
         public override string ServiceID => "Resource Groups Tagging API";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonResourceGroupsTaggingAPIConfig config = new AmazonResourceGroupsTaggingAPIConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ResourceGroupsTaggingAPI
                                         
                 };
 
-                resp = client.GetComplianceSummary(req);
+                resp = await client.GetComplianceSummaryAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SummaryList)

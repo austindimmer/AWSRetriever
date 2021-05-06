@@ -19,7 +19,7 @@ namespace CloudOps.FIS
 
         public override string ServiceID => "fis";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonFISConfig config = new AmazonFISConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.FIS
                                         
                 };
 
-                resp = client.ListExperimentTemplates(req);
+                resp = await client.ListExperimentTemplatesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ExperimentTemplates)

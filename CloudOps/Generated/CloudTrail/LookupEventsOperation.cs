@@ -19,7 +19,7 @@ namespace CloudOps.CloudTrail
 
         public override string ServiceID => "CloudTrail";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudTrailConfig config = new AmazonCloudTrailConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CloudTrail
                                         
                 };
 
-                resp = client.LookupEvents(req);
+                resp = await client.LookupEventsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Events)

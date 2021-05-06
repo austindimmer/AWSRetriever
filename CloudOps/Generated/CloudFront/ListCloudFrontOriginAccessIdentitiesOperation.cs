@@ -19,7 +19,7 @@ namespace CloudOps.CloudFront
 
         public override string ServiceID => "CloudFront";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudFrontConfig config = new AmazonCloudFrontConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.CloudFront
                     MaxItems = maxItems.ToString()
                 };
 
-                resp = client.ListCloudFrontOriginAccessIdentities(req);
+                resp = await client.ListCloudFrontOriginAccessIdentitiesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CloudFrontOriginAccessIdentityList.Items)

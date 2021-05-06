@@ -19,7 +19,7 @@ namespace CloudOps.RDS
 
         public override string ServiceID => "RDS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRDSConfig config = new AmazonRDSConfig();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.RDS
             {                    
                                     
             };
-            resp = client.ListTagsForResource(req);
+            resp = await client.ListTagsForResourceAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.TagList)

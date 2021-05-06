@@ -19,7 +19,7 @@ namespace CloudOps.IoTDeviceAdvisor
 
         public override string ServiceID => "IotDeviceAdvisor";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTDeviceAdvisorConfig config = new AmazonIoTDeviceAdvisorConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IoTDeviceAdvisor
                                         
                 };
 
-                resp = client.ListTestCases(req);
+                resp = await client.ListTestCasesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Categories)

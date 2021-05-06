@@ -19,7 +19,7 @@ namespace CloudOps.IoTSecureTunneling
 
         public override string ServiceID => "IoTSecureTunneling";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTSecureTunnelingConfig config = new AmazonIoTSecureTunnelingConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IoTSecureTunneling
                                         
                 };
 
-                resp = client.ListTunnels(req);
+                resp = await client.ListTunnelsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.TunnelSummaries)

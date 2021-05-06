@@ -19,7 +19,7 @@ namespace CloudOps.Rekognition
 
         public override string ServiceID => "Rekognition";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRekognitionConfig config = new AmazonRekognitionConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Rekognition
                                         
                 };
 
-                resp = client.ListStreamProcessors(req);
+                resp = await client.ListStreamProcessorsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.StreamProcessors)

@@ -19,7 +19,7 @@ namespace CloudOps.WorkMail
 
         public override string ServiceID => "WorkMail";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonWorkMailConfig config = new AmazonWorkMailConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.WorkMail
                                         
                 };
 
-                resp = client.ListOrganizations(req);
+                resp = await client.ListOrganizationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.OrganizationSummaries)

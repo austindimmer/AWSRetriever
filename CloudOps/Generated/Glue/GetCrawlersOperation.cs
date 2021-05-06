@@ -19,7 +19,7 @@ namespace CloudOps.Glue
 
         public override string ServiceID => "Glue";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGlueConfig config = new AmazonGlueConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Glue
                                         
                 };
 
-                resp = client.GetCrawlers(req);
+                resp = await client.GetCrawlersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Crawlers)

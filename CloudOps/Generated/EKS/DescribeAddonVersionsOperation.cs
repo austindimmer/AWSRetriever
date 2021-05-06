@@ -19,7 +19,7 @@ namespace CloudOps.EKS
 
         public override string ServiceID => "EKS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonEKSConfig config = new AmazonEKSConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.EKS
                                         
                 };
 
-                resp = client.DescribeAddonVersions(req);
+                resp = await client.DescribeAddonVersionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Addons)

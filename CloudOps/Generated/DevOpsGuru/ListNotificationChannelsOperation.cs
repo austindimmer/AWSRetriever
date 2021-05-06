@@ -19,7 +19,7 @@ namespace CloudOps.DevOpsGuru
 
         public override string ServiceID => "DevOps Guru";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDevOpsGuruConfig config = new AmazonDevOpsGuruConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.DevOpsGuru
                                         
                 };
 
-                resp = client.ListNotificationChannels(req);
+                resp = await client.ListNotificationChannelsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Channels)

@@ -19,7 +19,7 @@ namespace CloudOps.SecretsManager
 
         public override string ServiceID => "Secrets Manager";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSecretsManagerConfig config = new AmazonSecretsManagerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SecretsManager
                                         
                 };
 
-                resp = client.ListSecrets(req);
+                resp = await client.ListSecretsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SecretList)

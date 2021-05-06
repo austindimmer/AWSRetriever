@@ -19,7 +19,7 @@ namespace CloudOps.LookoutEquipment
 
         public override string ServiceID => "LookoutEquipment";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLookoutEquipmentConfig config = new AmazonLookoutEquipmentConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LookoutEquipment
                                         
                 };
 
-                resp = client.ListDataIngestionJobs(req);
+                resp = await client.ListDataIngestionJobsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DataIngestionJobSummaries)

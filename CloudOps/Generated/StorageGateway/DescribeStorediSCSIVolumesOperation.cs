@@ -19,7 +19,7 @@ namespace CloudOps.StorageGateway
 
         public override string ServiceID => "Storage Gateway";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonStorageGatewayConfig config = new AmazonStorageGatewayConfig();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.StorageGateway
             {                    
                                     
             };
-            resp = client.DescribeStorediSCSIVolumes(req);
+            resp = await client.DescribeStorediSCSIVolumesAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.StorediSCSIVolumes)

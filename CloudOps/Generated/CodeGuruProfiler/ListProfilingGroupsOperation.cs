@@ -19,7 +19,7 @@ namespace CloudOps.CodeGuruProfiler
 
         public override string ServiceID => "CodeGuruProfiler";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeGuruProfilerConfig config = new AmazonCodeGuruProfilerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeGuruProfiler
                                         
                 };
 
-                resp = client.ListProfilingGroups(req);
+                resp = await client.ListProfilingGroupsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ProfilingGroupNames)

@@ -19,7 +19,7 @@ namespace CloudOps.KeyManagementService
 
         public override string ServiceID => "KMS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonKeyManagementServiceConfig config = new AmazonKeyManagementServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.KeyManagementService
                                         
                 };
 
-                resp = client.ListAliases(req);
+                resp = await client.ListAliasesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Aliases)

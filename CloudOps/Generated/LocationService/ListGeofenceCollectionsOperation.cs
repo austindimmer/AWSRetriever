@@ -19,7 +19,7 @@ namespace CloudOps.LocationService
 
         public override string ServiceID => "Location";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLocationServiceConfig config = new AmazonLocationServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LocationService
                                         
                 };
 
-                resp = client.ListGeofenceCollections(req);
+                resp = await client.ListGeofenceCollectionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Entries)

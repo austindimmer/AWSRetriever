@@ -19,7 +19,7 @@ namespace CloudOps.{{.ServiceName}}
 
         public override string ServiceID => "{{.ServiceID}}";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             {{.ConfigClassName}} config = new {{.ConfigClassName}}();
             config.RegionEndpoint = region;
@@ -33,7 +33,7 @@ namespace CloudOps.{{.ServiceName}}
                 {{.PagingationLimitKey}} = maxItems
                 {{end}}                    
             };
-            resp = client.{{.OperationName}}(req);
+            resp = await client.{{.OperationName}}Async(req);
             CheckError(resp.HttpStatusCode, "{{.ResponseCode}}");                
             {{range .PaginationResultKey}}
             foreach (var obj in resp.{{.}})

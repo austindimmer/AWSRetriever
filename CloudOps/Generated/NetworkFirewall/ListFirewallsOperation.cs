@@ -19,7 +19,7 @@ namespace CloudOps.NetworkFirewall
 
         public override string ServiceID => "Network Firewall";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonNetworkFirewallConfig config = new AmazonNetworkFirewallConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.NetworkFirewall
                                         
                 };
 
-                resp = client.ListFirewalls(req);
+                resp = await client.ListFirewallsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Firewalls)

@@ -19,7 +19,7 @@ namespace CloudOps.MachineLearning
 
         public override string ServiceID => "Machine Learning";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMachineLearningConfig config = new AmazonMachineLearningConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MachineLearning
                                         
                 };
 
-                resp = client.DescribeBatchPredictions(req);
+                resp = await client.DescribeBatchPredictionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Results)

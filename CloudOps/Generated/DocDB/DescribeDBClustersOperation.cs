@@ -19,7 +19,7 @@ namespace CloudOps.DocDB
 
         public override string ServiceID => "DocDB";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDocDBConfig config = new AmazonDocDBConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.DocDB
                                         
                 };
 
-                resp = client.DescribeDBClusters(req);
+                resp = await client.DescribeDBClustersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DBClusters)

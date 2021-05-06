@@ -19,7 +19,7 @@ namespace CloudOps.XRay
 
         public override string ServiceID => "XRay";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonXRayConfig config = new AmazonXRayConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.XRay
                                         
                 };
 
-                resp = client.GetSamplingStatisticSummaries(req);
+                resp = await client.GetSamplingStatisticSummariesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SamplingStatisticSummaries)

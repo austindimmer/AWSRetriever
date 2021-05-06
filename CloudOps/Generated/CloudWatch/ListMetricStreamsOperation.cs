@@ -19,7 +19,7 @@ namespace CloudOps.CloudWatch
 
         public override string ServiceID => "CloudWatch";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudWatchConfig config = new AmazonCloudWatchConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CloudWatch
                                         
                 };
 
-                resp = client.ListMetricStreams(req);
+                resp = await client.ListMetricStreamsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Entries)

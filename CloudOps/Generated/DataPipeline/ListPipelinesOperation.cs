@@ -19,7 +19,7 @@ namespace CloudOps.DataPipeline
 
         public override string ServiceID => "Data Pipeline";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDataPipelineConfig config = new AmazonDataPipelineConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.DataPipeline
                                         
                 };
 
-                resp = client.ListPipelines(req);
+                resp = await client.ListPipelinesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.PipelineIdList)

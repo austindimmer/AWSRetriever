@@ -19,7 +19,7 @@ namespace CloudOps.Organizations
 
         public override string ServiceID => "Organizations";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonOrganizationsConfig config = new AmazonOrganizationsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Organizations
                                         
                 };
 
-                resp = client.ListHandshakesForOrganization(req);
+                resp = await client.ListHandshakesForOrganizationAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Handshakes)

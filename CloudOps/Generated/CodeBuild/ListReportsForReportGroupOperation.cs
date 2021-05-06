@@ -19,7 +19,7 @@ namespace CloudOps.CodeBuild
 
         public override string ServiceID => "CodeBuild";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeBuildConfig config = new AmazonCodeBuildConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeBuild
                                         
                 };
 
-                resp = client.ListReportsForReportGroup(req);
+                resp = await client.ListReportsForReportGroupAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Reports)

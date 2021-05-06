@@ -19,7 +19,7 @@ namespace CloudOps.ServerlessApplicationRepository
 
         public override string ServiceID => "ServerlessApplicationRepository";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonServerlessApplicationRepositoryConfig config = new AmazonServerlessApplicationRepositoryConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ServerlessApplicationRepository
                                         
                 };
 
-                resp = client.ListApplications(req);
+                resp = await client.ListApplicationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Applications)

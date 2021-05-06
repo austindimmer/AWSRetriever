@@ -19,7 +19,7 @@ namespace CloudOps.ElasticInference
 
         public override string ServiceID => "Elastic Inference";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticInferenceConfig config = new AmazonElasticInferenceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ElasticInference
                                         
                 };
 
-                resp = client.DescribeAccelerators(req);
+                resp = await client.DescribeAcceleratorsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.AcceleratorSet)

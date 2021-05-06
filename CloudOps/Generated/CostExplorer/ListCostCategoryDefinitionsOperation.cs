@@ -19,7 +19,7 @@ namespace CloudOps.CostExplorer
 
         public override string ServiceID => "Cost Explorer";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCostExplorerConfig config = new AmazonCostExplorerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CostExplorer
                                         
                 };
 
-                resp = client.ListCostCategoryDefinitions(req);
+                resp = await client.ListCostCategoryDefinitionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CostCategoryReferences)

@@ -19,7 +19,7 @@ namespace CloudOps.Schemas
 
         public override string ServiceID => "schemas";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSchemasConfig config = new AmazonSchemasConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Schemas
                                         
                 };
 
-                resp = client.ListDiscoverers(req);
+                resp = await client.ListDiscoverersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Discoverers)

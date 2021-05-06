@@ -19,7 +19,7 @@ namespace CloudOps.Connect
 
         public override string ServiceID => "Connect";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonConnectConfig config = new AmazonConnectConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Connect
                                         
                 };
 
-                resp = client.ListInstances(req);
+                resp = await client.ListInstancesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.InstanceSummaryList)

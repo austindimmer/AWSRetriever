@@ -19,7 +19,7 @@ namespace CloudOps.EMRContainers
 
         public override string ServiceID => "ElasticMapReduce containers";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonEMRContainersConfig config = new AmazonEMRContainersConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.EMRContainers
                                         
                 };
 
-                resp = client.ListVirtualClusters(req);
+                resp = await client.ListVirtualClustersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.VirtualClusters)

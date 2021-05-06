@@ -19,7 +19,7 @@ namespace CloudOps.CognitoIdentity
 
         public override string ServiceID => "Cognito Identity";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCognitoIdentityConfig config = new AmazonCognitoIdentityConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CognitoIdentity
                                         
                 };
 
-                resp = client.ListIdentityPools(req);
+                resp = await client.ListIdentityPoolsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.IdentityPools)

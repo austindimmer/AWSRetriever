@@ -19,7 +19,7 @@ namespace CloudOps.CodeCommit
 
         public override string ServiceID => "CodeCommit";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeCommitConfig config = new AmazonCodeCommitConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeCommit
                                         
                 };
 
-                resp = client.GetMergeConflicts(req);
+                resp = await client.GetMergeConflicts(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Mergeable)

@@ -19,7 +19,7 @@ namespace CloudOps.FMS
 
         public override string ServiceID => "FMS";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonFMSConfig config = new AmazonFMSConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.FMS
                                         
                 };
 
-                resp = client.ListPolicies(req);
+                resp = await client.ListPoliciesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.PolicyList)

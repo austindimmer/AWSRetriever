@@ -19,7 +19,7 @@ namespace CloudOps.ElasticMapReduce
 
         public override string ServiceID => "ElasticMapReduce";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElasticMapReduceConfig config = new AmazonElasticMapReduceConfig();
             config.RegionEndpoint = region;
@@ -35,7 +35,7 @@ namespace CloudOps.ElasticMapReduce
                                         
                 };
 
-                resp = client.ListClusters(req);
+                resp = await client.ListClustersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Clusters)

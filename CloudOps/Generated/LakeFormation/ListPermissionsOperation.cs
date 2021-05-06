@@ -19,7 +19,7 @@ namespace CloudOps.LakeFormation
 
         public override string ServiceID => "LakeFormation";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLakeFormationConfig config = new AmazonLakeFormationConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LakeFormation
                                         
                 };
 
-                resp = client.ListPermissions(req);
+                resp = await client.ListPermissionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.PrincipalResourcePermissions)

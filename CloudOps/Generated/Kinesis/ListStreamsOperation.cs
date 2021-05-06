@@ -19,7 +19,7 @@ namespace CloudOps.Kinesis
 
         public override string ServiceID => "Kinesis";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonKinesisConfig config = new AmazonKinesisConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Kinesis
                                         
                 };
 
-                resp = client.ListStreams(req);
+                resp = await client.ListStreamsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.StreamNames)

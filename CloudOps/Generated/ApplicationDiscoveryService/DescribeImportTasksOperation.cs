@@ -19,7 +19,7 @@ namespace CloudOps.ApplicationDiscoveryService
 
         public override string ServiceID => "Application Discovery Service";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonApplicationDiscoveryServiceConfig config = new AmazonApplicationDiscoveryServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ApplicationDiscoveryService
                                         
                 };
 
-                resp = client.DescribeImportTasks(req);
+                resp = await client.DescribeImportTasksAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Tasks)

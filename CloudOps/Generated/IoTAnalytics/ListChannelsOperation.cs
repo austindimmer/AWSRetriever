@@ -19,7 +19,7 @@ namespace CloudOps.IoTAnalytics
 
         public override string ServiceID => "IoTAnalytics";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTAnalyticsConfig config = new AmazonIoTAnalyticsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IoTAnalytics
                                         
                 };
 
-                resp = client.ListChannels(req);
+                resp = await client.ListChannelsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.ChannelSummaries)

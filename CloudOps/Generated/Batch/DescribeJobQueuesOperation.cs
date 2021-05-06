@@ -19,7 +19,7 @@ namespace CloudOps.Batch
 
         public override string ServiceID => "Batch";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonBatchConfig config = new AmazonBatchConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Batch
                                         
                 };
 
-                resp = client.DescribeJobQueues(req);
+                resp = await client.DescribeJobQueuesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.JobQueues)

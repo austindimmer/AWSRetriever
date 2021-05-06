@@ -19,7 +19,7 @@ namespace CloudOps.CodeStarconnections
 
         public override string ServiceID => "CodeStar connections";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCodeStarconnectionsConfig config = new AmazonCodeStarconnectionsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CodeStarconnections
                                         
                 };
 
-                resp = client.ListConnections(req);
+                resp = await client.ListConnectionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Connections)

@@ -19,7 +19,7 @@ namespace CloudOps.SSOAdmin
 
         public override string ServiceID => "SSO Admin";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSSOAdminConfig config = new AmazonSSOAdminConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.SSOAdmin
                                         
                 };
 
-                resp = client.ListInstances(req);
+                resp = await client.ListInstancesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Instances)

@@ -19,7 +19,7 @@ namespace CloudOps.OpsWorks
 
         public override string ServiceID => "OpsWorks";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonOpsWorksConfig config = new AmazonOpsWorksConfig();
             config.RegionEndpoint = region;
@@ -31,7 +31,7 @@ namespace CloudOps.OpsWorks
             {                    
                                     
             };
-            resp = client.DescribeElasticIps(req);
+            resp = await client.DescribeElasticIpsAsync(req);
             CheckError(resp.HttpStatusCode, "200");                
             
             foreach (var obj in resp.ElasticIps)

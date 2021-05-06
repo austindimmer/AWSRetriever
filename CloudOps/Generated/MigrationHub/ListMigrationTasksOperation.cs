@@ -19,7 +19,7 @@ namespace CloudOps.MigrationHub
 
         public override string ServiceID => "Migration Hub";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMigrationHubConfig config = new AmazonMigrationHubConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MigrationHub
                                         
                 };
 
-                resp = client.ListMigrationTasks(req);
+                resp = await client.ListMigrationTasksAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.MigrationTaskSummaryList)

@@ -19,7 +19,7 @@ namespace CloudOps.Chime
 
         public override string ServiceID => "Chime";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonChimeConfig config = new AmazonChimeConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Chime
                                         
                 };
 
-                resp = client.ListSipMediaApplications(req);
+                resp = await client.ListSipMediaApplicationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SipMediaApplications)

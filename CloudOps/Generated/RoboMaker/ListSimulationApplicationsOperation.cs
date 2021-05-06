@@ -19,7 +19,7 @@ namespace CloudOps.RoboMaker
 
         public override string ServiceID => "RoboMaker";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRoboMakerConfig config = new AmazonRoboMakerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.RoboMaker
                                         
                 };
 
-                resp = client.ListSimulationApplications(req);
+                resp = await client.ListSimulationApplicationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.SimulationApplicationSummaries)

@@ -19,7 +19,7 @@ namespace CloudOps.IoTWireless
 
         public override string ServiceID => "IoT Wireless";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIoTWirelessConfig config = new AmazonIoTWirelessConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IoTWireless
                                         
                 };
 
-                resp = client.ListWirelessDevices(req);
+                resp = await client.ListWirelessDevicesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.WirelessDeviceList)

@@ -19,7 +19,7 @@ namespace CloudOps.MediaPackage
 
         public override string ServiceID => "MediaPackage";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMediaPackageConfig config = new AmazonMediaPackageConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MediaPackage
                                         
                 };
 
-                resp = client.ListHarvestJobs(req);
+                resp = await client.ListHarvestJobsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.HarvestJobs)

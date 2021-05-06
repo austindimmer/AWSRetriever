@@ -19,7 +19,7 @@ namespace CloudOps.LexModelsV2
 
         public override string ServiceID => "Lex Models V2";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonLexModelsV2Config config = new AmazonLexModelsV2Config();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.LexModelsV2
                                         
                 };
 
-                resp = client.ListBots(req);
+                resp = await client.ListBotsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.BotSummaries)

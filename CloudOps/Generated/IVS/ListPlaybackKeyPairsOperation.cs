@@ -19,7 +19,7 @@ namespace CloudOps.IVS
 
         public override string ServiceID => "ivs";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIVSConfig config = new AmazonIVSConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IVS
                                         
                 };
 
-                resp = client.ListPlaybackKeyPairs(req);
+                resp = await client.ListPlaybackKeyPairsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.KeyPairs)

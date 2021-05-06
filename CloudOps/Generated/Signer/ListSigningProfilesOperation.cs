@@ -19,7 +19,7 @@ namespace CloudOps.Signer
 
         public override string ServiceID => "signer";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSignerConfig config = new AmazonSignerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Signer
                                         
                 };
 
-                resp = client.ListSigningProfiles(req);
+                resp = await client.ListSigningProfilesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Profiles)

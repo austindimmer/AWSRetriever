@@ -19,7 +19,7 @@ namespace CloudOps.DatabaseMigrationService
 
         public override string ServiceID => "Database Migration Service";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDatabaseMigrationServiceConfig config = new AmazonDatabaseMigrationServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.DatabaseMigrationService
                                         
                 };
 
-                resp = client.DescribeApplicableIndividualAssessments(req);
+                resp = await client.DescribeApplicableIndividualAssessmentsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.IndividualAssessmentNames)

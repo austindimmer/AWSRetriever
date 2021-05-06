@@ -19,7 +19,7 @@ namespace CloudOps.Synthetics
 
         public override string ServiceID => "synthetics";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonSyntheticsConfig config = new AmazonSyntheticsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Synthetics
                                         
                 };
 
-                resp = client.DescribeCanariesLastRun(req);
+                resp = await client.DescribeCanariesLastRunAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.CanariesLastRun)

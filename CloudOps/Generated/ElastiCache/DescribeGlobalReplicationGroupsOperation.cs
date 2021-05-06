@@ -19,7 +19,7 @@ namespace CloudOps.ElastiCache
 
         public override string ServiceID => "ElastiCache";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonElastiCacheConfig config = new AmazonElastiCacheConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.ElastiCache
                                         
                 };
 
-                resp = client.DescribeGlobalReplicationGroups(req);
+                resp = await client.DescribeGlobalReplicationGroupsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.GlobalReplicationGroups)

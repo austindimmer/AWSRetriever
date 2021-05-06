@@ -19,7 +19,7 @@ namespace CloudOps.MediaStore
 
         public override string ServiceID => "MediaStore";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonMediaStoreConfig config = new AmazonMediaStoreConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.MediaStore
                                         
                 };
 
-                resp = client.ListContainers(req);
+                resp = await client.ListContainersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Containers)

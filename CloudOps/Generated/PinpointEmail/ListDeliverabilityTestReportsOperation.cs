@@ -19,7 +19,7 @@ namespace CloudOps.PinpointEmail
 
         public override string ServiceID => "Pinpoint Email";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonPinpointEmailConfig config = new AmazonPinpointEmailConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.PinpointEmail
                                         
                 };
 
-                resp = client.ListDeliverabilityTestReports(req);
+                resp = await client.ListDeliverabilityTestReportsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DeliverabilityTestReports)

@@ -19,7 +19,7 @@ namespace CloudOps.Route53
 
         public override string ServiceID => "Route 53";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonRoute53Config config = new AmazonRoute53Config();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Route53
                                         
                 };
 
-                resp = client.ListHostedZones(req);
+                resp = await client.ListHostedZonesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.HostedZones)

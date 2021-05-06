@@ -19,7 +19,7 @@ namespace CloudOps.GlobalAccelerator
 
         public override string ServiceID => "Global Accelerator";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonGlobalAcceleratorConfig config = new AmazonGlobalAcceleratorConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.GlobalAccelerator
                                         
                 };
 
-                resp = client.ListCustomRoutingAccelerators(req);
+                resp = await client.ListCustomRoutingAcceleratorsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Accelerators)

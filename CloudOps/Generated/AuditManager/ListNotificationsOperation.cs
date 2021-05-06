@@ -19,7 +19,7 @@ namespace CloudOps.AuditManager
 
         public override string ServiceID => "AuditManager";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAuditManagerConfig config = new AmazonAuditManagerConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AuditManager
                                         
                 };
 
-                resp = client.ListNotifications(req);
+                resp = await client.ListNotificationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Notifications)

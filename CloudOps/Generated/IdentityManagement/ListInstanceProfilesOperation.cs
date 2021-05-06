@@ -19,7 +19,7 @@ namespace CloudOps.IdentityManagement
 
         public override string ServiceID => "IAM";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.IdentityManagement
                                         
                 };
 
-                resp = client.ListInstanceProfiles(req);
+                resp = await client.ListInstanceProfilesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.InstanceProfiles)

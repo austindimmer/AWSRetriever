@@ -19,7 +19,7 @@ namespace CloudOps.AppRegistry
 
         public override string ServiceID => "Service Catalog AppRegistry";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAppRegistryConfig config = new AmazonAppRegistryConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AppRegistry
                                         
                 };
 
-                resp = client.ListAttributeGroups(req);
+                resp = await client.ListAttributeGroupsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.AttributeGroups)

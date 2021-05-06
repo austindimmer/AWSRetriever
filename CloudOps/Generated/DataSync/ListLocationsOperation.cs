@@ -19,7 +19,7 @@ namespace CloudOps.DataSync
 
         public override string ServiceID => "DataSync";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonDataSyncConfig config = new AmazonDataSyncConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.DataSync
                                         
                 };
 
-                resp = client.ListLocations(req);
+                resp = await client.ListLocationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Locations)

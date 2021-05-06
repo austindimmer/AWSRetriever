@@ -19,7 +19,7 @@ namespace CloudOps.Appflow
 
         public override string ServiceID => "Appflow";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAppflowConfig config = new AmazonAppflowConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Appflow
                                         
                 };
 
-                resp = client.ListFlows(req);
+                resp = await client.ListFlowsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Flows)

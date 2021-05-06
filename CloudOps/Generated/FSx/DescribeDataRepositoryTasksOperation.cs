@@ -19,7 +19,7 @@ namespace CloudOps.FSx
 
         public override string ServiceID => "FSx";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonFSxConfig config = new AmazonFSxConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.FSx
                                         
                 };
 
-                resp = client.DescribeDataRepositoryTasks(req);
+                resp = await client.DescribeDataRepositoryTasksAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.DataRepositoryTasks)

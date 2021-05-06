@@ -19,7 +19,7 @@ namespace CloudOps.S3Outposts
 
         public override string ServiceID => "S3Outposts";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonS3OutpostsConfig config = new AmazonS3OutpostsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.S3Outposts
                                         
                 };
 
-                resp = client.ListEndpoints(req);
+                resp = await client.ListEndpointsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Endpoints)

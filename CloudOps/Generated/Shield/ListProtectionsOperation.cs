@@ -19,7 +19,7 @@ namespace CloudOps.Shield
 
         public override string ServiceID => "Shield";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonShieldConfig config = new AmazonShieldConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Shield
                                         
                 };
 
-                resp = client.ListProtections(req);
+                resp = await client.ListProtectionsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Protections)

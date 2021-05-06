@@ -19,7 +19,7 @@ namespace CloudOps.AppStream
 
         public override string ServiceID => "AppStream";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonAppStreamConfig config = new AmazonAppStreamConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.AppStream
                                         
                 };
 
-                resp = client.DescribeImages(req);
+                resp = await client.DescribeImagesAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Images)

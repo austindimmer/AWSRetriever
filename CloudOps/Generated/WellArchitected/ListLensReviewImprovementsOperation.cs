@@ -19,7 +19,7 @@ namespace CloudOps.WellArchitected
 
         public override string ServiceID => "WellArchitected";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonWellArchitectedConfig config = new AmazonWellArchitectedConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.WellArchitected
                                         
                 };
 
-                resp = client.ListLensReviewImprovements(req);
+                resp = await client.ListLensReviewImprovementsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.WorkloadId)

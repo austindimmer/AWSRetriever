@@ -19,7 +19,7 @@ namespace CloudOps.Backup
 
         public override string ServiceID => "Backup";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonBackupConfig config = new AmazonBackupConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.Backup
                                         
                 };
 
-                resp = client.ListRecoveryPointsByResource(req);
+                resp = await client.ListRecoveryPointsByResourceAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.RecoveryPoints)

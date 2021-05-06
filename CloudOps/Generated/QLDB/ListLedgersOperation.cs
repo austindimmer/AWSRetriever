@@ -19,7 +19,7 @@ namespace CloudOps.QLDB
 
         public override string ServiceID => "QLDB";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonQLDBConfig config = new AmazonQLDBConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.QLDB
                                         
                 };
 
-                resp = client.ListLedgers(req);
+                resp = await client.ListLedgersAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Ledgers)

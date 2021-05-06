@@ -19,7 +19,7 @@ namespace CloudOps.CloudWatchLogs
 
         public override string ServiceID => "CloudWatch Logs";
 
-        public override void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
+        public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
             AmazonCloudWatchLogsConfig config = new AmazonCloudWatchLogsConfig();
             config.RegionEndpoint = region;
@@ -37,7 +37,7 @@ namespace CloudOps.CloudWatchLogs
                                         
                 };
 
-                resp = client.DescribeDestinations(req);
+                resp = await client.DescribeDestinationsAsync(req);
                 CheckError(resp.HttpStatusCode, "200");                
                 
                 foreach (var obj in resp.Destinations)
