@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,950 +52,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK.AccessAnalyzer, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AccessAnalyzer.3.7.1.8\lib\net45\AWSSDK.AccessAnalyzer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ACMPCA, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ACMPCA.3.7.0.16\lib\net45\AWSSDK.ACMPCA.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AlexaForBusiness, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AlexaForBusiness.3.7.0.16\lib\net45\AWSSDK.AlexaForBusiness.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Amplify, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Amplify.3.7.0.16\lib\net45\AWSSDK.Amplify.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.APIGateway, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.APIGateway.3.7.0.16\lib\net45\AWSSDK.APIGateway.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ApiGatewayManagementApi, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ApiGatewayManagementApi.3.7.0.16\lib\net45\AWSSDK.ApiGatewayManagementApi.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AppConfig, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AppConfig.3.7.0.16\lib\net45\AWSSDK.AppConfig.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Appflow, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Appflow.3.7.1.9\lib\net45\AWSSDK.Appflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ApplicationAutoScaling, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ApplicationAutoScaling.3.7.0.16\lib\net45\AWSSDK.ApplicationAutoScaling.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ApplicationDiscoveryService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ApplicationDiscoveryService.3.7.0.16\lib\net45\AWSSDK.ApplicationDiscoveryService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ApplicationInsights, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ApplicationInsights.3.7.0.16\lib\net45\AWSSDK.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AppMesh, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AppMesh.3.7.0.16\lib\net45\AWSSDK.AppMesh.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AppRegistry, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AppRegistry.3.7.0.16\lib\net45\AWSSDK.AppRegistry.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AppStream, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AppStream.3.7.1.7\lib\net45\AWSSDK.AppStream.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AppSync, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AppSync.3.7.0.16\lib\net45\AWSSDK.AppSync.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Athena, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Athena.3.7.0.16\lib\net45\AWSSDK.Athena.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AuditManager, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AuditManager.3.7.2.1\lib\net45\AWSSDK.AuditManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AutoScaling, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AutoScaling.3.7.1.7\lib\net45\AWSSDK.AutoScaling.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AutoScalingPlans, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AutoScalingPlans.3.7.0.16\lib\net45\AWSSDK.AutoScalingPlans.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AWSHealth, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AWSHealth.3.7.0.16\lib\net45\AWSSDK.AWSHealth.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AWSMarketplaceCommerceAnalytics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AWSMarketplaceCommerceAnalytics.3.7.0.16\lib\net45\AWSSDK.AWSMarketplaceCommerceAnalytics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AWSMarketplaceMetering, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AWSMarketplaceMetering.3.7.0.16\lib\net45\AWSSDK.AWSMarketplaceMetering.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.AWSSupport, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.AWSSupport.3.7.0.16\lib\net45\AWSSDK.AWSSupport.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Backup, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Backup.3.7.0.16\lib\net45\AWSSDK.Backup.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Batch, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Batch.3.7.1.12\lib\net45\AWSSDK.Batch.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Budgets, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Budgets.3.7.0.16\lib\net45\AWSSDK.Budgets.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CertificateManager, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CertificateManager.3.7.0.16\lib\net45\AWSSDK.CertificateManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Chime, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Chime.3.7.1.1\lib\net45\AWSSDK.Chime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Cloud9, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Cloud9.3.7.1.13\lib\net45\AWSSDK.Cloud9.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudDirectory, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudDirectory.3.7.0.16\lib\net45\AWSSDK.CloudDirectory.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudFormation, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudFormation.3.7.2.1\lib\net45\AWSSDK.CloudFormation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudFront, Version=3.3.4.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudFront.3.7.1\lib\net45\AWSSDK.CloudFront.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudHSM, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudHSM.3.7.1.12\lib\net45\AWSSDK.CloudHSM.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudHSMV2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudHSMV2.3.7.0.16\lib\net45\AWSSDK.CloudHSMV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudSearch, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudSearch.3.7.0.16\lib\net45\AWSSDK.CloudSearch.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudSearchDomain, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudSearchDomain.3.7.0.17\lib\net45\AWSSDK.CloudSearchDomain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudTrail, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudTrail.3.7.0.16\lib\net45\AWSSDK.CloudTrail.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudWatch, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudWatch.3.7.1.13\lib\net45\AWSSDK.CloudWatch.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudWatchEvents, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudWatchEvents.3.7.1.15\lib\net45\AWSSDK.CloudWatchEvents.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CloudWatchLogs, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CloudWatchLogs.3.7.0.16\lib\net45\AWSSDK.CloudWatchLogs.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeArtifact, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeArtifact.3.7.0.16\lib\net45\AWSSDK.CodeArtifact.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeBuild, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeBuild.3.7.1.6\lib\net45\AWSSDK.CodeBuild.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeCommit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeCommit.3.7.0.16\lib\net45\AWSSDK.CodeCommit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeDeploy, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeDeploy.3.7.0.16\lib\net45\AWSSDK.CodeDeploy.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeGuruProfiler, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeGuruProfiler.3.7.0.16\lib\net45\AWSSDK.CodeGuruProfiler.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeGuruReviewer, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeGuruReviewer.3.7.1.2\lib\net45\AWSSDK.CodeGuruReviewer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodePipeline, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodePipeline.3.7.0.16\lib\net45\AWSSDK.CodePipeline.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeStar, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeStar.3.7.0.16\lib\net45\AWSSDK.CodeStar.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CodeStarconnections">
-      <HintPath>..\packages\AWSSDK.CodeStarconnections.3.7.1.5\lib\net45\AWSSDK.CodeStarconnections.dll</HintPath>
-    </Reference>
-    <Reference Include="AWSSDK.CodeStarNotifications, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CodeStarNotifications.3.7.0.16\lib\net45\AWSSDK.CodeStarNotifications.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CognitoIdentity, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CognitoIdentity.3.7.0.16\lib\net45\AWSSDK.CognitoIdentity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CognitoIdentityProvider, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CognitoIdentityProvider.3.7.0.17\lib\net45\AWSSDK.CognitoIdentityProvider.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CognitoSync, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CognitoSync.3.7.1.12\lib\net45\AWSSDK.CognitoSync.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Comprehend, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Comprehend.3.7.1.12\lib\net45\AWSSDK.Comprehend.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ComprehendMedical, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ComprehendMedical.3.7.1.5\lib\net45\AWSSDK.ComprehendMedical.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ConfigService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ConfigService.3.7.2.5\lib\net45\AWSSDK.ConfigService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Connect, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Connect.3.7.1.1\lib\net45\AWSSDK.Connect.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Core.3.7.0.17\lib\net45\AWSSDK.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CostAndUsageReport, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CostAndUsageReport.3.7.0.16\lib\net45\AWSSDK.CostAndUsageReport.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.CostExplorer, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.CostExplorer.3.7.1.3\lib\net45\AWSSDK.CostExplorer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DatabaseMigrationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DatabaseMigrationService.3.7.1.4\lib\net45\AWSSDK.DatabaseMigrationService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DataExchange, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DataExchange.3.7.0.16\lib\net45\AWSSDK.DataExchange.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DataPipeline, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DataPipeline.3.7.1.12\lib\net45\AWSSDK.DataPipeline.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DataSync, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DataSync.3.7.0.16\lib\net45\AWSSDK.DataSync.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DAX, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DAX.3.7.0.16\lib\net45\AWSSDK.DAX.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Detective, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Detective.3.7.2.3\lib\net45\AWSSDK.Detective.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DeviceFarm, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DeviceFarm.3.7.0.16\lib\net45\AWSSDK.DeviceFarm.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DevOpsGuru, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DevOpsGuru.3.7.0.16\lib\net45\AWSSDK.DevOpsGuru.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DirectConnect, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DirectConnect.3.7.1.12\lib\net45\AWSSDK.DirectConnect.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DirectoryService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DirectoryService.3.7.0.16\lib\net45\AWSSDK.DirectoryService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DLM, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DLM.3.7.0.16\lib\net45\AWSSDK.DLM.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DocDB, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.DocDB.3.7.1.14\lib\net45\AWSSDK.DocDB.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.DynamoDBv2">
-      <HintPath>..\packages\AWSSDK.DynamoDBv2.3.7.0.17\lib\net45\AWSSDK.DynamoDBv2.dll</HintPath>
-    </Reference>
-    <Reference Include="AWSSDK.EC2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.EC2.3.7.5.2\lib\net45\AWSSDK.EC2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ECR, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ECR.3.7.0.16\lib\net45\AWSSDK.ECR.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ECRPublic, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ECRPublic.3.7.0.16\lib\net45\AWSSDK.ECRPublic.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ECS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ECS.3.7.1.1\lib\net45\AWSSDK.ECS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.EKS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.EKS.3.7.1.2\lib\net45\AWSSDK.EKS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElastiCache, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElastiCache.3.7.2.3\lib\net45\AWSSDK.ElastiCache.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticBeanstalk, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticBeanstalk.3.7.0.16\lib\net45\AWSSDK.ElasticBeanstalk.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticFileSystem, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticFileSystem.3.7.0.16\lib\net45\AWSSDK.ElasticFileSystem.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticInference, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticInference.3.7.0.16\lib\net45\AWSSDK.ElasticInference.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticLoadBalancing, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticLoadBalancing.3.7.0.16\lib\net45\AWSSDK.ElasticLoadBalancing.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticLoadBalancingV2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticLoadBalancingV2.3.7.0.16\lib\net45\AWSSDK.ElasticLoadBalancingV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticMapReduce, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticMapReduce.3.7.0.16\lib\net45\AWSSDK.ElasticMapReduce.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Elasticsearch, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Elasticsearch.3.7.0.16\lib\net45\AWSSDK.Elasticsearch.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ElasticTranscoder, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ElasticTranscoder.3.7.0.16\lib\net45\AWSSDK.ElasticTranscoder.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.EMRContainers, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.EMRContainers.3.7.0.16\lib\net45\AWSSDK.EMRContainers.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.FIS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.FIS.3.7.0.16\lib\net45\AWSSDK.FIS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.FMS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.FMS.3.7.1.10\lib\net45\AWSSDK.FMS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ForecastService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ForecastService.3.7.2\lib\net45\AWSSDK.ForecastService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.FraudDetector, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.FraudDetector.3.7.1.13\lib\net45\AWSSDK.FraudDetector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.FSx, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.FSx.3.7.1.6\lib\net45\AWSSDK.FSx.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.GameLift, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.GameLift.3.7.0.16\lib\net45\AWSSDK.GameLift.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Glacier, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Glacier.3.7.0.16\lib\net45\AWSSDK.Glacier.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.GlobalAccelerator, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.GlobalAccelerator.3.7.0.16\lib\net45\AWSSDK.GlobalAccelerator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Glue, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Glue.3.7.2.2\lib\net45\AWSSDK.Glue.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.GlueDataBrew, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.GlueDataBrew.3.7.1.13\lib\net45\AWSSDK.GlueDataBrew.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Greengrass, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Greengrass.3.7.0.16\lib\net45\AWSSDK.Greengrass.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.GreengrassV2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.GreengrassV2.3.7.0.16\lib\net45\AWSSDK.GreengrassV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.GroundStation, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.GroundStation.3.7.1.3\lib\net45\AWSSDK.GroundStation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.GuardDuty, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.GuardDuty.3.7.0.16\lib\net45\AWSSDK.GuardDuty.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.HealthLake, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.HealthLake.3.7.0.16\lib\net45\AWSSDK.HealthLake.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IdentityManagement, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IdentityManagement.3.7.1.14\lib\net45\AWSSDK.IdentityManagement.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Imagebuilder, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Imagebuilder.3.7.1.9\lib\net45\AWSSDK.Imagebuilder.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ImportExport, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ImportExport.3.7.0.16\lib\net45\AWSSDK.ImportExport.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Inspector, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Inspector.3.7.0.16\lib\net45\AWSSDK.Inspector.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoT, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoT.3.7.1.12\lib\net45\AWSSDK.IoT.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoT1ClickDevicesService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoT1ClickDevicesService.3.7.0.16\lib\net45\AWSSDK.IoT1ClickDevicesService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoT1ClickProjects, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoT1ClickProjects.3.7.0.16\lib\net45\AWSSDK.IoT1ClickProjects.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTAnalytics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTAnalytics.3.7.0.16\lib\net45\AWSSDK.IoTAnalytics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IotData, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IotData.3.7.0.16\lib\net45\AWSSDK.IotData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTDeviceAdvisor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTDeviceAdvisor.3.7.0.16\lib\net45\AWSSDK.IoTDeviceAdvisor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTFleetHub, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTFleetHub.3.7.0.16\lib\net45\AWSSDK.IoTFleetHub.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTJobsDataPlane, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTJobsDataPlane.3.7.0.16\lib\net45\AWSSDK.IoTJobsDataPlane.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTSecureTunneling, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTSecureTunneling.3.7.0.16\lib\net45\AWSSDK.IoTSecureTunneling.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTSiteWise, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTSiteWise.3.7.1.1\lib\net45\AWSSDK.IoTSiteWise.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTThingsGraph, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTThingsGraph.3.7.0.16\lib\net45\AWSSDK.IoTThingsGraph.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IoTWireless, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IoTWireless.3.7.3.2\lib\net45\AWSSDK.IoTWireless.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.IVS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.IVS.3.7.1.8\lib\net45\AWSSDK.IVS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Kafka, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Kafka.3.7.0.16\lib\net45\AWSSDK.Kafka.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Kendra, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Kendra.3.7.2.3\lib\net45\AWSSDK.Kendra.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KeyManagementService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KeyManagementService.3.7.0.16\lib\net45\AWSSDK.KeyManagementService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Kinesis, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Kinesis.3.7.0.16\lib\net45\AWSSDK.Kinesis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisAnalytics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisAnalytics.3.7.0.16\lib\net45\AWSSDK.KinesisAnalytics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisAnalyticsV2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisAnalyticsV2.3.7.1.2\lib\net45\AWSSDK.KinesisAnalyticsV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisFirehose, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisFirehose.3.7.0.16\lib\net45\AWSSDK.KinesisFirehose.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisVideo, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisVideo.3.7.0.16\lib\net45\AWSSDK.KinesisVideo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisVideoArchivedMedia, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisVideoArchivedMedia.3.7.0.16\lib\net45\AWSSDK.KinesisVideoArchivedMedia.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.KinesisVideoMedia, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.KinesisVideoMedia.3.7.0.16\lib\net45\AWSSDK.KinesisVideoMedia.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LakeFormation, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LakeFormation.3.7.0.16\lib\net45\AWSSDK.LakeFormation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Lambda, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Lambda.3.7.0.16\lib\net45\AWSSDK.Lambda.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Lex, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Lex.3.7.1.10\lib\net45\AWSSDK.Lex.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LexModelBuildingService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LexModelBuildingService.3.7.1.10\lib\net45\AWSSDK.LexModelBuildingService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LexModelsV2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LexModelsV2.3.7.0.16\lib\net45\AWSSDK.LexModelsV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LicenseManager, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LicenseManager.3.7.0.16\lib\net45\AWSSDK.LicenseManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Lightsail, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Lightsail.3.7.1.10\lib\net45\AWSSDK.Lightsail.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LocationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LocationService.3.7.1.14\lib\net45\AWSSDK.LocationService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LookoutEquipment, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LookoutEquipment.3.7.0.7\lib\net45\AWSSDK.LookoutEquipment.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LookoutforVision, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LookoutforVision.3.7.0.16\lib\net45\AWSSDK.LookoutforVision.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.LookoutMetrics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.LookoutMetrics.3.7.1.16\lib\net45\AWSSDK.LookoutMetrics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MachineLearning, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MachineLearning.3.7.1.12\lib\net45\AWSSDK.MachineLearning.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Macie, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Macie.3.7.0.16\lib\net45\AWSSDK.Macie.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ManagedBlockchain, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ManagedBlockchain.3.7.0.16\lib\net45\AWSSDK.ManagedBlockchain.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MarketplaceEntitlementService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MarketplaceEntitlementService.3.7.0.16\lib\net45\AWSSDK.MarketplaceEntitlementService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaConnect, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaConnect.3.7.1.5\lib\net45\AWSSDK.MediaConnect.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaConvert, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaConvert.3.7.1.11\lib\net45\AWSSDK.MediaConvert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaLive, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaLive.3.7.2.9\lib\net45\AWSSDK.MediaLive.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaPackage, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaPackage.3.7.2.2\lib\net45\AWSSDK.MediaPackage.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaPackageVod, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaPackageVod.3.7.1.1\lib\net45\AWSSDK.MediaPackageVod.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaStore, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaStore.3.7.0.16\lib\net45\AWSSDK.MediaStore.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaStoreData, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaStoreData.3.7.0.16\lib\net45\AWSSDK.MediaStoreData.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MediaTailor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MediaTailor.3.7.0.16\lib\net45\AWSSDK.MediaTailor.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MigrationHub, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MigrationHub.3.7.0.16\lib\net45\AWSSDK.MigrationHub.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MigrationHubConfig, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MigrationHubConfig.3.7.0.16\lib\net45\AWSSDK.MigrationHubConfig.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Mobile, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Mobile.3.7.0.16\lib\net45\AWSSDK.Mobile.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MobileAnalytics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MobileAnalytics.3.7.0.16\lib\net45\AWSSDK.MobileAnalytics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MQ, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MQ.3.7.0.16\lib\net45\AWSSDK.MQ.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MTurk, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MTurk.3.7.0.16\lib\net45\AWSSDK.MTurk.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.MWAA, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.MWAA.3.7.0.16\lib\net45\AWSSDK.MWAA.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Neptune, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Neptune.3.7.0.16\lib\net45\AWSSDK.Neptune.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.NetworkFirewall, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.NetworkFirewall.3.7.0.16\lib\net45\AWSSDK.NetworkFirewall.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.NetworkManager, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.NetworkManager.3.7.0.16\lib\net45\AWSSDK.NetworkManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.NimbleStudio, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.NimbleStudio.3.7.0.1\lib\net45\AWSSDK.NimbleStudio.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.OpsWorks, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.OpsWorks.3.7.0.16\lib\net45\AWSSDK.OpsWorks.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.OpsWorksCM, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.OpsWorksCM.3.7.0.16\lib\net45\AWSSDK.OpsWorksCM.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Organizations, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Organizations.3.7.0.17\lib\net45\AWSSDK.Organizations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Outposts, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Outposts.3.7.0.16\lib\net45\AWSSDK.Outposts.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Personalize, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Personalize.3.7.1.3\lib\net45\AWSSDK.Personalize.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.PI, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.PI.3.7.0.16\lib\net45\AWSSDK.PI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Pinpoint, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Pinpoint.3.7.1.13\lib\net45\AWSSDK.Pinpoint.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.PinpointEmail, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.PinpointEmail.3.7.0.16\lib\net45\AWSSDK.PinpointEmail.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.PinpointSMSVoice, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.PinpointSMSVoice.3.7.0.16\lib\net45\AWSSDK.PinpointSMSVoice.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Polly, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Polly.3.7.0.16\lib\net45\AWSSDK.Polly.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Pricing, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Pricing.3.7.1.12\lib\net45\AWSSDK.Pricing.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.PrometheusService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.PrometheusService.3.7.0.16\lib\net45\AWSSDK.PrometheusService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.QLDB, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.QLDB.3.7.0.16\lib\net45\AWSSDK.QLDB.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.QuickSight, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.QuickSight.3.7.0.16\lib\net45\AWSSDK.QuickSight.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.RAM, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.RAM.3.7.0.16\lib\net45\AWSSDK.RAM.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.RDS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.RDS.3.7.0.16\lib\net45\AWSSDK.RDS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.RDSDataService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.RDSDataService.3.7.0.17\lib\net45\AWSSDK.RDSDataService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Redshift, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Redshift.3.7.4.3\lib\net45\AWSSDK.Redshift.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.RedshiftDataAPIService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.RedshiftDataAPIService.3.7.0.16\lib\net45\AWSSDK.RedshiftDataAPIService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Rekognition, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Rekognition.3.7.0.16\lib\net45\AWSSDK.Rekognition.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ResourceGroups, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ResourceGroups.3.7.0.16\lib\net45\AWSSDK.ResourceGroups.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ResourceGroupsTaggingAPI, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ResourceGroupsTaggingAPI.3.7.0.16\lib\net45\AWSSDK.ResourceGroupsTaggingAPI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.RoboMaker, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.RoboMaker.3.7.2\lib\net45\AWSSDK.RoboMaker.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Route53, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Route53.3.7.0.17\lib\net45\AWSSDK.Route53.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Route53Domains, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Route53Domains.3.7.0.16\lib\net45\AWSSDK.Route53Domains.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Route53Resolver, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Route53Resolver.3.7.1.10\lib\net45\AWSSDK.Route53Resolver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.S3.3.7.0.18\lib\net45\AWSSDK.S3.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.S3Control, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.S3Control.3.7.0.16\lib\net45\AWSSDK.S3Control.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.S3Outposts, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.S3Outposts.3.7.0.16\lib\net45\AWSSDK.S3Outposts.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SageMaker, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SageMaker.3.7.1.13\lib\net45\AWSSDK.SageMaker.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SageMakerRuntime, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SageMakerRuntime.3.7.0.16\lib\net45\AWSSDK.SageMakerRuntime.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Schemas, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Schemas.3.7.0.16\lib\net45\AWSSDK.Schemas.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SecretsManager, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SecretsManager.3.7.0.16\lib\net45\AWSSDK.SecretsManager.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SecurityHub, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SecurityHub.3.7.1.3\lib\net45\AWSSDK.SecurityHub.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SecurityToken, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SecurityToken.3.7.1.5\lib\net45\AWSSDK.SecurityToken.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ServerlessApplicationRepository, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ServerlessApplicationRepository.3.7.0.16\lib\net45\AWSSDK.ServerlessApplicationRepository.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ServerMigrationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ServerMigrationService.3.7.0.16\lib\net45\AWSSDK.ServerMigrationService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ServiceCatalog, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ServiceCatalog.3.7.0.16\lib\net45\AWSSDK.ServiceCatalog.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ServiceDiscovery, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ServiceDiscovery.3.7.0.16\lib\net45\AWSSDK.ServiceDiscovery.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.ServiceQuotas, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.ServiceQuotas.3.7.0.16\lib\net45\AWSSDK.ServiceQuotas.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Shield, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Shield.3.7.1.7\lib\net45\AWSSDK.Shield.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Signer, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Signer.3.7.0.16\lib\net45\AWSSDK.Signer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SimpleDB, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SimpleDB.3.7.0.16\lib\net45\AWSSDK.SimpleDB.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SimpleEmail, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SimpleEmail.3.7.0.16\lib\net45\AWSSDK.SimpleEmail.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SimpleEmailV2, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SimpleEmailV2.3.7.0.16\lib\net45\AWSSDK.SimpleEmailV2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SimpleNotificationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SimpleNotificationService.3.7.1.2\lib\net45\AWSSDK.SimpleNotificationService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SimpleSystemsManagement, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SimpleSystemsManagement.3.7.1.9\lib\net45\AWSSDK.SimpleSystemsManagement.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SimpleWorkflow, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SimpleWorkflow.3.7.0.16\lib\net45\AWSSDK.SimpleWorkflow.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Snowball, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Snowball.3.7.0.16\lib\net45\AWSSDK.Snowball.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SQS, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SQS.3.7.0.17\lib\net45\AWSSDK.SQS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.SSOAdmin, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.SSOAdmin.3.7.0.16\lib\net45\AWSSDK.SSOAdmin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.StepFunctions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.StepFunctions.3.7.0.16\lib\net45\AWSSDK.StepFunctions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.StorageGateway, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.StorageGateway.3.7.1.8\lib\net45\AWSSDK.StorageGateway.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Synthetics, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Synthetics.3.7.0.16\lib\net45\AWSSDK.Synthetics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.TimestreamWrite, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.TimestreamWrite.3.7.0.16\lib\net45\AWSSDK.TimestreamWrite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.TranscribeService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.TranscribeService.3.7.2.12\lib\net45\AWSSDK.TranscribeService.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Transfer, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Transfer.3.7.0.16\lib\net45\AWSSDK.Transfer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.Translate, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.Translate.3.7.0.16\lib\net45\AWSSDK.Translate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WAF, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WAF.3.7.0.16\lib\net45\AWSSDK.WAF.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WAFRegional, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WAFRegional.3.7.0.16\lib\net45\AWSSDK.WAFRegional.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WellArchitected, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WellArchitected.3.7.0.16\lib\net45\AWSSDK.WellArchitected.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WorkDocs, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WorkDocs.3.7.0.16\lib\net45\AWSSDK.WorkDocs.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WorkLink, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WorkLink.3.7.0.16\lib\net45\AWSSDK.WorkLink.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WorkMail, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WorkMail.3.7.1.12\lib\net45\AWSSDK.WorkMail.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.WorkSpaces, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.WorkSpaces.3.7.0.16\lib\net45\AWSSDK.WorkSpaces.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="AWSSDK.XRay, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
-      <HintPath>..\packages\AWSSDK.XRay.3.7.0.16\lib\net45\AWSSDK.XRay.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\lib\net45\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.113.0\lib\net45\System.Data.SQLite.EF6.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.113.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.113.0\lib\net45\System.Data.SQLite.Linq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -2059,7 +1116,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="app.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="itemgroup.txt" />
@@ -2298,15 +1354,691 @@
   <ItemGroup>
     <Folder Include="Generated\SWF\" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.AccessAnalyzer">
+      <Version>3.7.1.8</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ACMPCA">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AlexaForBusiness">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Amplify">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.APIGateway">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ApiGatewayManagementApi">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AppConfig">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Appflow">
+      <Version>3.7.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ApplicationAutoScaling">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ApplicationDiscoveryService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ApplicationInsights">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AppMesh">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AppRegistry">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AppStream">
+      <Version>3.7.1.7</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AppSync">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Athena">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AuditManager">
+      <Version>3.7.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AutoScaling">
+      <Version>3.7.1.7</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AutoScalingPlans">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AWSHealth">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AWSMarketplaceCommerceAnalytics">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AWSMarketplaceMetering">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.AWSSupport">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Backup">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Batch">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Budgets">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CertificateManager">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Chime">
+      <Version>3.7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Cloud9">
+      <Version>3.7.1.13</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudDirectory">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudFormation">
+      <Version>3.7.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudFront">
+      <Version>3.7.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudHSM">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudHSMV2">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudSearch">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudSearchDomain">
+      <Version>3.7.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudTrail">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudWatch">
+      <Version>3.7.1.13</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudWatchEvents">
+      <Version>3.7.1.15</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CloudWatchLogs">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeArtifact">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeBuild">
+      <Version>3.7.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeCommit">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeDeploy">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeGuruProfiler">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeGuruReviewer">
+      <Version>3.7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodePipeline">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeStar">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeStarconnections">
+      <Version>3.7.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CodeStarNotifications">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CognitoIdentityProvider">
+      <Version>3.7.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CognitoSync">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Comprehend">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ComprehendMedical">
+      <Version>3.7.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ConfigService">
+      <Version>3.7.2.5</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Connect">
+      <Version>3.7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CostAndUsageReport">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.CostExplorer">
+      <Version>3.7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DatabaseMigrationService">
+      <Version>3.7.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DataExchange">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DataPipeline">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DataSync">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DAX">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Detective">
+      <Version>3.7.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DeviceFarm">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DevOpsGuru">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DirectConnect">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DirectoryService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DLM">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DocDB">
+      <Version>3.7.1.14</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.DynamoDBv2">
+      <Version>3.7.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.EC2">
+      <Version>3.7.5.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ECR">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ECRPublic">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ECS">
+      <Version>3.7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.EKS">
+      <Version>3.7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElastiCache">
+      <Version>3.7.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticBeanstalk">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticFileSystem">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticInference">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticLoadBalancing">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticLoadBalancingV2">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticMapReduce">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Elasticsearch">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ElasticTranscoder">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.EMRContainers">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.FIS">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.FMS">
+      <Version>3.7.1.10</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ForecastService">
+      <Version>3.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.FraudDetector">
+      <Version>3.7.1.13</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.FSx">
+      <Version>3.7.1.6</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.GameLift">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Glacier">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.GlobalAccelerator">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Glue">
+      <Version>3.7.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.GlueDataBrew">
+      <Version>3.7.1.13</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Greengrass">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.GreengrassV2">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.GroundStation">
+      <Version>3.7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.GuardDuty">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.HealthLake">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IdentityManagement">
+      <Version>3.7.1.14</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Imagebuilder">
+      <Version>3.7.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ImportExport">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Inspector">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoT">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoT1ClickDevicesService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoT1ClickProjects">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTAnalytics">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IotData">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTDeviceAdvisor">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTFleetHub">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTJobsDataPlane">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTSecureTunneling">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTSiteWise">
+      <Version>3.7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTThingsGraph">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IoTWireless">
+      <Version>3.7.3.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.IVS">
+      <Version>3.7.1.8</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Kafka">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Kendra">
+      <Version>3.7.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KeyManagementService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Kinesis">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KinesisAnalytics">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KinesisAnalyticsV2">
+      <Version>3.7.1.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KinesisFirehose">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KinesisVideo">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KinesisVideoArchivedMedia">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.KinesisVideoMedia">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LakeFormation">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Lambda">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Lex">
+      <Version>3.7.1.10</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LexModelBuildingService">
+      <Version>3.7.1.10</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LexModelsV2">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LicenseManager">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Lightsail">
+      <Version>3.7.1.10</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LocationService">
+      <Version>3.7.1.14</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LookoutEquipment">
+      <Version>3.7.0.7</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LookoutforVision">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.LookoutMetrics">
+      <Version>3.7.1.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MachineLearning">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Macie">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ManagedBlockchain">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MarketplaceEntitlementService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaConnect">
+      <Version>3.7.1.5</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaConvert">
+      <Version>3.7.1.11</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaLive">
+      <Version>3.7.2.9</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaPackage">
+      <Version>3.7.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaPackageVod">
+      <Version>3.7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaStore">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaStoreData">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MediaTailor">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MigrationHub">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MigrationHubConfig">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Mobile">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MobileAnalytics">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MQ">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MTurk">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.MWAA">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Neptune">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.NetworkFirewall">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.NetworkManager">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.NimbleStudio">
+      <Version>3.7.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.OpsWorks">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.OpsWorksCM">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Organizations">
+      <Version>3.7.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Outposts">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Personalize">
+      <Version>3.7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.PI">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Pinpoint">
+      <Version>3.7.1.13</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.PinpointEmail">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.PinpointSMSVoice">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Polly">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Pricing">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.PrometheusService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.QLDB">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.QuickSight">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.RAM">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.RDS">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.RDSDataService">
+      <Version>3.7.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Redshift">
+      <Version>3.7.4.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.RedshiftDataAPIService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Rekognition">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ResourceGroups">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ResourceGroupsTaggingAPI">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.RoboMaker">
+      <Version>3.7.2</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Route53">
+      <Version>3.7.0.17</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Route53Domains">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Route53Resolver">
+      <Version>3.7.1.10</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.S3">
+      <Version>3.7.0.18</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.S3Control">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.S3Outposts">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SageMaker">
+      <Version>3.7.1.13</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SageMakerRuntime">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Schemas">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SecretsManager">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SecurityHub">
+      <Version>3.7.1.3</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ServerlessApplicationRepository">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ServerMigrationService">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ServiceCatalog">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ServiceDiscovery">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.ServiceQuotas">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Shield">
+      <Version>3.7.1.7</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Signer">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SimpleDB">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SimpleEmail">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SimpleEmailV2">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SimpleSystemsManagement">
+      <Version>3.7.1.9</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SimpleWorkflow">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Snowball">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.SSOAdmin">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.StepFunctions">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.StorageGateway">
+      <Version>3.7.1.8</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Synthetics">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.TimestreamWrite">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.TranscribeService">
+      <Version>3.7.2.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Transfer">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.Translate">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WAF">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WAFRegional">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WellArchitected">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WorkDocs">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WorkLink">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WorkMail">
+      <Version>3.7.1.12</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.WorkSpaces">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="AWSSDK.XRay">
+      <Version>3.7.0.16</Version>
+    </PackageReference>
+    <PackageReference Include="EntityFramework">
+      <Version>6.4.4</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite">
+      <Version>1.0.113.7</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net45\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net45\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
-  </Target>
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
-  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net45\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.113.3\build\net45\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
 </Project>
