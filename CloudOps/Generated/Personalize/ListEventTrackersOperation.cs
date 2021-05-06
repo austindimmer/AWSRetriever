@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListEventTrackersResponse resp = new ListEventTrackersResponse();
             do
             {
-                ListEventTrackersRequest req = new ListEventTrackersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEventTrackersRequest req = new ListEventTrackersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEventTrackersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EventTrackers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEventTrackersAsync(req);
+                    
+                    foreach (var obj in resp.EventTrackers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.RoboMaker
             ListSimulationJobBatchesResponse resp = new ListSimulationJobBatchesResponse();
             do
             {
-                ListSimulationJobBatchesRequest req = new ListSimulationJobBatchesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSimulationJobBatchesRequest req = new ListSimulationJobBatchesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSimulationJobBatchesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SimulationJobBatchSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSimulationJobBatchesAsync(req);
+                    
+                    foreach (var obj in resp.SimulationJobBatchSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

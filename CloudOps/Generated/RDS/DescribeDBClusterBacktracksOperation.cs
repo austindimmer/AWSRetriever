@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBClusterBacktracksResponse resp = new DescribeDBClusterBacktracksResponse();
             do
             {
-                DescribeDBClusterBacktracksRequest req = new DescribeDBClusterBacktracksRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBClusterBacktracksRequest req = new DescribeDBClusterBacktracksRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBClusterBacktracksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBClusterBacktracks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBClusterBacktracksAsync(req);
+                    
+                    foreach (var obj in resp.DBClusterBacktracks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

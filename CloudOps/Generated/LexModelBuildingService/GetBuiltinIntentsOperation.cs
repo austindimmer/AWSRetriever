@@ -29,22 +29,30 @@ namespace CloudOps.LexModelBuildingService
             GetBuiltinIntentsResponse resp = new GetBuiltinIntentsResponse();
             do
             {
-                GetBuiltinIntentsRequest req = new GetBuiltinIntentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetBuiltinIntentsRequest req = new GetBuiltinIntentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetBuiltinIntentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Intents)
-                {
-                    AddObject(obj);
+                    resp = await client.GetBuiltinIntentsAsync(req);
+                    
+                    foreach (var obj in resp.Intents)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

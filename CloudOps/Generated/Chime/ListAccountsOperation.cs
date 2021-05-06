@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListAccountsResponse resp = new ListAccountsResponse();
             do
             {
-                ListAccountsRequest req = new ListAccountsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAccountsRequest req = new ListAccountsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAccountsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Accounts)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAccountsAsync(req);
+                    
+                    foreach (var obj in resp.Accounts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

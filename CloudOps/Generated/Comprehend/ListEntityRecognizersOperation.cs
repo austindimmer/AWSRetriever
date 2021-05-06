@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListEntityRecognizersResponse resp = new ListEntityRecognizersResponse();
             do
             {
-                ListEntityRecognizersRequest req = new ListEntityRecognizersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEntityRecognizersRequest req = new ListEntityRecognizersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEntityRecognizersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EntityRecognizerPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEntityRecognizersAsync(req);
+                    
+                    foreach (var obj in resp.EntityRecognizerPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

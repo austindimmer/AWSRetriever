@@ -31,12 +31,21 @@ namespace CloudOps.EC2
             {                    
                                     
             };
-            resp = await client.DescribeConversionTasksAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.ConversionTasks)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeConversionTasksAsync(req);
+                
+                foreach (var obj in resp.ConversionTasks)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

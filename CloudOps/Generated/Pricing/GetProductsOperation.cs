@@ -29,27 +29,35 @@ namespace CloudOps.Pricing
             GetProductsResponse resp = new GetProductsResponse();
             do
             {
-                GetProductsRequest req = new GetProductsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetProductsRequest req = new GetProductsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetProductsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FormatVersion)
-                {
-                    AddObject(obj);
+                    resp = await client.GetProductsAsync(req);
+                    
+                    foreach (var obj in resp.PriceList)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.FormatVersion)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.PriceList)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

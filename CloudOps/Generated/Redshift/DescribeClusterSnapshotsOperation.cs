@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeClusterSnapshotsResponse resp = new DescribeClusterSnapshotsResponse();
             do
             {
-                DescribeClusterSnapshotsRequest req = new DescribeClusterSnapshotsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeClusterSnapshotsRequest req = new DescribeClusterSnapshotsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClusterSnapshotsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Snapshots)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClusterSnapshotsAsync(req);
+                    
+                    foreach (var obj in resp.Snapshots)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

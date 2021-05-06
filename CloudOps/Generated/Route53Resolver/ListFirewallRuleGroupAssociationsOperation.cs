@@ -29,22 +29,30 @@ namespace CloudOps.Route53Resolver
             ListFirewallRuleGroupAssociationsResponse resp = new ListFirewallRuleGroupAssociationsResponse();
             do
             {
-                ListFirewallRuleGroupAssociationsRequest req = new ListFirewallRuleGroupAssociationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFirewallRuleGroupAssociationsRequest req = new ListFirewallRuleGroupAssociationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFirewallRuleGroupAssociationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FirewallRuleGroupAssociations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFirewallRuleGroupAssociationsAsync(req);
+                    
+                    foreach (var obj in resp.FirewallRuleGroupAssociations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

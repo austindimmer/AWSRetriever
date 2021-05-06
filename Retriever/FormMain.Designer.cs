@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();            
+            this.components = new System.ComponentModel.Container();
             this.splitContainerFront = new System.Windows.Forms.SplitContainer();
             this.modernShadowPanel1 = new NickAc.ModernUIDoneRight.Controls.ModernShadowPanel();
             this.listViewFound = new System.Windows.Forms.ListView();
-            this.ColumnService = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColumnType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColumnRegion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnArn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnService = new System.Windows.Forms.ColumnHeader();
+            this.ColumnType = new System.Windows.Forms.ColumnHeader();
+            this.ColumnRegion = new System.Windows.Forms.ColumnHeader();
+            this.columnName = new System.Windows.Forms.ColumnHeader();
+            this.columnID = new System.Windows.Forms.ColumnHeader();
+            this.columnArn = new System.Windows.Forms.ColumnHeader();
             this.contextMenuObjects = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.saveResultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
@@ -45,11 +45,11 @@
             this.tilePanelReborn2 = new NickAc.ModernUIDoneRight.Controls.TilePanelReborn();
             this.modernShadowPanel2 = new NickAc.ModernUIDoneRight.Controls.ModernShadowPanel();
             this.listViewMessages = new System.Windows.Forms.ListView();
-            this.columnProgressTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnProgressAPI = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnProgressService = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnProgressRegion = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnProgressResult = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnProgressTime = new System.Windows.Forms.ColumnHeader();
+            this.columnProgressAPI = new System.Windows.Forms.ColumnHeader();
+            this.columnProgressService = new System.Windows.Forms.ColumnHeader();
+            this.columnProgressRegion = new System.Windows.Forms.ColumnHeader();
+            this.columnProgressResult = new System.Windows.Forms.ColumnHeader();
             this.contextMenuMessages = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
@@ -134,6 +134,7 @@
             this.listViewFound.ContextMenuStrip = this.contextMenuObjects;
             this.listViewFound.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewFound.FullRowSelect = true;
+            this.listViewFound.HideSelection = false;
             this.listViewFound.Location = new System.Drawing.Point(0, 40);
             this.listViewFound.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.listViewFound.MultiSelect = false;
@@ -179,29 +180,30 @@
             // 
             // contextMenuObjects
             // 
+            this.contextMenuObjects.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuObjects.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.saveResultsToolStripMenuItem,
             this.toolStripMenuItem3,
             this.clearToolStripMenuItem});
             this.contextMenuObjects.Name = "contextMenuStripObjects";
-            this.contextMenuObjects.Size = new System.Drawing.Size(139, 54);
+            this.contextMenuObjects.Size = new System.Drawing.Size(160, 58);
             // 
             // saveResultsToolStripMenuItem
             // 
             this.saveResultsToolStripMenuItem.Name = "saveResultsToolStripMenuItem";
-            this.saveResultsToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.saveResultsToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
             this.saveResultsToolStripMenuItem.Text = "Save Results";
             this.saveResultsToolStripMenuItem.Click += new System.EventHandler(this.SaveResultsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(135, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(156, 6);
             // 
             // clearToolStripMenuItem
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(159, 24);
             this.clearToolStripMenuItem.Text = "&Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
@@ -242,6 +244,7 @@
             this.listViewMessages.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewMessages.FullRowSelect = true;
             this.listViewMessages.GridLines = true;
+            this.listViewMessages.HideSelection = false;
             this.listViewMessages.LargeImageList = this.imageList;
             this.listViewMessages.Location = new System.Drawing.Point(0, 40);
             this.listViewMessages.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
@@ -283,39 +286,46 @@
             // 
             // contextMenuMessages
             // 
+            this.contextMenuMessages.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuMessages.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clearToolStripMenuItem1,
             this.toolStripMenuItem2,
             this.viewInProfileToolStripMenuItem,
             this.runAgainToolStripMenuItem});
             this.contextMenuMessages.Name = "contextMenuMessages";
-            this.contextMenuMessages.Size = new System.Drawing.Size(150, 76);
+            this.contextMenuMessages.Size = new System.Drawing.Size(174, 82);
             // 
             // clearToolStripMenuItem1
             // 
             this.clearToolStripMenuItem1.Name = "clearToolStripMenuItem1";
-            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(173, 24);
             this.clearToolStripMenuItem1.Text = "&Clear";
             this.clearToolStripMenuItem1.Click += new System.EventHandler(this.ClearToolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(146, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(170, 6);
             // 
             // viewInProfileToolStripMenuItem
             // 
             this.viewInProfileToolStripMenuItem.Name = "viewInProfileToolStripMenuItem";
-            this.viewInProfileToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.viewInProfileToolStripMenuItem.Size = new System.Drawing.Size(173, 24);
             this.viewInProfileToolStripMenuItem.Text = "View in Profile";
             this.viewInProfileToolStripMenuItem.Click += new System.EventHandler(this.ViewInProfileToolStripMenuItem_Click);
             // 
             // runAgainToolStripMenuItem
             // 
             this.runAgainToolStripMenuItem.Name = "runAgainToolStripMenuItem";
-            this.runAgainToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.runAgainToolStripMenuItem.Size = new System.Drawing.Size(173, 24);
             this.runAgainToolStripMenuItem.Text = "Run Again";
             this.runAgainToolStripMenuItem.Click += new System.EventHandler(this.RunAgainToolStripMenuItem_Click);
+            // 
+            // imageList
+            // 
+            this.imageList.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // tilePanelReborn1
             // 
@@ -383,7 +393,7 @@
             // richTextBoxCobo
             // 
             this.richTextBoxCobo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBoxCobo.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxCobo.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.richTextBoxCobo.Location = new System.Drawing.Point(0, 34);
             this.richTextBoxCobo.Name = "richTextBoxCobo";
             this.richTextBoxCobo.Size = new System.Drawing.Size(395, 316);
@@ -440,7 +450,6 @@
             // appBar
             // 
             this.appBar.CastShadow = true;
-            this.appBar.ColorScheme = this.ColorScheme;
             this.appBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.appBar.HamburgerButtonSize = 32;
             this.appBar.IconVisible = false;
@@ -450,7 +459,7 @@
             this.appBar.Size = new System.Drawing.Size(1409, 50);
             this.appBar.TabIndex = 5;
             this.appBar.Text = "AWS Retriever";
-            this.appBar.TextFont = new System.Drawing.Font("Segoe UI", 14F);
+            this.appBar.TextFont = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.appBar.ToolTip = null;
             // 
             // panelStatus
@@ -468,7 +477,7 @@
             this.statusLabel.AutoSize = true;
             this.statusLabel.Location = new System.Drawing.Point(6, 7);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(52, 21);
+            this.statusLabel.Size = new System.Drawing.Size(65, 28);
             this.statusLabel.TabIndex = 1;
             this.statusLabel.Text = "label1";
             // 
@@ -483,9 +492,7 @@
             // 
             // sidebarControl
             // 
-            this.sidebarControl.BackgroundImage = global::Retriever.Properties.Resources.Korra;
             this.sidebarControl.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.sidebarControl.ColorScheme = this.ColorScheme;
             this.sidebarControl.ContextMenuStrip = this.contextMenuMessages;
             this.sidebarControl.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sidebarControl.Dock = System.Windows.Forms.DockStyle.Left;
@@ -501,7 +508,7 @@
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1411, 833);
             this.ColorScheme.MouseDownColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(64)))), ((int)(((byte)(101)))));
@@ -512,8 +519,7 @@
             this.Controls.Add(this.splitContainerBack);
             this.Controls.Add(this.panelStatus);
             this.Controls.Add(this.appBar);
-            this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Location = new System.Drawing.Point(0, 0);
+            this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.MinimumSize = new System.Drawing.Size(108, 45);
             this.Name = "FormMain";

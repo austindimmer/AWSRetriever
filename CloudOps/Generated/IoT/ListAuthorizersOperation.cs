@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListAuthorizersResponse resp = new ListAuthorizersResponse();
             do
             {
-                ListAuthorizersRequest req = new ListAuthorizersRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListAuthorizersRequest req = new ListAuthorizersRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListAuthorizersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Authorizers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAuthorizersAsync(req);
+                    
+                    foreach (var obj in resp.Authorizers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

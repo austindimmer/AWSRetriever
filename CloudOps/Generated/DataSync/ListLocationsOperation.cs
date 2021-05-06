@@ -29,22 +29,30 @@ namespace CloudOps.DataSync
             ListLocationsResponse resp = new ListLocationsResponse();
             do
             {
-                ListLocationsRequest req = new ListLocationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListLocationsRequest req = new ListLocationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListLocationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Locations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLocationsAsync(req);
+                    
+                    foreach (var obj in resp.Locations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

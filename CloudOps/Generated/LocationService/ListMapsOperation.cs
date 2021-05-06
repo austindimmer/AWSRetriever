@@ -29,22 +29,30 @@ namespace CloudOps.LocationService
             ListMapsResponse resp = new ListMapsResponse();
             do
             {
-                ListMapsRequest req = new ListMapsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMapsRequest req = new ListMapsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMapsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Entries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMapsAsync(req);
+                    
+                    foreach (var obj in resp.Entries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

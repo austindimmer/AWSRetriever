@@ -29,22 +29,30 @@ namespace CloudOps.DataPipeline
             QueryObjectsResponse resp = new QueryObjectsResponse();
             do
             {
-                QueryObjectsRequest req = new QueryObjectsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    QueryObjectsRequest req = new QueryObjectsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.QueryObjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Ids)
-                {
-                    AddObject(obj);
+                    resp = await client.QueryObjectsAsync(req);
+                    
+                    foreach (var obj in resp.Ids)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

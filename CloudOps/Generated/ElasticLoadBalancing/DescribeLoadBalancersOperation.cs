@@ -25,24 +25,32 @@ namespace CloudOps.ElasticLoadBalancing
             config.RegionEndpoint = region;
             ConfigureClient(config);            
             AmazonElasticLoadBalancingClient client = new AmazonElasticLoadBalancingClient(creds, config);
-            
+
             DescribeLoadBalancersResponse resp = new DescribeLoadBalancersResponse();
             do
             {
-                DescribeLoadBalancersRequest req = new DescribeLoadBalancersRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                                        
-                };
+                    DescribeLoadBalancersRequest req = new DescribeLoadBalancersRequest
+                    {
+                        Marker = resp.NextMarker
+                                            
+                    };
 
-                resp = await client.DescribeLoadBalancersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LoadBalancerDescriptions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLoadBalancersAsync(req);
+                    
+                    foreach (var obj in resp.LoadBalancerDescriptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

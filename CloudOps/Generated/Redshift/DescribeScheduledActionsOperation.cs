@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeScheduledActionsResponse resp = new DescribeScheduledActionsResponse();
             do
             {
-                DescribeScheduledActionsRequest req = new DescribeScheduledActionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeScheduledActionsRequest req = new DescribeScheduledActionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeScheduledActionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ScheduledActions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeScheduledActionsAsync(req);
+                    
+                    foreach (var obj in resp.ScheduledActions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             GetCommentsForPullRequestResponse resp = new GetCommentsForPullRequestResponse();
             do
             {
-                GetCommentsForPullRequestRequest req = new GetCommentsForPullRequestRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetCommentsForPullRequestRequest req = new GetCommentsForPullRequestRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetCommentsForPullRequestAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CommentsForPullRequestData)
-                {
-                    AddObject(obj);
+                    resp = await client.GetCommentsForPullRequestAsync(req);
+                    
+                    foreach (var obj in resp.CommentsForPullRequestData)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

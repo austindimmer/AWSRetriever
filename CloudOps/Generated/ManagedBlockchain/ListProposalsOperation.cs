@@ -29,22 +29,30 @@ namespace CloudOps.ManagedBlockchain
             ListProposalsResponse resp = new ListProposalsResponse();
             do
             {
-                ListProposalsRequest req = new ListProposalsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProposalsRequest req = new ListProposalsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProposalsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Proposals)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProposalsAsync(req);
+                    
+                    foreach (var obj in resp.Proposals)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

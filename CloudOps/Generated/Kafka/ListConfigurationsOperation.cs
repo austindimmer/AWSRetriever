@@ -29,20 +29,30 @@ namespace CloudOps.Kafka
             ListConfigurationsResponse resp = new ListConfigurationsResponse();
             do
             {
-                ListConfigurationsRequest req = new ListConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken,
-                    MaxResults = maxItems
-                };
+                    ListConfigurationsRequest req = new ListConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Configurations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.Configurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

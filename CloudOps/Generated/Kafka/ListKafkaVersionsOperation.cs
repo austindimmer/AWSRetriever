@@ -9,7 +9,7 @@ namespace CloudOps.Kafka
     {
         public override string Name => "ListKafkaVersions";
 
-        public override string Description => "Returns a list of Kafka versions.";
+        public override string Description => "Returns a list of Kafka versions";
  
         public override string RequestURI => "/v1/kafka-versions";
 
@@ -29,22 +29,30 @@ namespace CloudOps.Kafka
             ListKafkaVersionsResponse resp = new ListKafkaVersionsResponse();
             do
             {
-                ListKafkaVersionsRequest req = new ListKafkaVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListKafkaVersionsRequest req = new ListKafkaVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListKafkaVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.KafkaVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListKafkaVersionsAsync(req);
+                    
+                    foreach (var obj in resp.KafkaVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

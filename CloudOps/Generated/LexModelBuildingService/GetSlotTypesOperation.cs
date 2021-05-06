@@ -29,22 +29,30 @@ namespace CloudOps.LexModelBuildingService
             GetSlotTypesResponse resp = new GetSlotTypesResponse();
             do
             {
-                GetSlotTypesRequest req = new GetSlotTypesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetSlotTypesRequest req = new GetSlotTypesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetSlotTypesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SlotTypes)
-                {
-                    AddObject(obj);
+                    resp = await client.GetSlotTypesAsync(req);
+                    
+                    foreach (var obj in resp.SlotTypes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

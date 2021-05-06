@@ -29,22 +29,30 @@ namespace CloudOps.RAM
             GetResourceShareInvitationsResponse resp = new GetResourceShareInvitationsResponse();
             do
             {
-                GetResourceShareInvitationsRequest req = new GetResourceShareInvitationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetResourceShareInvitationsRequest req = new GetResourceShareInvitationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetResourceShareInvitationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceShareInvitations)
-                {
-                    AddObject(obj);
+                    resp = await client.GetResourceShareInvitationsAsync(req);
+                    
+                    foreach (var obj in resp.ResourceShareInvitations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

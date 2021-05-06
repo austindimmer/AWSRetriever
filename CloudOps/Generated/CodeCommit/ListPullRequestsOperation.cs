@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             ListPullRequestsResponse resp = new ListPullRequestsResponse();
             do
             {
-                ListPullRequestsRequest req = new ListPullRequestsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPullRequestsRequest req = new ListPullRequestsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPullRequestsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PullRequestIds)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPullRequestsAsync(req);
+                    
+                    foreach (var obj in resp.PullRequestIds)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

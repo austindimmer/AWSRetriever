@@ -29,20 +29,28 @@ namespace CloudOps.CloudWatch
             ListDashboardsResponse resp = new ListDashboardsResponse();
             do
             {
-                ListDashboardsRequest req = new ListDashboardsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListDashboardsRequest req = new ListDashboardsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListDashboardsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DashboardEntries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDashboardsAsync(req);
+                    
+                    foreach (var obj in resp.DashboardEntries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

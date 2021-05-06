@@ -29,22 +29,30 @@ namespace CloudOps.KinesisVideo
             ListStreamsResponse resp = new ListStreamsResponse();
             do
             {
-                ListStreamsRequest req = new ListStreamsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListStreamsRequest req = new ListStreamsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListStreamsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StreamInfoList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStreamsAsync(req);
+                    
+                    foreach (var obj in resp.StreamInfoList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Translate
             ListTextTranslationJobsResponse resp = new ListTextTranslationJobsResponse();
             do
             {
-                ListTextTranslationJobsRequest req = new ListTextTranslationJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTextTranslationJobsRequest req = new ListTextTranslationJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTextTranslationJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TextTranslationJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTextTranslationJobsAsync(req);
+                    
+                    foreach (var obj in resp.TextTranslationJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

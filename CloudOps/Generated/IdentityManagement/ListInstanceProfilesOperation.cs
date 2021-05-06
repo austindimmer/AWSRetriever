@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListInstanceProfilesResponse resp = new ListInstanceProfilesResponse();
             do
             {
-                ListInstanceProfilesRequest req = new ListInstanceProfilesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListInstanceProfilesRequest req = new ListInstanceProfilesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListInstanceProfilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InstanceProfiles)
-                {
-                    AddObject(obj);
+                    resp = await client.ListInstanceProfilesAsync(req);
+                    
+                    foreach (var obj in resp.InstanceProfiles)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

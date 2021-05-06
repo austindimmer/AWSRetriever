@@ -29,22 +29,30 @@ namespace CloudOps.MQ
             ListBrokersResponse resp = new ListBrokersResponse();
             do
             {
-                ListBrokersRequest req = new ListBrokersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBrokersRequest req = new ListBrokersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBrokersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BrokerSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBrokersAsync(req);
+                    
+                    foreach (var obj in resp.BrokerSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

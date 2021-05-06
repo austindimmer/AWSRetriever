@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListTapePoolsResponse resp = new ListTapePoolsResponse();
             do
             {
-                ListTapePoolsRequest req = new ListTapePoolsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListTapePoolsRequest req = new ListTapePoolsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListTapePoolsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PoolInfos)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTapePoolsAsync(req);
+                    
+                    foreach (var obj in resp.PoolInfos)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.MediaConvert
             DescribeEndpointsResponse resp = new DescribeEndpointsResponse();
             do
             {
-                DescribeEndpointsRequest req = new DescribeEndpointsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeEndpointsRequest req = new DescribeEndpointsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEndpointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Endpoints)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEndpointsAsync(req);
+                    
+                    foreach (var obj in resp.Endpoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

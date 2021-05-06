@@ -29,22 +29,30 @@ namespace CloudOps.IoTWireless
             ListDeviceProfilesResponse resp = new ListDeviceProfilesResponse();
             do
             {
-                ListDeviceProfilesRequest req = new ListDeviceProfilesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDeviceProfilesRequest req = new ListDeviceProfilesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDeviceProfilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DeviceProfileList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDeviceProfilesAsync(req);
+                    
+                    foreach (var obj in resp.DeviceProfileList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

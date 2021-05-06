@@ -29,22 +29,30 @@ namespace CloudOps.Rekognition
             ListStreamProcessorsResponse resp = new ListStreamProcessorsResponse();
             do
             {
-                ListStreamProcessorsRequest req = new ListStreamProcessorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListStreamProcessorsRequest req = new ListStreamProcessorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListStreamProcessorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StreamProcessors)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStreamProcessorsAsync(req);
+                    
+                    foreach (var obj in resp.StreamProcessors)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

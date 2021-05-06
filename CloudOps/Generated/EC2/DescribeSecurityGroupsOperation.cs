@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeSecurityGroupsResponse resp = new DescribeSecurityGroupsResponse();
             do
             {
-                DescribeSecurityGroupsRequest req = new DescribeSecurityGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeSecurityGroupsRequest req = new DescribeSecurityGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSecurityGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SecurityGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSecurityGroupsAsync(req);
+                    
+                    foreach (var obj in resp.SecurityGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

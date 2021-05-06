@@ -29,20 +29,28 @@ namespace CloudOps.CodeDeploy
             ListDeploymentGroupsResponse resp = new ListDeploymentGroupsResponse();
             do
             {
-                ListDeploymentGroupsRequest req = new ListDeploymentGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListDeploymentGroupsRequest req = new ListDeploymentGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListDeploymentGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DeploymentGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDeploymentGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DeploymentGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

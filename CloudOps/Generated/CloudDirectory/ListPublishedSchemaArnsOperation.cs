@@ -29,22 +29,30 @@ namespace CloudOps.CloudDirectory
             ListPublishedSchemaArnsResponse resp = new ListPublishedSchemaArnsResponse();
             do
             {
-                ListPublishedSchemaArnsRequest req = new ListPublishedSchemaArnsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPublishedSchemaArnsRequest req = new ListPublishedSchemaArnsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPublishedSchemaArnsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SchemaArns)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPublishedSchemaArnsAsync(req);
+                    
+                    foreach (var obj in resp.SchemaArns)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

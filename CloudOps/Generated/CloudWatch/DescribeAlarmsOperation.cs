@@ -29,27 +29,35 @@ namespace CloudOps.CloudWatch
             DescribeAlarmsResponse resp = new DescribeAlarmsResponse();
             do
             {
-                DescribeAlarmsRequest req = new DescribeAlarmsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeAlarmsRequest req = new DescribeAlarmsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAlarmsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CompositeAlarms)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAlarmsAsync(req);
+                    
+                    foreach (var obj in resp.CompositeAlarms)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.MetricAlarms)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.MetricAlarms)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

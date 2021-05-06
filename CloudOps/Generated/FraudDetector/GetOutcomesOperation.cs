@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             GetOutcomesResponse resp = new GetOutcomesResponse();
             do
             {
-                GetOutcomesRequest req = new GetOutcomesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetOutcomesRequest req = new GetOutcomesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetOutcomesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Outcomes)
-                {
-                    AddObject(obj);
+                    resp = await client.GetOutcomesAsync(req);
+                    
+                    foreach (var obj in resp.Outcomes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

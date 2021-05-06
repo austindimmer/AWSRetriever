@@ -29,22 +29,30 @@ namespace CloudOps.KinesisVideoArchivedMedia
             ListFragmentsResponse resp = new ListFragmentsResponse();
             do
             {
-                ListFragmentsRequest req = new ListFragmentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFragmentsRequest req = new ListFragmentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFragmentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Fragments)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFragmentsAsync(req);
+                    
+                    foreach (var obj in resp.Fragments)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

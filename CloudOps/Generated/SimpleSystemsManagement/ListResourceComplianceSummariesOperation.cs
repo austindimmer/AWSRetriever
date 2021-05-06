@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             ListResourceComplianceSummariesResponse resp = new ListResourceComplianceSummariesResponse();
             do
             {
-                ListResourceComplianceSummariesRequest req = new ListResourceComplianceSummariesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResourceComplianceSummariesRequest req = new ListResourceComplianceSummariesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResourceComplianceSummariesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceComplianceSummaryItems)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResourceComplianceSummariesAsync(req);
+                    
+                    foreach (var obj in resp.ResourceComplianceSummaryItems)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -526,5 +526,10 @@ namespace Retriever
                 }
             }
         }
+
+        private void sidebarControl_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

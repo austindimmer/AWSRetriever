@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetJobsResponse resp = new GetJobsResponse();
             do
             {
-                GetJobsRequest req = new GetJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetJobsRequest req = new GetJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Jobs)
-                {
-                    AddObject(obj);
+                    resp = await client.GetJobsAsync(req);
+                    
+                    foreach (var obj in resp.Jobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

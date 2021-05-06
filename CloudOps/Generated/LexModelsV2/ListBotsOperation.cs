@@ -29,22 +29,30 @@ namespace CloudOps.LexModelsV2
             ListBotsResponse resp = new ListBotsResponse();
             do
             {
-                ListBotsRequest req = new ListBotsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBotsRequest req = new ListBotsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBotsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BotSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBotsAsync(req);
+                    
+                    foreach (var obj in resp.BotSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

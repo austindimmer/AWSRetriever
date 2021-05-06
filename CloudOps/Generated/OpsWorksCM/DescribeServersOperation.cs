@@ -29,22 +29,30 @@ namespace CloudOps.OpsWorksCM
             DescribeServersResponse resp = new DescribeServersResponse();
             do
             {
-                DescribeServersRequest req = new DescribeServersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeServersRequest req = new DescribeServersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeServersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Servers)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeServersAsync(req);
+                    
+                    foreach (var obj in resp.Servers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

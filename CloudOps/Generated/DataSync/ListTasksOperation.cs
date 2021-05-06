@@ -29,22 +29,30 @@ namespace CloudOps.DataSync
             ListTasksResponse resp = new ListTasksResponse();
             do
             {
-                ListTasksRequest req = new ListTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTasksRequest req = new ListTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tasks)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTasksAsync(req);
+                    
+                    foreach (var obj in resp.Tasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             DescribePullRequestEventsResponse resp = new DescribePullRequestEventsResponse();
             do
             {
-                DescribePullRequestEventsRequest req = new DescribePullRequestEventsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePullRequestEventsRequest req = new DescribePullRequestEventsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePullRequestEvents(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PullRequestEvents)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePullRequestEventsAsync(req);
+                    
+                    foreach (var obj in resp.PullRequestEvents)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

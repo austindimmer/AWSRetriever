@@ -29,22 +29,30 @@ namespace CloudOps.ElasticBeanstalk
             DescribeEventsResponse resp = new DescribeEventsResponse();
             do
             {
-                DescribeEventsRequest req = new DescribeEventsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeEventsRequest req = new DescribeEventsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEventsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Events)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEventsAsync(req);
+                    
+                    foreach (var obj in resp.Events)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

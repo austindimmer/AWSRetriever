@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListSSHPublicKeysResponse resp = new ListSSHPublicKeysResponse();
             do
             {
-                ListSSHPublicKeysRequest req = new ListSSHPublicKeysRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListSSHPublicKeysRequest req = new ListSSHPublicKeysRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListSSHPublicKeysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SSHPublicKeys)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSSHPublicKeysAsync(req);
+                    
+                    foreach (var obj in resp.SSHPublicKeys)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

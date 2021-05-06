@@ -29,22 +29,30 @@ namespace CloudOps.Backup
             ListProtectedResourcesResponse resp = new ListProtectedResourcesResponse();
             do
             {
-                ListProtectedResourcesRequest req = new ListProtectedResourcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProtectedResourcesRequest req = new ListProtectedResourcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProtectedResourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Results)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProtectedResourcesAsync(req);
+                    
+                    foreach (var obj in resp.Results)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

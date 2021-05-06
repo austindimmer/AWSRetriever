@@ -31,12 +31,21 @@ namespace CloudOps.CloudTrail
             {                    
                                     
             };
-            resp = await client.DescribeTrailsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.TrailList)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeTrailsAsync(req);
+                
+                foreach (var obj in resp.TrailList)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

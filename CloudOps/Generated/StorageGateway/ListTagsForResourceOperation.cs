@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListTagsForResourceResponse resp = new ListTagsForResourceResponse();
             do
             {
-                ListTagsForResourceRequest req = new ListTagsForResourceRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListTagsForResourceRequest req = new ListTagsForResourceRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListTagsForResourceAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tags)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTagsForResourceAsync(req);
+                    
+                    foreach (var obj in resp.Tags)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

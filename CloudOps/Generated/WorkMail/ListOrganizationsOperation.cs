@@ -29,22 +29,30 @@ namespace CloudOps.WorkMail
             ListOrganizationsResponse resp = new ListOrganizationsResponse();
             do
             {
-                ListOrganizationsRequest req = new ListOrganizationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListOrganizationsRequest req = new ListOrganizationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListOrganizationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OrganizationSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOrganizationsAsync(req);
+                    
+                    foreach (var obj in resp.OrganizationSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -23,28 +23,36 @@ namespace CloudOps.IdentityManagement
         {
             AmazonIdentityManagementServiceConfig config = new AmazonIdentityManagementServiceConfig();
             config.RegionEndpoint = region;
-            ConfigureClient(config);            
+            ConfigureClient(config);
             AmazonIdentityManagementServiceClient client = new AmazonIdentityManagementServiceClient(creds, config);
             
             ListAccessKeysResponse resp = new ListAccessKeysResponse();
             do
             {
-                ListAccessKeysRequest req = new ListAccessKeysRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListAccessKeysRequest req = new ListAccessKeysRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListAccessKeysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AccessKeyMetadata)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAccessKeysAsync(req);
+                    
+                    foreach (var obj in resp.AccessKeyMetadata)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

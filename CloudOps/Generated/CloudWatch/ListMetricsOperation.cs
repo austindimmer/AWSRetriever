@@ -29,20 +29,28 @@ namespace CloudOps.CloudWatch
             ListMetricsResponse resp = new ListMetricsResponse();
             do
             {
-                ListMetricsRequest req = new ListMetricsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListMetricsRequest req = new ListMetricsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListMetricsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Metrics)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMetricsAsync(req);
+                    
+                    foreach (var obj in resp.Metrics)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.WorkSpaces
             DescribeWorkspacesResponse resp = new DescribeWorkspacesResponse();
             do
             {
-                DescribeWorkspacesRequest req = new DescribeWorkspacesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeWorkspacesRequest req = new DescribeWorkspacesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeWorkspacesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Workspaces)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeWorkspacesAsync(req);
+                    
+                    foreach (var obj in resp.Workspaces)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

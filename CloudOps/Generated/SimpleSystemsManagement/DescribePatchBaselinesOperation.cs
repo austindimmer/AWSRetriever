@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribePatchBaselinesResponse resp = new DescribePatchBaselinesResponse();
             do
             {
-                DescribePatchBaselinesRequest req = new DescribePatchBaselinesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePatchBaselinesRequest req = new DescribePatchBaselinesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePatchBaselinesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BaselineIdentities)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePatchBaselinesAsync(req);
+                    
+                    foreach (var obj in resp.BaselineIdentities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

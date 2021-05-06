@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             DescribeVTLDevicesResponse resp = new DescribeVTLDevicesResponse();
             do
             {
-                DescribeVTLDevicesRequest req = new DescribeVTLDevicesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeVTLDevicesRequest req = new DescribeVTLDevicesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeVTLDevicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VTLDevices)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeVTLDevicesAsync(req);
+                    
+                    foreach (var obj in resp.VTLDevices)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

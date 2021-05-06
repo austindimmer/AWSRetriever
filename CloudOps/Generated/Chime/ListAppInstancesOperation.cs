@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListAppInstancesResponse resp = new ListAppInstancesResponse();
             do
             {
-                ListAppInstancesRequest req = new ListAppInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAppInstancesRequest req = new ListAppInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAppInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AppInstances)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAppInstancesAsync(req);
+                    
+                    foreach (var obj in resp.AppInstances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

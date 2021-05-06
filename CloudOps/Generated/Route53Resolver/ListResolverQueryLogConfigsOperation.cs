@@ -29,22 +29,30 @@ namespace CloudOps.Route53Resolver
             ListResolverQueryLogConfigsResponse resp = new ListResolverQueryLogConfigsResponse();
             do
             {
-                ListResolverQueryLogConfigsRequest req = new ListResolverQueryLogConfigsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResolverQueryLogConfigsRequest req = new ListResolverQueryLogConfigsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResolverQueryLogConfigsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResolverQueryLogConfigs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResolverQueryLogConfigsAsync(req);
+                    
+                    foreach (var obj in resp.ResolverQueryLogConfigs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

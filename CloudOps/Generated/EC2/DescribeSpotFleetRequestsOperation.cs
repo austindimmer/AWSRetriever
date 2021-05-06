@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeSpotFleetRequestsResponse resp = new DescribeSpotFleetRequestsResponse();
             do
             {
-                DescribeSpotFleetRequestsRequest req = new DescribeSpotFleetRequestsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeSpotFleetRequestsRequest req = new DescribeSpotFleetRequestsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSpotFleetRequestsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SpotFleetRequestConfigs)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSpotFleetRequestsAsync(req);
+                    
+                    foreach (var obj in resp.SpotFleetRequestConfigs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

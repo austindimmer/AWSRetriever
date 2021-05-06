@@ -29,22 +29,30 @@ namespace CloudOps.ElasticBeanstalk
             ListPlatformVersionsResponse resp = new ListPlatformVersionsResponse();
             do
             {
-                ListPlatformVersionsRequest req = new ListPlatformVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    ListPlatformVersionsRequest req = new ListPlatformVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.ListPlatformVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PlatformSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPlatformVersionsAsync(req);
+                    
+                    foreach (var obj in resp.PlatformSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

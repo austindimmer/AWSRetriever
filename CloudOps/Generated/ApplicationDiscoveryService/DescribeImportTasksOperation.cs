@@ -29,22 +29,30 @@ namespace CloudOps.ApplicationDiscoveryService
             DescribeImportTasksResponse resp = new DescribeImportTasksResponse();
             do
             {
-                DescribeImportTasksRequest req = new DescribeImportTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeImportTasksRequest req = new DescribeImportTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeImportTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tasks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeImportTasksAsync(req);
+                    
+                    foreach (var obj in resp.Tasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

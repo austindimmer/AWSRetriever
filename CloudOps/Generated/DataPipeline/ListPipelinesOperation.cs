@@ -29,20 +29,28 @@ namespace CloudOps.DataPipeline
             ListPipelinesResponse resp = new ListPipelinesResponse();
             do
             {
-                ListPipelinesRequest req = new ListPipelinesRequest
+                try
                 {
-                    Marker = resp.Marker
-                                        
-                };
+                    ListPipelinesRequest req = new ListPipelinesRequest
+                    {
+                        Marker = resp.Marker
+                                            
+                    };
 
-                resp = await client.ListPipelinesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PipelineIdList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPipelinesAsync(req);
+                    
+                    foreach (var obj in resp.PipelineIdList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

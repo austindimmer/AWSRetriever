@@ -29,20 +29,28 @@ namespace CloudOps.SimpleNotificationService
             ListPlatformApplicationsResponse resp = new ListPlatformApplicationsResponse();
             do
             {
-                ListPlatformApplicationsRequest req = new ListPlatformApplicationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListPlatformApplicationsRequest req = new ListPlatformApplicationsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListPlatformApplicationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PlatformApplications)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPlatformApplicationsAsync(req);
+                    
+                    foreach (var obj in resp.PlatformApplications)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

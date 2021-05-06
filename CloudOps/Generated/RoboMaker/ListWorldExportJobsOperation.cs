@@ -29,22 +29,30 @@ namespace CloudOps.RoboMaker
             ListWorldExportJobsResponse resp = new ListWorldExportJobsResponse();
             do
             {
-                ListWorldExportJobsRequest req = new ListWorldExportJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorldExportJobsRequest req = new ListWorldExportJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorldExportJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorldExportJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorldExportJobsAsync(req);
+                    
+                    foreach (var obj in resp.WorldExportJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.CodeBuild
             ListSharedProjectsResponse resp = new ListSharedProjectsResponse();
             do
             {
-                ListSharedProjectsRequest req = new ListSharedProjectsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSharedProjectsRequest req = new ListSharedProjectsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSharedProjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Projects)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSharedProjectsAsync(req);
+                    
+                    foreach (var obj in resp.Projects)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.WorkDocs
             DescribeUsersResponse resp = new DescribeUsersResponse();
             do
             {
-                DescribeUsersRequest req = new DescribeUsersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeUsersRequest req = new DescribeUsersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeUsersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Users)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeUsersAsync(req);
+                    
+                    foreach (var obj in resp.Users)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

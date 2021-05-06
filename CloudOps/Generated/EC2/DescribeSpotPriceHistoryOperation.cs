@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeSpotPriceHistoryResponse resp = new DescribeSpotPriceHistoryResponse();
             do
             {
-                DescribeSpotPriceHistoryRequest req = new DescribeSpotPriceHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeSpotPriceHistoryRequest req = new DescribeSpotPriceHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSpotPriceHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SpotPriceHistory)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSpotPriceHistoryAsync(req);
+                    
+                    foreach (var obj in resp.SpotPriceHistory)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

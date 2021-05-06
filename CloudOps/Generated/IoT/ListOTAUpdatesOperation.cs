@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListOTAUpdatesResponse resp = new ListOTAUpdatesResponse();
             do
             {
-                ListOTAUpdatesRequest req = new ListOTAUpdatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListOTAUpdatesRequest req = new ListOTAUpdatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListOTAUpdatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OtaUpdates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOTAUpdatesAsync(req);
+                    
+                    foreach (var obj in resp.OtaUpdates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

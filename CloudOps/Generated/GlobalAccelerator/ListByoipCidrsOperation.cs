@@ -29,22 +29,30 @@ namespace CloudOps.GlobalAccelerator
             ListByoipCidrsResponse resp = new ListByoipCidrsResponse();
             do
             {
-                ListByoipCidrsRequest req = new ListByoipCidrsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListByoipCidrsRequest req = new ListByoipCidrsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListByoipCidrsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ByoipCidrs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListByoipCidrsAsync(req);
+                    
+                    foreach (var obj in resp.ByoipCidrs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

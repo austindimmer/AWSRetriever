@@ -29,27 +29,35 @@ namespace CloudOps.WellArchitected
             ListMilestonesResponse resp = new ListMilestonesResponse();
             do
             {
-                ListMilestonesRequest req = new ListMilestonesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMilestonesRequest req = new ListMilestonesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMilestonesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MilestoneSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMilestonesAsync(req);
+                    
+                    foreach (var obj in resp.WorkloadId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.MilestoneSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.WorkloadId)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

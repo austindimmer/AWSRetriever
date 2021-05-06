@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListSipMediaApplicationsResponse resp = new ListSipMediaApplicationsResponse();
             do
             {
-                ListSipMediaApplicationsRequest req = new ListSipMediaApplicationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSipMediaApplicationsRequest req = new ListSipMediaApplicationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSipMediaApplicationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SipMediaApplications)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSipMediaApplicationsAsync(req);
+                    
+                    foreach (var obj in resp.SipMediaApplications)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

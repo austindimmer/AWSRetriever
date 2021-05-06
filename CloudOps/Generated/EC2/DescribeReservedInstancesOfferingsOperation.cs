@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeReservedInstancesOfferingsResponse resp = new DescribeReservedInstancesOfferingsResponse();
             do
             {
-                DescribeReservedInstancesOfferingsRequest req = new DescribeReservedInstancesOfferingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeReservedInstancesOfferingsRequest req = new DescribeReservedInstancesOfferingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReservedInstancesOfferingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReservedInstancesOfferings)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReservedInstancesOfferingsAsync(req);
+                    
+                    foreach (var obj in resp.ReservedInstancesOfferings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

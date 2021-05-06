@@ -29,22 +29,30 @@ namespace CloudOps.Polly
             ListSpeechSynthesisTasksResponse resp = new ListSpeechSynthesisTasksResponse();
             do
             {
-                ListSpeechSynthesisTasksRequest req = new ListSpeechSynthesisTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSpeechSynthesisTasksRequest req = new ListSpeechSynthesisTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSpeechSynthesisTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SynthesisTasks)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSpeechSynthesisTasksAsync(req);
+                    
+                    foreach (var obj in resp.SynthesisTasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

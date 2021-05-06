@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             ListDevEndpointsResponse resp = new ListDevEndpointsResponse();
             do
             {
-                ListDevEndpointsRequest req = new ListDevEndpointsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDevEndpointsRequest req = new ListDevEndpointsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDevEndpointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DevEndpointNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDevEndpointsAsync(req);
+                    
+                    foreach (var obj in resp.DevEndpointNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

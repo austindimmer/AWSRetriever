@@ -31,12 +31,21 @@ namespace CloudOps.DocDB
             {                    
                                     
             };
-            resp = await client.ListTagsForResourceAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.TagList)
+            try
             {
-                AddObject(obj);
+                resp = await client.ListTagsForResourceAsync(req);
+                
+                foreach (var obj in resp.TagList)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

@@ -29,22 +29,30 @@ namespace CloudOps.CodePipeline
             ListWebhooksResponse resp = new ListWebhooksResponse();
             do
             {
-                ListWebhooksRequest req = new ListWebhooksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWebhooksRequest req = new ListWebhooksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWebhooksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Webhooks)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWebhooksAsync(req);
+                    
+                    foreach (var obj in resp.Webhooks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

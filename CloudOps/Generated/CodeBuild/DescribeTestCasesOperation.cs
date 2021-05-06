@@ -29,22 +29,30 @@ namespace CloudOps.CodeBuild
             DescribeTestCasesResponse resp = new DescribeTestCasesResponse();
             do
             {
-                DescribeTestCasesRequest req = new DescribeTestCasesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeTestCasesRequest req = new DescribeTestCasesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTestCasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TestCases)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTestCasesAsync(req);
+                    
+                    foreach (var obj in resp.TestCases)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

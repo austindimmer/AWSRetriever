@@ -29,20 +29,28 @@ namespace CloudOps.WorkSpaces
             DescribeWorkspaceBundlesResponse resp = new DescribeWorkspaceBundlesResponse();
             do
             {
-                DescribeWorkspaceBundlesRequest req = new DescribeWorkspaceBundlesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    DescribeWorkspaceBundlesRequest req = new DescribeWorkspaceBundlesRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.DescribeWorkspaceBundlesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Bundles)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeWorkspaceBundlesAsync(req);
+                    
+                    foreach (var obj in resp.Bundles)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListTransformJobsResponse resp = new ListTransformJobsResponse();
             do
             {
-                ListTransformJobsRequest req = new ListTransformJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTransformJobsRequest req = new ListTransformJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTransformJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TransformJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTransformJobsAsync(req);
+                    
+                    foreach (var obj in resp.TransformJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

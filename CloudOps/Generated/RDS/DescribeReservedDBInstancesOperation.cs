@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeReservedDBInstancesResponse resp = new DescribeReservedDBInstancesResponse();
             do
             {
-                DescribeReservedDBInstancesRequest req = new DescribeReservedDBInstancesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReservedDBInstancesRequest req = new DescribeReservedDBInstancesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReservedDBInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReservedDBInstances)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReservedDBInstancesAsync(req);
+                    
+                    foreach (var obj in resp.ReservedDBInstances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

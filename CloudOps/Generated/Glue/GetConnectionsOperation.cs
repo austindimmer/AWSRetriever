@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetConnectionsResponse resp = new GetConnectionsResponse();
             do
             {
-                GetConnectionsRequest req = new GetConnectionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetConnectionsRequest req = new GetConnectionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetConnectionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConnectionList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetConnectionsAsync(req);
+                    
+                    foreach (var obj in resp.ConnectionList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

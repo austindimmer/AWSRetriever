@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeCacheSecurityGroupsResponse resp = new DescribeCacheSecurityGroupsResponse();
             do
             {
-                DescribeCacheSecurityGroupsRequest req = new DescribeCacheSecurityGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeCacheSecurityGroupsRequest req = new DescribeCacheSecurityGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCacheSecurityGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CacheSecurityGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCacheSecurityGroupsAsync(req);
+                    
+                    foreach (var obj in resp.CacheSecurityGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

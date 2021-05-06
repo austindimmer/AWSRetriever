@@ -29,22 +29,30 @@ namespace CloudOps.AppMesh
             ListVirtualNodesResponse resp = new ListVirtualNodesResponse();
             do
             {
-                ListVirtualNodesRequest req = new ListVirtualNodesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListVirtualNodesRequest req = new ListVirtualNodesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListVirtualNodesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VirtualNodes)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVirtualNodesAsync(req);
+                    
+                    foreach (var obj in resp.VirtualNodes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

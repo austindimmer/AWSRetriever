@@ -29,22 +29,30 @@ namespace CloudOps.AutoScaling
             DescribeNotificationConfigurationsResponse resp = new DescribeNotificationConfigurationsResponse();
             do
             {
-                DescribeNotificationConfigurationsRequest req = new DescribeNotificationConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeNotificationConfigurationsRequest req = new DescribeNotificationConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeNotificationConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NotificationConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeNotificationConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.NotificationConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

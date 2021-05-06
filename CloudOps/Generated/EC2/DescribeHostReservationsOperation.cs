@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeHostReservationsResponse resp = new DescribeHostReservationsResponse();
             do
             {
-                DescribeHostReservationsRequest req = new DescribeHostReservationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeHostReservationsRequest req = new DescribeHostReservationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeHostReservationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HostReservationSet)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeHostReservationsAsync(req);
+                    
+                    foreach (var obj in resp.HostReservationSet)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

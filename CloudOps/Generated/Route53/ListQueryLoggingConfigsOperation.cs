@@ -29,22 +29,30 @@ namespace CloudOps.Route53
             ListQueryLoggingConfigsResponse resp = new ListQueryLoggingConfigsResponse();
             do
             {
-                ListQueryLoggingConfigsRequest req = new ListQueryLoggingConfigsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems.ToString()
-                                        
-                };
+                    ListQueryLoggingConfigsRequest req = new ListQueryLoggingConfigsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListQueryLoggingConfigs(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.QueryLoggingConfigs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListQueryLoggingConfigsAsync(req);
+                    
+                    foreach (var obj in resp.QueryLoggingConfigs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

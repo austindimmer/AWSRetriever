@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListActiveViolationsResponse resp = new ListActiveViolationsResponse();
             do
             {
-                ListActiveViolationsRequest req = new ListActiveViolationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListActiveViolationsRequest req = new ListActiveViolationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListActiveViolationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ActiveViolations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListActiveViolationsAsync(req);
+                    
+                    foreach (var obj in resp.ActiveViolations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

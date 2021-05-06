@@ -29,22 +29,30 @@ namespace CloudOps.Organizations
             ListCreateAccountStatusResponse resp = new ListCreateAccountStatusResponse();
             do
             {
-                ListCreateAccountStatusRequest req = new ListCreateAccountStatusRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCreateAccountStatusRequest req = new ListCreateAccountStatusRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCreateAccountStatusAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CreateAccountStatuses)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCreateAccountStatusAsync(req);
+                    
+                    foreach (var obj in resp.CreateAccountStatuses)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

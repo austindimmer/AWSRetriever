@@ -29,22 +29,30 @@ namespace CloudOps.ECRPublic
             DescribeRegistriesResponse resp = new DescribeRegistriesResponse();
             do
             {
-                DescribeRegistriesRequest req = new DescribeRegistriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeRegistriesRequest req = new DescribeRegistriesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeRegistriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Registries)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeRegistriesAsync(req);
+                    
+                    foreach (var obj in resp.Registries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

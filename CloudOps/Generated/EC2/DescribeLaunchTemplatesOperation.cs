@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeLaunchTemplatesResponse resp = new DescribeLaunchTemplatesResponse();
             do
             {
-                DescribeLaunchTemplatesRequest req = new DescribeLaunchTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeLaunchTemplatesRequest req = new DescribeLaunchTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeLaunchTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LaunchTemplates)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLaunchTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.LaunchTemplates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

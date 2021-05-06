@@ -29,22 +29,30 @@ namespace CloudOps.FSx
             DescribeFileSystemsResponse resp = new DescribeFileSystemsResponse();
             do
             {
-                DescribeFileSystemsRequest req = new DescribeFileSystemsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeFileSystemsRequest req = new DescribeFileSystemsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeFileSystemsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FileSystems)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeFileSystemsAsync(req);
+                    
+                    foreach (var obj in resp.FileSystems)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

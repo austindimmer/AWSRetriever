@@ -29,22 +29,30 @@ namespace CloudOps.NetworkManager
             DescribeGlobalNetworksResponse resp = new DescribeGlobalNetworksResponse();
             do
             {
-                DescribeGlobalNetworksRequest req = new DescribeGlobalNetworksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeGlobalNetworksRequest req = new DescribeGlobalNetworksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeGlobalNetworksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GlobalNetworks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeGlobalNetworksAsync(req);
+                    
+                    foreach (var obj in resp.GlobalNetworks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

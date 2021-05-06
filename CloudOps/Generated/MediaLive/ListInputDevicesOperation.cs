@@ -29,22 +29,30 @@ namespace CloudOps.MediaLive
             ListInputDevicesResponse resp = new ListInputDevicesResponse();
             do
             {
-                ListInputDevicesRequest req = new ListInputDevicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListInputDevicesRequest req = new ListInputDevicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListInputDevicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InputDevices)
-                {
-                    AddObject(obj);
+                    resp = await client.ListInputDevicesAsync(req);
+                    
+                    foreach (var obj in resp.InputDevices)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

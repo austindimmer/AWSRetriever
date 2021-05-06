@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeSourceRegionsResponse resp = new DescribeSourceRegionsResponse();
             do
             {
-                DescribeSourceRegionsRequest req = new DescribeSourceRegionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeSourceRegionsRequest req = new DescribeSourceRegionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSourceRegionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SourceRegions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSourceRegionsAsync(req);
+                    
+                    foreach (var obj in resp.SourceRegions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

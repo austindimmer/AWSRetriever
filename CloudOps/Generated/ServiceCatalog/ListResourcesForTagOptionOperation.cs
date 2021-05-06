@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListResourcesForTagOptionResponse resp = new ListResourcesForTagOptionResponse();
             do
             {
-                ListResourcesForTagOptionRequest req = new ListResourcesForTagOptionRequest
+                try
                 {
-                    PageToken = resp.PageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListResourcesForTagOptionRequest req = new ListResourcesForTagOptionRequest
+                    {
+                        PageToken = resp.PageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListResourcesForTagOptionAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceDetails)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResourcesForTagOptionAsync(req);
+                    
+                    foreach (var obj in resp.ResourceDetails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.PageToken));
         }

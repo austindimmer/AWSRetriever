@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeCoipPoolsResponse resp = new DescribeCoipPoolsResponse();
             do
             {
-                DescribeCoipPoolsRequest req = new DescribeCoipPoolsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeCoipPoolsRequest req = new DescribeCoipPoolsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCoipPoolsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CoipPools)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCoipPoolsAsync(req);
+                    
+                    foreach (var obj in resp.CoipPools)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

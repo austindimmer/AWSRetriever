@@ -29,22 +29,30 @@ namespace CloudOps.Inspector
             ListEventSubscriptionsResponse resp = new ListEventSubscriptionsResponse();
             do
             {
-                ListEventSubscriptionsRequest req = new ListEventSubscriptionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEventSubscriptionsRequest req = new ListEventSubscriptionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEventSubscriptionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Subscriptions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEventSubscriptionsAsync(req);
+                    
+                    foreach (var obj in resp.Subscriptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBInstanceAutomatedBackupsResponse resp = new DescribeDBInstanceAutomatedBackupsResponse();
             do
             {
-                DescribeDBInstanceAutomatedBackupsRequest req = new DescribeDBInstanceAutomatedBackupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBInstanceAutomatedBackupsRequest req = new DescribeDBInstanceAutomatedBackupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBInstanceAutomatedBackupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBInstanceAutomatedBackups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBInstanceAutomatedBackupsAsync(req);
+                    
+                    foreach (var obj in resp.DBInstanceAutomatedBackups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

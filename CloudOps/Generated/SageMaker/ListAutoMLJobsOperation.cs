@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListAutoMLJobsResponse resp = new ListAutoMLJobsResponse();
             do
             {
-                ListAutoMLJobsRequest req = new ListAutoMLJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAutoMLJobsRequest req = new ListAutoMLJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAutoMLJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AutoMLJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAutoMLJobsAsync(req);
+                    
+                    foreach (var obj in resp.AutoMLJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

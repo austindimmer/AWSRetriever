@@ -29,22 +29,30 @@ namespace CloudOps.IVS
             ListRecordingConfigurationsResponse resp = new ListRecordingConfigurationsResponse();
             do
             {
-                ListRecordingConfigurationsRequest req = new ListRecordingConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRecordingConfigurationsRequest req = new ListRecordingConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRecordingConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RecordingConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRecordingConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.RecordingConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

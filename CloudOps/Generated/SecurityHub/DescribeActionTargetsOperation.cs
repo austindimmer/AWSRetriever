@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             DescribeActionTargetsResponse resp = new DescribeActionTargetsResponse();
             do
             {
-                DescribeActionTargetsRequest req = new DescribeActionTargetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeActionTargetsRequest req = new DescribeActionTargetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeActionTargetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ActionTargets)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeActionTargetsAsync(req);
+                    
+                    foreach (var obj in resp.ActionTargets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

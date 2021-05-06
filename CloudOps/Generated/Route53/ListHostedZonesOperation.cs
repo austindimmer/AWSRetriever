@@ -29,22 +29,30 @@ namespace CloudOps.Route53
             ListHostedZonesResponse resp = new ListHostedZonesResponse();
             do
             {
-                ListHostedZonesRequest req = new ListHostedZonesRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    MaxItems = maxItems.ToString()
-                                        
-                };
+                    ListHostedZonesRequest req = new ListHostedZonesRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        MaxItems = maxItems.ToString()
+                                            
+                    };
 
-                resp = await client.ListHostedZonesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HostedZones)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHostedZonesAsync(req);
+                    
+                    foreach (var obj in resp.HostedZones)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

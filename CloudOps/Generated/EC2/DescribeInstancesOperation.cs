@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeInstancesResponse resp = new DescribeInstancesResponse();
             do
             {
-                DescribeInstancesRequest req = new DescribeInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeInstancesRequest req = new DescribeInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Reservations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeInstancesAsync(req);
+                    
+                    foreach (var obj in resp.Reservations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

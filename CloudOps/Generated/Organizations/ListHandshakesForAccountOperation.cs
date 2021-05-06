@@ -29,22 +29,30 @@ namespace CloudOps.Organizations
             ListHandshakesForAccountResponse resp = new ListHandshakesForAccountResponse();
             do
             {
-                ListHandshakesForAccountRequest req = new ListHandshakesForAccountRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListHandshakesForAccountRequest req = new ListHandshakesForAccountRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListHandshakesForAccountAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Handshakes)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHandshakesForAccountAsync(req);
+                    
+                    foreach (var obj in resp.Handshakes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

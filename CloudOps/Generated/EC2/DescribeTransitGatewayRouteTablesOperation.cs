@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeTransitGatewayRouteTablesResponse resp = new DescribeTransitGatewayRouteTablesResponse();
             do
             {
-                DescribeTransitGatewayRouteTablesRequest req = new DescribeTransitGatewayRouteTablesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeTransitGatewayRouteTablesRequest req = new DescribeTransitGatewayRouteTablesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTransitGatewayRouteTablesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TransitGatewayRouteTables)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTransitGatewayRouteTablesAsync(req);
+                    
+                    foreach (var obj in resp.TransitGatewayRouteTables)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

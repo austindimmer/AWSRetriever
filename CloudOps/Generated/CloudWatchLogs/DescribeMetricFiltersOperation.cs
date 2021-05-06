@@ -29,22 +29,30 @@ namespace CloudOps.CloudWatchLogs
             DescribeMetricFiltersResponse resp = new DescribeMetricFiltersResponse();
             do
             {
-                DescribeMetricFiltersRequest req = new DescribeMetricFiltersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeMetricFiltersRequest req = new DescribeMetricFiltersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMetricFiltersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MetricFilters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMetricFiltersAsync(req);
+                    
+                    foreach (var obj in resp.MetricFilters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

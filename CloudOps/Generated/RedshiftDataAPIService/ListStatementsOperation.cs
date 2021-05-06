@@ -29,22 +29,30 @@ namespace CloudOps.RedshiftDataAPIService
             ListStatementsResponse resp = new ListStatementsResponse();
             do
             {
-                ListStatementsRequest req = new ListStatementsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListStatementsRequest req = new ListStatementsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListStatementsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Statements)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStatementsAsync(req);
+                    
+                    foreach (var obj in resp.Statements)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

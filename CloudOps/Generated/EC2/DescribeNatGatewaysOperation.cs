@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeNatGatewaysResponse resp = new DescribeNatGatewaysResponse();
             do
             {
-                DescribeNatGatewaysRequest req = new DescribeNatGatewaysRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeNatGatewaysRequest req = new DescribeNatGatewaysRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeNatGatewaysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NatGateways)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeNatGatewaysAsync(req);
+                    
+                    foreach (var obj in resp.NatGateways)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

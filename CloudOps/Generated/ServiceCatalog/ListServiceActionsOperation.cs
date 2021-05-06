@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListServiceActionsResponse resp = new ListServiceActionsResponse();
             do
             {
-                ListServiceActionsRequest req = new ListServiceActionsRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListServiceActionsRequest req = new ListServiceActionsRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListServiceActionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ServiceActionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListServiceActionsAsync(req);
+                    
+                    foreach (var obj in resp.ServiceActionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

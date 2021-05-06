@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListFiltersResponse resp = new ListFiltersResponse();
             do
             {
-                ListFiltersRequest req = new ListFiltersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFiltersRequest req = new ListFiltersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFiltersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Filters)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFiltersAsync(req);
+                    
+                    foreach (var obj in resp.Filters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

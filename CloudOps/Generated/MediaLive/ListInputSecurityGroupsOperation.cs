@@ -29,22 +29,30 @@ namespace CloudOps.MediaLive
             ListInputSecurityGroupsResponse resp = new ListInputSecurityGroupsResponse();
             do
             {
-                ListInputSecurityGroupsRequest req = new ListInputSecurityGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListInputSecurityGroupsRequest req = new ListInputSecurityGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListInputSecurityGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InputSecurityGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListInputSecurityGroupsAsync(req);
+                    
+                    foreach (var obj in resp.InputSecurityGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Glacier
             ListJobsResponse resp = new ListJobsResponse();
             do
             {
-                ListJobsRequest req = new ListJobsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListJobsRequest req = new ListJobsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JobList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListJobsAsync(req);
+                    
+                    foreach (var obj in resp.JobList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

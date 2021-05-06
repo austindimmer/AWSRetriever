@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeClusterTracksResponse resp = new DescribeClusterTracksResponse();
             do
             {
-                DescribeClusterTracksRequest req = new DescribeClusterTracksRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeClusterTracksRequest req = new DescribeClusterTracksRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClusterTracksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MaintenanceTracks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClusterTracksAsync(req);
+                    
+                    foreach (var obj in resp.MaintenanceTracks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

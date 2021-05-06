@@ -29,22 +29,30 @@ namespace CloudOps.IoTSiteWise
             ListAccessPoliciesResponse resp = new ListAccessPoliciesResponse();
             do
             {
-                ListAccessPoliciesRequest req = new ListAccessPoliciesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAccessPoliciesRequest req = new ListAccessPoliciesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAccessPoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AccessPolicySummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAccessPoliciesAsync(req);
+                    
+                    foreach (var obj in resp.AccessPolicySummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

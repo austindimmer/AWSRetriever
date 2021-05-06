@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             GetFindingsResponse resp = new GetFindingsResponse();
             do
             {
-                GetFindingsRequest req = new GetFindingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetFindingsRequest req = new GetFindingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetFindingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Findings)
-                {
-                    AddObject(obj);
+                    resp = await client.GetFindingsAsync(req);
+                    
+                    foreach (var obj in resp.Findings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

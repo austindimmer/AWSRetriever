@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             ListOpsMetadataResponse resp = new ListOpsMetadataResponse();
             do
             {
-                ListOpsMetadataRequest req = new ListOpsMetadataRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListOpsMetadataRequest req = new ListOpsMetadataRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListOpsMetadataAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OpsMetadataList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOpsMetadataAsync(req);
+                    
+                    foreach (var obj in resp.OpsMetadataList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

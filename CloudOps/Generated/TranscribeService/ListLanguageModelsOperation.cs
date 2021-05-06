@@ -29,22 +29,30 @@ namespace CloudOps.TranscribeService
             ListLanguageModelsResponse resp = new ListLanguageModelsResponse();
             do
             {
-                ListLanguageModelsRequest req = new ListLanguageModelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListLanguageModelsRequest req = new ListLanguageModelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListLanguageModelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Models)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLanguageModelsAsync(req);
+                    
+                    foreach (var obj in resp.Models)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeLocalGatewayVirtualInterfacesResponse resp = new DescribeLocalGatewayVirtualInterfacesResponse();
             do
             {
-                DescribeLocalGatewayVirtualInterfacesRequest req = new DescribeLocalGatewayVirtualInterfacesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeLocalGatewayVirtualInterfacesRequest req = new DescribeLocalGatewayVirtualInterfacesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeLocalGatewayVirtualInterfacesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LocalGatewayVirtualInterfaces)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLocalGatewayVirtualInterfacesAsync(req);
+                    
+                    foreach (var obj in resp.LocalGatewayVirtualInterfaces)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

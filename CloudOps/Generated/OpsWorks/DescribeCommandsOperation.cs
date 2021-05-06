@@ -31,12 +31,21 @@ namespace CloudOps.OpsWorks
             {                    
                                     
             };
-            resp = await client.DescribeCommandsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.Commands)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeCommandsAsync(req);
+                
+                foreach (var obj in resp.Commands)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

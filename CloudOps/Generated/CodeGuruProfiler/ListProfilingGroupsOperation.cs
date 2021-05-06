@@ -29,27 +29,35 @@ namespace CloudOps.CodeGuruProfiler
             ListProfilingGroupsResponse resp = new ListProfilingGroupsResponse();
             do
             {
-                ListProfilingGroupsRequest req = new ListProfilingGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProfilingGroupsRequest req = new ListProfilingGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProfilingGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProfilingGroupNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProfilingGroupsAsync(req);
+                    
+                    foreach (var obj in resp.ProfilingGroupNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ProfilingGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.ProfilingGroups)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

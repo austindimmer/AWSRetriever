@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListThingRegistrationTasksResponse resp = new ListThingRegistrationTasksResponse();
             do
             {
-                ListThingRegistrationTasksRequest req = new ListThingRegistrationTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListThingRegistrationTasksRequest req = new ListThingRegistrationTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListThingRegistrationTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TaskIds)
-                {
-                    AddObject(obj);
+                    resp = await client.ListThingRegistrationTasksAsync(req);
+                    
+                    foreach (var obj in resp.TaskIds)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

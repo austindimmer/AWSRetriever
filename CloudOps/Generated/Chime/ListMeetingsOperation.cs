@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListMeetingsResponse resp = new ListMeetingsResponse();
             do
             {
-                ListMeetingsRequest req = new ListMeetingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMeetingsRequest req = new ListMeetingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMeetingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Meetings)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMeetingsAsync(req);
+                    
+                    foreach (var obj in resp.Meetings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

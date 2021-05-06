@@ -29,22 +29,30 @@ namespace CloudOps.Neptune
             DescribeDBClusterEndpointsResponse resp = new DescribeDBClusterEndpointsResponse();
             do
             {
-                DescribeDBClusterEndpointsRequest req = new DescribeDBClusterEndpointsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBClusterEndpointsRequest req = new DescribeDBClusterEndpointsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBClusterEndpointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBClusterEndpoints)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBClusterEndpointsAsync(req);
+                    
+                    foreach (var obj in resp.DBClusterEndpoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

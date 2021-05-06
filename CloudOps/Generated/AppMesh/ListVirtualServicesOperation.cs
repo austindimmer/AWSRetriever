@@ -29,22 +29,30 @@ namespace CloudOps.AppMesh
             ListVirtualServicesResponse resp = new ListVirtualServicesResponse();
             do
             {
-                ListVirtualServicesRequest req = new ListVirtualServicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListVirtualServicesRequest req = new ListVirtualServicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListVirtualServicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VirtualServices)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVirtualServicesAsync(req);
+                    
+                    foreach (var obj in resp.VirtualServices)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

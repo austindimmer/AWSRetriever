@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeMaintenanceWindowsResponse resp = new DescribeMaintenanceWindowsResponse();
             do
             {
-                DescribeMaintenanceWindowsRequest req = new DescribeMaintenanceWindowsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeMaintenanceWindowsRequest req = new DescribeMaintenanceWindowsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMaintenanceWindowsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WindowIdentities)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMaintenanceWindowsAsync(req);
+                    
+                    foreach (var obj in resp.WindowIdentities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

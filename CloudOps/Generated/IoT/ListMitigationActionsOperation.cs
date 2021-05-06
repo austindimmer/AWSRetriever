@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListMitigationActionsResponse resp = new ListMitigationActionsResponse();
             do
             {
-                ListMitigationActionsRequest req = new ListMitigationActionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMitigationActionsRequest req = new ListMitigationActionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMitigationActionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ActionIdentifiers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMitigationActionsAsync(req);
+                    
+                    foreach (var obj in resp.ActionIdentifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeOpsItemsResponse resp = new DescribeOpsItemsResponse();
             do
             {
-                DescribeOpsItemsRequest req = new DescribeOpsItemsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeOpsItemsRequest req = new DescribeOpsItemsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeOpsItemsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OpsItemSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeOpsItemsAsync(req);
+                    
+                    foreach (var obj in resp.OpsItemSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

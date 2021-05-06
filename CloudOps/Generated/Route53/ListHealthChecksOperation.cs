@@ -29,22 +29,30 @@ namespace CloudOps.Route53
             ListHealthChecksResponse resp = new ListHealthChecksResponse();
             do
             {
-                ListHealthChecksRequest req = new ListHealthChecksRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    MaxItems = maxItems.ToString()
-                                        
-                };
+                    ListHealthChecksRequest req = new ListHealthChecksRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        MaxItems = maxItems.ToString()
+                                            
+                    };
 
-                resp = await client.ListHealthChecksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HealthChecks)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHealthChecksAsync(req);
+                    
+                    foreach (var obj in resp.HealthChecks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

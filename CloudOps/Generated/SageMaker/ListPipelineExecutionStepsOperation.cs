@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListPipelineExecutionStepsResponse resp = new ListPipelineExecutionStepsResponse();
             do
             {
-                ListPipelineExecutionStepsRequest req = new ListPipelineExecutionStepsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPipelineExecutionStepsRequest req = new ListPipelineExecutionStepsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPipelineExecutionStepsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PipelineExecutionSteps)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPipelineExecutionStepsAsync(req);
+                    
+                    foreach (var obj in resp.PipelineExecutionSteps)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

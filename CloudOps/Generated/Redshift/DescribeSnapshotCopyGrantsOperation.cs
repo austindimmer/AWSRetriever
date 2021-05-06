@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeSnapshotCopyGrantsResponse resp = new DescribeSnapshotCopyGrantsResponse();
             do
             {
-                DescribeSnapshotCopyGrantsRequest req = new DescribeSnapshotCopyGrantsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeSnapshotCopyGrantsRequest req = new DescribeSnapshotCopyGrantsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSnapshotCopyGrantsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SnapshotCopyGrants)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSnapshotCopyGrantsAsync(req);
+                    
+                    foreach (var obj in resp.SnapshotCopyGrants)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

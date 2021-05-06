@@ -29,22 +29,30 @@ namespace CloudOps.PinpointEmail
             ListConfigurationSetsResponse resp = new ListConfigurationSetsResponse();
             do
             {
-                ListConfigurationSetsRequest req = new ListConfigurationSetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListConfigurationSetsRequest req = new ListConfigurationSetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListConfigurationSetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConfigurationSets)
-                {
-                    AddObject(obj);
+                    resp = await client.ListConfigurationSetsAsync(req);
+                    
+                    foreach (var obj in resp.ConfigurationSets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

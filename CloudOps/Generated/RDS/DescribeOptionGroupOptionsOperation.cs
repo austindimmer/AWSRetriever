@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeOptionGroupOptionsResponse resp = new DescribeOptionGroupOptionsResponse();
             do
             {
-                DescribeOptionGroupOptionsRequest req = new DescribeOptionGroupOptionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeOptionGroupOptionsRequest req = new DescribeOptionGroupOptionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeOptionGroupOptionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OptionGroupOptions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeOptionGroupOptionsAsync(req);
+                    
+                    foreach (var obj in resp.OptionGroupOptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

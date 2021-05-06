@@ -29,22 +29,30 @@ namespace CloudOps.DataSync
             ListAgentsResponse resp = new ListAgentsResponse();
             do
             {
-                ListAgentsRequest req = new ListAgentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAgentsRequest req = new ListAgentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAgentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Agents)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAgentsAsync(req);
+                    
+                    foreach (var obj in resp.Agents)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

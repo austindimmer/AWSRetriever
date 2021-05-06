@@ -29,20 +29,28 @@ namespace CloudOps.ElasticLoadBalancingV2
             DescribeLoadBalancersResponse resp = new DescribeLoadBalancersResponse();
             do
             {
-                DescribeLoadBalancersRequest req = new DescribeLoadBalancersRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                                        
-                };
+                    DescribeLoadBalancersRequest req = new DescribeLoadBalancersRequest
+                    {
+                        Marker = resp.NextMarker
+                                            
+                    };
 
-                resp = await client.DescribeLoadBalancersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LoadBalancers)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLoadBalancersAsync(req);
+                    
+                    foreach (var obj in resp.LoadBalancers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.WellArchitected
             ListWorkloadsResponse resp = new ListWorkloadsResponse();
             do
             {
-                ListWorkloadsRequest req = new ListWorkloadsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorkloadsRequest req = new ListWorkloadsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorkloadsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorkloadSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorkloadsAsync(req);
+                    
+                    foreach (var obj in resp.WorkloadSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

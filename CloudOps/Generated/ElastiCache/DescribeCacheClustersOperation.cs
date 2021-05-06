@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeCacheClustersResponse resp = new DescribeCacheClustersResponse();
             do
             {
-                DescribeCacheClustersRequest req = new DescribeCacheClustersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeCacheClustersRequest req = new DescribeCacheClustersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCacheClustersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CacheClusters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCacheClustersAsync(req);
+                    
+                    foreach (var obj in resp.CacheClusters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

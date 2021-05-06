@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeTagsResponse resp = new DescribeTagsResponse();
             do
             {
-                DescribeTagsRequest req = new DescribeTagsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeTagsRequest req = new DescribeTagsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTagsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TaggedResources)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTagsAsync(req);
+                    
+                    foreach (var obj in resp.TaggedResources)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

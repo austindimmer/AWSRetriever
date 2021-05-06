@@ -29,22 +29,30 @@ namespace CloudOps.KeyManagementService
             ListAliasesResponse resp = new ListAliasesResponse();
             do
             {
-                ListAliasesRequest req = new ListAliasesRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListAliasesRequest req = new ListAliasesRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListAliasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Aliases)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAliasesAsync(req);
+                    
+                    foreach (var obj in resp.Aliases)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

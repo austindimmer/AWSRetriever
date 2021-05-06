@@ -29,22 +29,30 @@ namespace CloudOps.AppMesh
             ListVirtualGatewaysResponse resp = new ListVirtualGatewaysResponse();
             do
             {
-                ListVirtualGatewaysRequest req = new ListVirtualGatewaysRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListVirtualGatewaysRequest req = new ListVirtualGatewaysRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListVirtualGatewaysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VirtualGateways)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVirtualGatewaysAsync(req);
+                    
+                    foreach (var obj in resp.VirtualGateways)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

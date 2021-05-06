@@ -29,20 +29,28 @@ namespace CloudOps.CloudTrail
             ListTrailsResponse resp = new ListTrailsResponse();
             do
             {
-                ListTrailsRequest req = new ListTrailsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListTrailsRequest req = new ListTrailsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListTrailsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Trails)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTrailsAsync(req);
+                    
+                    foreach (var obj in resp.Trails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

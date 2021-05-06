@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListGatewaysResponse resp = new ListGatewaysResponse();
             do
             {
-                ListGatewaysRequest req = new ListGatewaysRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListGatewaysRequest req = new ListGatewaysRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListGatewaysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Gateways)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGatewaysAsync(req);
+                    
+                    foreach (var obj in resp.Gateways)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

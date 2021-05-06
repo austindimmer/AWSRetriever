@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListExperimentsResponse resp = new ListExperimentsResponse();
             do
             {
-                ListExperimentsRequest req = new ListExperimentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListExperimentsRequest req = new ListExperimentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListExperimentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ExperimentSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListExperimentsAsync(req);
+                    
+                    foreach (var obj in resp.ExperimentSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

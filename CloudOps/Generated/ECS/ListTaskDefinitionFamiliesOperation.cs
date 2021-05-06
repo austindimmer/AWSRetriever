@@ -29,22 +29,30 @@ namespace CloudOps.ECS
             ListTaskDefinitionFamiliesResponse resp = new ListTaskDefinitionFamiliesResponse();
             do
             {
-                ListTaskDefinitionFamiliesRequest req = new ListTaskDefinitionFamiliesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTaskDefinitionFamiliesRequest req = new ListTaskDefinitionFamiliesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTaskDefinitionFamiliesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Families)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTaskDefinitionFamiliesAsync(req);
+                    
+                    foreach (var obj in resp.Families)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

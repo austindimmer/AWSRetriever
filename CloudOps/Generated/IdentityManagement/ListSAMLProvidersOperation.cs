@@ -31,12 +31,21 @@ namespace CloudOps.IdentityManagement
             {                    
                                     
             };
-            resp = await client.ListSAMLProvidersAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.SAMLProviderList)
+            try
             {
-                AddObject(obj);
+                resp = await client.ListSAMLProvidersAsync(req);
+                
+                foreach (var obj in resp.SAMLProviderList)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

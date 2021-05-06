@@ -29,22 +29,30 @@ namespace CloudOps.Athena
             ListDatabasesResponse resp = new ListDatabasesResponse();
             do
             {
-                ListDatabasesRequest req = new ListDatabasesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDatabasesRequest req = new ListDatabasesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDatabasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatabaseList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDatabasesAsync(req);
+                    
+                    foreach (var obj in resp.DatabaseList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

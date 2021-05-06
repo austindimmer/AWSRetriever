@@ -29,22 +29,30 @@ namespace CloudOps.Glacier
             ListMultipartUploadsResponse resp = new ListMultipartUploadsResponse();
             do
             {
-                ListMultipartUploadsRequest req = new ListMultipartUploadsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListMultipartUploadsRequest req = new ListMultipartUploadsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListMultipartUploads(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.UploadsList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMultipartUploadsAsync(req);
+                    
+                    foreach (var obj in resp.UploadsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

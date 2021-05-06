@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListConstraintsForPortfolioResponse resp = new ListConstraintsForPortfolioResponse();
             do
             {
-                ListConstraintsForPortfolioRequest req = new ListConstraintsForPortfolioRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListConstraintsForPortfolioRequest req = new ListConstraintsForPortfolioRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListConstraintsForPortfolioAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConstraintDetails)
-                {
-                    AddObject(obj);
+                    resp = await client.ListConstraintsForPortfolioAsync(req);
+                    
+                    foreach (var obj in resp.ConstraintDetails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

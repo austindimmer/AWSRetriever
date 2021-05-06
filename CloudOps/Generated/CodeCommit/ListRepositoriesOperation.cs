@@ -29,20 +29,28 @@ namespace CloudOps.CodeCommit
             ListRepositoriesResponse resp = new ListRepositoriesResponse();
             do
             {
-                ListRepositoriesRequest req = new ListRepositoriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListRepositoriesRequest req = new ListRepositoriesRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListRepositoriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Repositories)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRepositoriesAsync(req);
+                    
+                    foreach (var obj in resp.Repositories)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

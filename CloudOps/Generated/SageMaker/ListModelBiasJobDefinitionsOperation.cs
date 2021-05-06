@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListModelBiasJobDefinitionsResponse resp = new ListModelBiasJobDefinitionsResponse();
             do
             {
-                ListModelBiasJobDefinitionsRequest req = new ListModelBiasJobDefinitionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListModelBiasJobDefinitionsRequest req = new ListModelBiasJobDefinitionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListModelBiasJobDefinitionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JobDefinitionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListModelBiasJobDefinitionsAsync(req);
+                    
+                    foreach (var obj in resp.JobDefinitionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

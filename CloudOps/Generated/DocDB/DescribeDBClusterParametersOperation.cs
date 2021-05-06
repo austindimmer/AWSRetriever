@@ -29,22 +29,30 @@ namespace CloudOps.DocDB
             DescribeDBClusterParametersResponse resp = new DescribeDBClusterParametersResponse();
             do
             {
-                DescribeDBClusterParametersRequest req = new DescribeDBClusterParametersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBClusterParametersRequest req = new DescribeDBClusterParametersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBClusterParametersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Parameters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBClusterParametersAsync(req);
+                    
+                    foreach (var obj in resp.Parameters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

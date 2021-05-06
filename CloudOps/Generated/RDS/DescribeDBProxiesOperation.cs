@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBProxiesResponse resp = new DescribeDBProxiesResponse();
             do
             {
-                DescribeDBProxiesRequest req = new DescribeDBProxiesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBProxiesRequest req = new DescribeDBProxiesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBProxiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBProxies)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBProxiesAsync(req);
+                    
+                    foreach (var obj in resp.DBProxies)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

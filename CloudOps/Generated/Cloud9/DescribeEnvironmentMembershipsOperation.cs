@@ -29,22 +29,30 @@ namespace CloudOps.Cloud9
             DescribeEnvironmentMembershipsResponse resp = new DescribeEnvironmentMembershipsResponse();
             do
             {
-                DescribeEnvironmentMembershipsRequest req = new DescribeEnvironmentMembershipsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeEnvironmentMembershipsRequest req = new DescribeEnvironmentMembershipsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEnvironmentMembershipsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Memberships)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEnvironmentMembershipsAsync(req);
+                    
+                    foreach (var obj in resp.Memberships)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

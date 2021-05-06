@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeNetworkInterfacePermissionsResponse resp = new DescribeNetworkInterfacePermissionsResponse();
             do
             {
-                DescribeNetworkInterfacePermissionsRequest req = new DescribeNetworkInterfacePermissionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeNetworkInterfacePermissionsRequest req = new DescribeNetworkInterfacePermissionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeNetworkInterfacePermissionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NetworkInterfacePermissions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeNetworkInterfacePermissionsAsync(req);
+                    
+                    foreach (var obj in resp.NetworkInterfacePermissions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

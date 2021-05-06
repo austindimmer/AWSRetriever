@@ -26,25 +26,33 @@ namespace CloudOps.DocDB
             ConfigureClient(config);            
             AmazonDocDBClient client = new AmazonDocDBClient(creds, config);
             
-            DescribeCertificatesResponse resp = new DescribeCertificatesResponse();
+            DescribeCertificateResponse resp = new DescribeCertificateResponse();
             do
             {
-                DescribeCertificatesRequest req = new DescribeCertificatesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeCertificatesRequest req = new DescribeCertificatesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCertificatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Certificates)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCertificatesAsync(req);
+                    
+                    foreach (var obj in resp.Certificates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListFileSystemAssociationsResponse resp = new ListFileSystemAssociationsResponse();
             do
             {
-                ListFileSystemAssociationsRequest req = new ListFileSystemAssociationsRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListFileSystemAssociationsRequest req = new ListFileSystemAssociationsRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListFileSystemAssociationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FileSystemAssociationSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFileSystemAssociationsAsync(req);
+                    
+                    foreach (var obj in resp.FileSystemAssociationSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

@@ -29,20 +29,28 @@ namespace CloudOps.CodePipeline
             ListActionTypesResponse resp = new ListActionTypesResponse();
             do
             {
-                ListActionTypesRequest req = new ListActionTypesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListActionTypesRequest req = new ListActionTypesRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListActionTypesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ActionTypes)
-                {
-                    AddObject(obj);
+                    resp = await client.ListActionTypesAsync(req);
+                    
+                    foreach (var obj in resp.ActionTypes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.AccessAnalyzer
             ListAnalyzersResponse resp = new ListAnalyzersResponse();
             do
             {
-                ListAnalyzersRequest req = new ListAnalyzersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAnalyzersRequest req = new ListAnalyzersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAnalyzersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Analyzers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAnalyzersAsync(req);
+                    
+                    foreach (var obj in resp.Analyzers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

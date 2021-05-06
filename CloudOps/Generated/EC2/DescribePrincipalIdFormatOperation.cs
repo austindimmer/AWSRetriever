@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribePrincipalIdFormatResponse resp = new DescribePrincipalIdFormatResponse();
             do
             {
-                DescribePrincipalIdFormatRequest req = new DescribePrincipalIdFormatRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePrincipalIdFormatRequest req = new DescribePrincipalIdFormatRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePrincipalIdFormatAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Principals)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePrincipalIdFormatAsync(req);
+                    
+                    foreach (var obj in resp.Principals)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

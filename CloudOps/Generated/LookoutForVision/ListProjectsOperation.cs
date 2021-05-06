@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.LookoutforVision;
-using Amazon.LookoutforVision.Model;
+using Amazon.LookoutForVision;
+using Amazon.LookoutForVision.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.LookoutforVision
+namespace CloudOps.LookoutForVision
 {
     public class ListProjectsOperation : Operation
     {
@@ -15,36 +15,44 @@ namespace CloudOps.LookoutforVision
 
         public override string Method => "GET";
 
-        public override string ServiceName => "LookoutforVision";
+        public override string ServiceName => "LookoutForVision";
 
         public override string ServiceID => "LookoutVision";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonLookoutforVisionConfig config = new AmazonLookoutforVisionConfig();
+            AmazonLookoutForVisionConfig config = new AmazonLookoutForVisionConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonLookoutforVisionClient client = new AmazonLookoutforVisionClient(creds, config);
+            AmazonLookoutForVisionClient client = new AmazonLookoutForVisionClient(creds, config);
             
             ListProjectsResponse resp = new ListProjectsResponse();
             do
             {
-                ListProjectsRequest req = new ListProjectsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProjectsRequest req = new ListProjectsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Projects)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProjectsAsync(req);
+                    
+                    foreach (var obj in resp.Projects)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

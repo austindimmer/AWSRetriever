@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             DescribeMatchmakingRuleSetsResponse resp = new DescribeMatchmakingRuleSetsResponse();
             do
             {
-                DescribeMatchmakingRuleSetsRequest req = new DescribeMatchmakingRuleSetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeMatchmakingRuleSetsRequest req = new DescribeMatchmakingRuleSetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMatchmakingRuleSetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RuleSets)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMatchmakingRuleSetsAsync(req);
+                    
+                    foreach (var obj in resp.RuleSets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

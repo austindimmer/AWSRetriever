@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             GetEntityTypesResponse resp = new GetEntityTypesResponse();
             do
             {
-                GetEntityTypesRequest req = new GetEntityTypesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetEntityTypesRequest req = new GetEntityTypesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetEntityTypesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EntityTypes)
-                {
-                    AddObject(obj);
+                    resp = await client.GetEntityTypesAsync(req);
+                    
+                    foreach (var obj in resp.EntityTypes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

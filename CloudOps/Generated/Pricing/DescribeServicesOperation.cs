@@ -29,27 +29,35 @@ namespace CloudOps.Pricing
             DescribeServicesResponse resp = new DescribeServicesResponse();
             do
             {
-                DescribeServicesRequest req = new DescribeServicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeServicesRequest req = new DescribeServicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeServicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Services)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeServicesAsync(req);
+                    
+                    foreach (var obj in resp.Services)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.FormatVersion)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.FormatVersion)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

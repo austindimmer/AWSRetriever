@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeMovingAddressesResponse resp = new DescribeMovingAddressesResponse();
             do
             {
-                DescribeMovingAddressesRequest req = new DescribeMovingAddressesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeMovingAddressesRequest req = new DescribeMovingAddressesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMovingAddressesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MovingAddressStatuses)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMovingAddressesAsync(req);
+                    
+                    foreach (var obj in resp.MovingAddressStatuses)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeServiceUpdatesResponse resp = new DescribeServiceUpdatesResponse();
             do
             {
-                DescribeServiceUpdatesRequest req = new DescribeServiceUpdatesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeServiceUpdatesRequest req = new DescribeServiceUpdatesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeServiceUpdatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ServiceUpdates)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeServiceUpdatesAsync(req);
+                    
+                    foreach (var obj in resp.ServiceUpdates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListTopicRuleDestinationsResponse resp = new ListTopicRuleDestinationsResponse();
             do
             {
-                ListTopicRuleDestinationsRequest req = new ListTopicRuleDestinationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTopicRuleDestinationsRequest req = new ListTopicRuleDestinationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTopicRuleDestinationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DestinationSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTopicRuleDestinationsAsync(req);
+                    
+                    foreach (var obj in resp.DestinationSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

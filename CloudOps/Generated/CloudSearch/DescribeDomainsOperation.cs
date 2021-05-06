@@ -31,12 +31,21 @@ namespace CloudOps.CloudSearch
             {                    
                                     
             };
-            resp = await client.DescribeDomainsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.DomainStatusList)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeDomainsAsync(req);
+                
+                foreach (var obj in resp.DomainStatusList)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

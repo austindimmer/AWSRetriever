@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeAutomationExecutionsResponse resp = new DescribeAutomationExecutionsResponse();
             do
             {
-                DescribeAutomationExecutionsRequest req = new DescribeAutomationExecutionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeAutomationExecutionsRequest req = new DescribeAutomationExecutionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAutomationExecutionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AutomationExecutionMetadataList)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAutomationExecutionsAsync(req);
+                    
+                    foreach (var obj in resp.AutomationExecutionMetadataList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

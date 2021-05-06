@@ -29,22 +29,30 @@ namespace CloudOps.Organizations
             ListRootsResponse resp = new ListRootsResponse();
             do
             {
-                ListRootsRequest req = new ListRootsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRootsRequest req = new ListRootsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRootsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Roots)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRootsAsync(req);
+                    
+                    foreach (var obj in resp.Roots)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

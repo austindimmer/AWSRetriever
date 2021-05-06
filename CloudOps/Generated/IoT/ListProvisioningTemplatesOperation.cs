@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListProvisioningTemplatesResponse resp = new ListProvisioningTemplatesResponse();
             do
             {
-                ListProvisioningTemplatesRequest req = new ListProvisioningTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProvisioningTemplatesRequest req = new ListProvisioningTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProvisioningTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Templates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProvisioningTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.Templates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

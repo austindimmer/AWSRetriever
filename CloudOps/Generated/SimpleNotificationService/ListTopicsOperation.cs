@@ -29,20 +29,28 @@ namespace CloudOps.SimpleNotificationService
             ListTopicsResponse resp = new ListTopicsResponse();
             do
             {
-                ListTopicsRequest req = new ListTopicsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListTopicsRequest req = new ListTopicsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListTopicsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Topics)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTopicsAsync(req);
+                    
+                    foreach (var obj in resp.Topics)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

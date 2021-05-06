@@ -29,22 +29,30 @@ namespace CloudOps.APIGateway
             GetClientCertificatesResponse resp = new GetClientCertificatesResponse();
             do
             {
-                GetClientCertificatesRequest req = new GetClientCertificatesRequest
+                try
                 {
-                    Position = resp.Position
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    GetClientCertificatesRequest req = new GetClientCertificatesRequest
+                    {
+                        Position = resp.Position
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.GetClientCertificatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.GetClientCertificatesAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Position));
         }

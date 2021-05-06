@@ -29,22 +29,30 @@ namespace CloudOps.MigrationHub
             ListProgressUpdateStreamsResponse resp = new ListProgressUpdateStreamsResponse();
             do
             {
-                ListProgressUpdateStreamsRequest req = new ListProgressUpdateStreamsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProgressUpdateStreamsRequest req = new ListProgressUpdateStreamsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProgressUpdateStreamsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProgressUpdateStreamSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProgressUpdateStreamsAsync(req);
+                    
+                    foreach (var obj in resp.ProgressUpdateStreamSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             ListWorkflowsResponse resp = new ListWorkflowsResponse();
             do
             {
-                ListWorkflowsRequest req = new ListWorkflowsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorkflowsRequest req = new ListWorkflowsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorkflowsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Workflows)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorkflowsAsync(req);
+                    
+                    foreach (var obj in resp.Workflows)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

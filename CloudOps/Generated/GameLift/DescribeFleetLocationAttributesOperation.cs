@@ -29,32 +29,40 @@ namespace CloudOps.GameLift
             DescribeFleetLocationAttributesResponse resp = new DescribeFleetLocationAttributesResponse();
             do
             {
-                DescribeFleetLocationAttributesRequest req = new DescribeFleetLocationAttributesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeFleetLocationAttributesRequest req = new DescribeFleetLocationAttributesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeFleetLocationAttributesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LocationAttributes)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeFleetLocationAttributesAsync(req);
+                    
+                    foreach (var obj in resp.FleetId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.FleetArn)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.LocationAttributes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.FleetId)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.FleetArn)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

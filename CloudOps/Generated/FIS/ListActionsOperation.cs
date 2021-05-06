@@ -29,22 +29,30 @@ namespace CloudOps.FIS
             ListActionsResponse resp = new ListActionsResponse();
             do
             {
-                ListActionsRequest req = new ListActionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListActionsRequest req = new ListActionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListActionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Actions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListActionsAsync(req);
+                    
+                    foreach (var obj in resp.Actions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Shield
             ListAttacksResponse resp = new ListAttacksResponse();
             do
             {
-                ListAttacksRequest req = new ListAttacksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAttacksRequest req = new ListAttacksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAttacksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AttackSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAttacksAsync(req);
+                    
+                    foreach (var obj in resp.AttackSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

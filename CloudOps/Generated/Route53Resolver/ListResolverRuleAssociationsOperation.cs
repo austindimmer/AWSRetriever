@@ -29,22 +29,30 @@ namespace CloudOps.Route53Resolver
             ListResolverRuleAssociationsResponse resp = new ListResolverRuleAssociationsResponse();
             do
             {
-                ListResolverRuleAssociationsRequest req = new ListResolverRuleAssociationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResolverRuleAssociationsRequest req = new ListResolverRuleAssociationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResolverRuleAssociationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResolverRuleAssociations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResolverRuleAssociationsAsync(req);
+                    
+                    foreach (var obj in resp.ResolverRuleAssociations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

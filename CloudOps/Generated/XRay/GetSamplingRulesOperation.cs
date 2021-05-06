@@ -29,20 +29,28 @@ namespace CloudOps.XRay
             GetSamplingRulesResponse resp = new GetSamplingRulesResponse();
             do
             {
-                GetSamplingRulesRequest req = new GetSamplingRulesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    GetSamplingRulesRequest req = new GetSamplingRulesRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.GetSamplingRulesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SamplingRuleRecords)
-                {
-                    AddObject(obj);
+                    resp = await client.GetSamplingRulesAsync(req);
+                    
+                    foreach (var obj in resp.SamplingRuleRecords)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

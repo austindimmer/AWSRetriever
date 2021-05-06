@@ -29,32 +29,40 @@ namespace CloudOps.IoTDeviceAdvisor
             ListTestCasesResponse resp = new ListTestCasesResponse();
             do
             {
-                ListTestCasesRequest req = new ListTestCasesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTestCasesRequest req = new ListTestCasesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTestCasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Categories)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTestCasesAsync(req);
+                    
+                    foreach (var obj in resp.Categories)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.RootGroupConfiguration)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.GroupConfiguration)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.RootGroupConfiguration)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.GroupConfiguration)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

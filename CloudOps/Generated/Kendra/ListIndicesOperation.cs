@@ -29,22 +29,30 @@ namespace CloudOps.Kendra
             ListIndicesResponse resp = new ListIndicesResponse();
             do
             {
-                ListIndicesRequest req = new ListIndicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListIndicesRequest req = new ListIndicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListIndicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.IndexConfigurationSummaryItems)
-                {
-                    AddObject(obj);
+                    resp = await client.ListIndicesAsync(req);
+                    
+                    foreach (var obj in resp.IndexConfigurationSummaryItems)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

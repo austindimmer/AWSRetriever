@@ -29,22 +29,30 @@ namespace CloudOps.Glacier
             ListPartsResponse resp = new ListPartsResponse();
             do
             {
-                ListPartsRequest req = new ListPartsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListPartsRequest req = new ListPartsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListPartsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Parts)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPartsAsync(req);
+                    
+                    foreach (var obj in resp.Parts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

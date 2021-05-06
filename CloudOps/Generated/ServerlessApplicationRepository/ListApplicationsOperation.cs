@@ -29,22 +29,30 @@ namespace CloudOps.ServerlessApplicationRepository
             ListApplicationsResponse resp = new ListApplicationsResponse();
             do
             {
-                ListApplicationsRequest req = new ListApplicationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListApplicationsRequest req = new ListApplicationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListApplicationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Applications)
-                {
-                    AddObject(obj);
+                    resp = await client.ListApplicationsAsync(req);
+                    
+                    foreach (var obj in resp.Applications)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

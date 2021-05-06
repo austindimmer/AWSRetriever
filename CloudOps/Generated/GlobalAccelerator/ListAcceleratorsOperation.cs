@@ -29,22 +29,30 @@ namespace CloudOps.GlobalAccelerator
             ListAcceleratorsResponse resp = new ListAcceleratorsResponse();
             do
             {
-                ListAcceleratorsRequest req = new ListAcceleratorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAcceleratorsRequest req = new ListAcceleratorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAcceleratorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Accelerators)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAcceleratorsAsync(req);
+                    
+                    foreach (var obj in resp.Accelerators)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

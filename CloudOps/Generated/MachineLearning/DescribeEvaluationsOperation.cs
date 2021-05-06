@@ -29,22 +29,30 @@ namespace CloudOps.MachineLearning
             DescribeEvaluationsResponse resp = new DescribeEvaluationsResponse();
             do
             {
-                DescribeEvaluationsRequest req = new DescribeEvaluationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeEvaluationsRequest req = new DescribeEvaluationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEvaluationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Results)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEvaluationsAsync(req);
+                    
+                    foreach (var obj in resp.Results)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

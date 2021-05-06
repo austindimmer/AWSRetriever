@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeCapacityReservationsResponse resp = new DescribeCapacityReservationsResponse();
             do
             {
-                DescribeCapacityReservationsRequest req = new DescribeCapacityReservationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeCapacityReservationsRequest req = new DescribeCapacityReservationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCapacityReservationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CapacityReservations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCapacityReservationsAsync(req);
+                    
+                    foreach (var obj in resp.CapacityReservations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

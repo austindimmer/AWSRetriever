@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             ListResourceDataSyncResponse resp = new ListResourceDataSyncResponse();
             do
             {
-                ListResourceDataSyncRequest req = new ListResourceDataSyncRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResourceDataSyncRequest req = new ListResourceDataSyncRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResourceDataSyncAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceDataSyncItems)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResourceDataSyncAsync(req);
+                    
+                    foreach (var obj in resp.ResourceDataSyncItems)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

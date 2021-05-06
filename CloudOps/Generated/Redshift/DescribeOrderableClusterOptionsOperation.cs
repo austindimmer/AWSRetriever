@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeOrderableClusterOptionsResponse resp = new DescribeOrderableClusterOptionsResponse();
             do
             {
-                DescribeOrderableClusterOptionsRequest req = new DescribeOrderableClusterOptionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeOrderableClusterOptionsRequest req = new DescribeOrderableClusterOptionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeOrderableClusterOptionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OrderableClusterOptions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeOrderableClusterOptionsAsync(req);
+                    
+                    foreach (var obj in resp.OrderableClusterOptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

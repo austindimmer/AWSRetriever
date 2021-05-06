@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeInternetGatewaysResponse resp = new DescribeInternetGatewaysResponse();
             do
             {
-                DescribeInternetGatewaysRequest req = new DescribeInternetGatewaysRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeInternetGatewaysRequest req = new DescribeInternetGatewaysRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeInternetGatewaysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InternetGateways)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeInternetGatewaysAsync(req);
+                    
+                    foreach (var obj in resp.InternetGateways)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListCodeRepositoriesResponse resp = new ListCodeRepositoriesResponse();
             do
             {
-                ListCodeRepositoriesRequest req = new ListCodeRepositoriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCodeRepositoriesRequest req = new ListCodeRepositoriesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCodeRepositoriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CodeRepositorySummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCodeRepositoriesAsync(req);
+                    
+                    foreach (var obj in resp.CodeRepositorySummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.ResourceGroups
             SearchResourcesResponse resp = new SearchResourcesResponse();
             do
             {
-                SearchResourcesRequest req = new SearchResourcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchResourcesRequest req = new SearchResourcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchResourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceIdentifiers)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchResourcesAsync(req);
+                    
+                    foreach (var obj in resp.ResourceIdentifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

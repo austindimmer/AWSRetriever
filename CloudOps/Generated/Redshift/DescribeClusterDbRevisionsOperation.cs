@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeClusterDbRevisionsResponse resp = new DescribeClusterDbRevisionsResponse();
             do
             {
-                DescribeClusterDbRevisionsRequest req = new DescribeClusterDbRevisionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeClusterDbRevisionsRequest req = new DescribeClusterDbRevisionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClusterDbRevisionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ClusterDbRevisions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClusterDbRevisionsAsync(req);
+                    
+                    foreach (var obj in resp.ClusterDbRevisions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

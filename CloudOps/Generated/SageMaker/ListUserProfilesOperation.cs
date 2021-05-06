@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListUserProfilesResponse resp = new ListUserProfilesResponse();
             do
             {
-                ListUserProfilesRequest req = new ListUserProfilesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListUserProfilesRequest req = new ListUserProfilesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListUserProfilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.UserProfiles)
-                {
-                    AddObject(obj);
+                    resp = await client.ListUserProfilesAsync(req);
+                    
+                    foreach (var obj in resp.UserProfiles)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

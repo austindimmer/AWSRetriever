@@ -29,22 +29,30 @@ namespace CloudOps.SecretsManager
             ListSecretsResponse resp = new ListSecretsResponse();
             do
             {
-                ListSecretsRequest req = new ListSecretsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSecretsRequest req = new ListSecretsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSecretsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SecretList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSecretsAsync(req);
+                    
+                    foreach (var obj in resp.SecretList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

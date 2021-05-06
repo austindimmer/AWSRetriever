@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeLocalGatewaysResponse resp = new DescribeLocalGatewaysResponse();
             do
             {
-                DescribeLocalGatewaysRequest req = new DescribeLocalGatewaysRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeLocalGatewaysRequest req = new DescribeLocalGatewaysRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeLocalGatewaysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LocalGateways)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLocalGatewaysAsync(req);
+                    
+                    foreach (var obj in resp.LocalGateways)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

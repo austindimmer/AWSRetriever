@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListRoleAliasesResponse resp = new ListRoleAliasesResponse();
             do
             {
-                ListRoleAliasesRequest req = new ListRoleAliasesRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListRoleAliasesRequest req = new ListRoleAliasesRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListRoleAliasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RoleAliases)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRoleAliasesAsync(req);
+                    
+                    foreach (var obj in resp.RoleAliases)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

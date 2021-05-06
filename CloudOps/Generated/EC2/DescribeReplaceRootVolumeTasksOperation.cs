@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeReplaceRootVolumeTasksResponse resp = new DescribeReplaceRootVolumeTasksResponse();
             do
             {
-                DescribeReplaceRootVolumeTasksRequest req = new DescribeReplaceRootVolumeTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeReplaceRootVolumeTasksRequest req = new DescribeReplaceRootVolumeTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReplaceRootVolumeTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReplaceRootVolumeTasks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReplaceRootVolumeTasksAsync(req);
+                    
+                    foreach (var obj in resp.ReplaceRootVolumeTasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

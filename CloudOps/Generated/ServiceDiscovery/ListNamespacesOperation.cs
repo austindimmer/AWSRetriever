@@ -29,22 +29,30 @@ namespace CloudOps.ServiceDiscovery
             ListNamespacesResponse resp = new ListNamespacesResponse();
             do
             {
-                ListNamespacesRequest req = new ListNamespacesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListNamespacesRequest req = new ListNamespacesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListNamespacesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Namespaces)
-                {
-                    AddObject(obj);
+                    resp = await client.ListNamespacesAsync(req);
+                    
+                    foreach (var obj in resp.Namespaces)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

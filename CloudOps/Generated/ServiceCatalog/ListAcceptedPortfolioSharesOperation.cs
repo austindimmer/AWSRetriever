@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListAcceptedPortfolioSharesResponse resp = new ListAcceptedPortfolioSharesResponse();
             do
             {
-                ListAcceptedPortfolioSharesRequest req = new ListAcceptedPortfolioSharesRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListAcceptedPortfolioSharesRequest req = new ListAcceptedPortfolioSharesRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListAcceptedPortfolioSharesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PortfolioDetails)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAcceptedPortfolioSharesAsync(req);
+                    
+                    foreach (var obj in resp.PortfolioDetails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

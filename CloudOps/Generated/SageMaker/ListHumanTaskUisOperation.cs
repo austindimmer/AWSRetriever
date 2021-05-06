@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListHumanTaskUisResponse resp = new ListHumanTaskUisResponse();
             do
             {
-                ListHumanTaskUisRequest req = new ListHumanTaskUisRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListHumanTaskUisRequest req = new ListHumanTaskUisRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListHumanTaskUisAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HumanTaskUiSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHumanTaskUisAsync(req);
+                    
+                    foreach (var obj in resp.HumanTaskUiSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

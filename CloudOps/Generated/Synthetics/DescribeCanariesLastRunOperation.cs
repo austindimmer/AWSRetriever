@@ -29,22 +29,30 @@ namespace CloudOps.Synthetics
             DescribeCanariesLastRunResponse resp = new DescribeCanariesLastRunResponse();
             do
             {
-                DescribeCanariesLastRunRequest req = new DescribeCanariesLastRunRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeCanariesLastRunRequest req = new DescribeCanariesLastRunRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCanariesLastRunAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CanariesLastRun)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCanariesLastRunAsync(req);
+                    
+                    foreach (var obj in resp.CanariesLastRun)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

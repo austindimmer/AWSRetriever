@@ -29,22 +29,30 @@ namespace CloudOps.LookoutMetrics
             ListMetricSetsResponse resp = new ListMetricSetsResponse();
             do
             {
-                ListMetricSetsRequest req = new ListMetricSetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMetricSetsRequest req = new ListMetricSetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMetricSetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MetricSetSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMetricSetsAsync(req);
+                    
+                    foreach (var obj in resp.MetricSetSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

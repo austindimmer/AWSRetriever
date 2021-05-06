@@ -29,22 +29,30 @@ namespace CloudOps.CloudWatch
             DescribeInsightRulesResponse resp = new DescribeInsightRulesResponse();
             do
             {
-                DescribeInsightRulesRequest req = new DescribeInsightRulesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeInsightRulesRequest req = new DescribeInsightRulesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeInsightRulesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InsightRules)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeInsightRulesAsync(req);
+                    
+                    foreach (var obj in resp.InsightRules)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

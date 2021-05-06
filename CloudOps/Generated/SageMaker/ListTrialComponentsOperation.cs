@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListTrialComponentsResponse resp = new ListTrialComponentsResponse();
             do
             {
-                ListTrialComponentsRequest req = new ListTrialComponentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTrialComponentsRequest req = new ListTrialComponentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTrialComponentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TrialComponentSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTrialComponentsAsync(req);
+                    
+                    foreach (var obj in resp.TrialComponentSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

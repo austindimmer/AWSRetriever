@@ -31,12 +31,21 @@ namespace CloudOps.EC2
             {                    
                                     
             };
-            resp = await client.DescribeReservedInstancesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.ReservedInstances)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeReservedInstancesAsync(req);
+                
+                foreach (var obj in resp.ReservedInstances)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

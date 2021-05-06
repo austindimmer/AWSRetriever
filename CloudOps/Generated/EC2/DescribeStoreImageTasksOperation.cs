@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeStoreImageTasksResponse resp = new DescribeStoreImageTasksResponse();
             do
             {
-                DescribeStoreImageTasksRequest req = new DescribeStoreImageTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeStoreImageTasksRequest req = new DescribeStoreImageTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeStoreImageTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StoreImageTaskResults)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeStoreImageTasksAsync(req);
+                    
+                    foreach (var obj in resp.StoreImageTaskResults)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

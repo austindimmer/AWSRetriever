@@ -9,7 +9,7 @@ namespace CloudOps.EMRContainers
     {
         public override string Name => "ListVirtualClusters";
 
-        public override string Description => "Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon ElasticMapReduce on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.";
+        public override string Description => "Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.";
  
         public override string RequestURI => "/virtualclusters";
 
@@ -17,7 +17,7 @@ namespace CloudOps.EMRContainers
 
         public override string ServiceName => "EMRContainers";
 
-        public override string ServiceID => "ElasticMapReduce containers";
+        public override string ServiceID => "EMR containers";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
@@ -29,22 +29,30 @@ namespace CloudOps.EMRContainers
             ListVirtualClustersResponse resp = new ListVirtualClustersResponse();
             do
             {
-                ListVirtualClustersRequest req = new ListVirtualClustersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListVirtualClustersRequest req = new ListVirtualClustersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListVirtualClustersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VirtualClusters)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVirtualClustersAsync(req);
+                    
+                    foreach (var obj in resp.VirtualClusters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

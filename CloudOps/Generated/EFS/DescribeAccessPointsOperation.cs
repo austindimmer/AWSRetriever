@@ -1,50 +1,58 @@
 using Amazon;
-using Amazon.ElasticFileSystem;
-using Amazon.ElasticFileSystem.Model;
+using Amazon.EFS;
+using Amazon.EFS.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.ElasticFileSystem
+namespace CloudOps.EFS
 {
     public class DescribeAccessPointsOperation : Operation
     {
         public override string Name => "DescribeAccessPoints";
 
-        public override string Description => "Returns the description of a specific Amazon ElasticFileSystem access point if the AccessPointId is provided. If you provide an ElasticFileSystem FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both.  This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.";
+        public override string Description => "Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both.  This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.";
  
         public override string RequestURI => "/2015-02-01/access-points";
 
         public override string Method => "GET";
 
-        public override string ServiceName => "ElasticFileSystem";
+        public override string ServiceName => "EFS";
 
-        public override string ServiceID => "ElasticFileSystem";
+        public override string ServiceID => "EFS";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonElasticFileSystemConfig config = new AmazonElasticFileSystemConfig();
+            AmazonEFSConfig config = new AmazonEFSConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonElasticFileSystemClient client = new AmazonElasticFileSystemClient(creds, config);
+            AmazonEFSClient client = new AmazonEFSClient(creds, config);
             
             DescribeAccessPointsResponse resp = new DescribeAccessPointsResponse();
             do
             {
-                DescribeAccessPointsRequest req = new DescribeAccessPointsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeAccessPointsRequest req = new DescribeAccessPointsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAccessPointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AccessPoints)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAccessPointsAsync(req);
+                    
+                    foreach (var obj in resp.AccessPoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

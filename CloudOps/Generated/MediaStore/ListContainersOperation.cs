@@ -29,22 +29,30 @@ namespace CloudOps.MediaStore
             ListContainersResponse resp = new ListContainersResponse();
             do
             {
-                ListContainersRequest req = new ListContainersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListContainersRequest req = new ListContainersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListContainersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Containers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListContainersAsync(req);
+                    
+                    foreach (var obj in resp.Containers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

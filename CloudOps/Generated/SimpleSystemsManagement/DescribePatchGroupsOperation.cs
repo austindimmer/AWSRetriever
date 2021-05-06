@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribePatchGroupsResponse resp = new DescribePatchGroupsResponse();
             do
             {
-                DescribePatchGroupsRequest req = new DescribePatchGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePatchGroupsRequest req = new DescribePatchGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePatchGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Mappings)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePatchGroupsAsync(req);
+                    
+                    foreach (var obj in resp.Mappings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

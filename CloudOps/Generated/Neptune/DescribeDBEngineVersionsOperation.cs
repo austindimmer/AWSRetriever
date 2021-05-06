@@ -29,22 +29,30 @@ namespace CloudOps.Neptune
             DescribeDBEngineVersionsResponse resp = new DescribeDBEngineVersionsResponse();
             do
             {
-                DescribeDBEngineVersionsRequest req = new DescribeDBEngineVersionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBEngineVersionsRequest req = new DescribeDBEngineVersionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBEngineVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBEngineVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBEngineVersionsAsync(req);
+                    
+                    foreach (var obj in resp.DBEngineVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

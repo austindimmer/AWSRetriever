@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListAuditFindingsResponse resp = new ListAuditFindingsResponse();
             do
             {
-                ListAuditFindingsRequest req = new ListAuditFindingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAuditFindingsRequest req = new ListAuditFindingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAuditFindingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Findings)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAuditFindingsAsync(req);
+                    
+                    foreach (var obj in resp.Findings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

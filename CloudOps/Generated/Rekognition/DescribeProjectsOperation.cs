@@ -29,22 +29,30 @@ namespace CloudOps.Rekognition
             DescribeProjectsResponse resp = new DescribeProjectsResponse();
             do
             {
-                DescribeProjectsRequest req = new DescribeProjectsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeProjectsRequest req = new DescribeProjectsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeProjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProjectDescriptions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeProjectsAsync(req);
+                    
+                    foreach (var obj in resp.ProjectDescriptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

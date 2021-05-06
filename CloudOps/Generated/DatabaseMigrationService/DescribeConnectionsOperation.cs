@@ -29,22 +29,30 @@ namespace CloudOps.DatabaseMigrationService
             DescribeConnectionsResponse resp = new DescribeConnectionsResponse();
             do
             {
-                DescribeConnectionsRequest req = new DescribeConnectionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeConnectionsRequest req = new DescribeConnectionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeConnectionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Connections)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeConnectionsAsync(req);
+                    
+                    foreach (var obj in resp.Connections)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             SearchSkillGroupsResponse resp = new SearchSkillGroupsResponse();
             do
             {
-                SearchSkillGroupsRequest req = new SearchSkillGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchSkillGroupsRequest req = new SearchSkillGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchSkillGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SkillGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchSkillGroupsAsync(req);
+                    
+                    foreach (var obj in resp.SkillGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

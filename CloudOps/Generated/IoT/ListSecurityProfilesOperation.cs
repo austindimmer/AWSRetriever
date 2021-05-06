@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListSecurityProfilesResponse resp = new ListSecurityProfilesResponse();
             do
             {
-                ListSecurityProfilesRequest req = new ListSecurityProfilesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSecurityProfilesRequest req = new ListSecurityProfilesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSecurityProfilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SecurityProfileIdentifiers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSecurityProfilesAsync(req);
+                    
+                    foreach (var obj in resp.SecurityProfileIdentifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

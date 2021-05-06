@@ -29,22 +29,30 @@ namespace CloudOps.Kinesis
             ListStreamsResponse resp = new ListStreamsResponse();
             do
             {
-                ListStreamsRequest req = new ListStreamsRequest
+                try
                 {
-                    ExclusiveStartStreamName = resp.StreamNames[0]
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListStreamsRequest req = new ListStreamsRequest
+                    {
+                        ExclusiveStartStreamName = resp.StreamNames[0]
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListStreamsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StreamNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStreamsAsync(req);
+                    
+                    foreach (var obj in resp.StreamNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.StreamNames[0]));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.IoTWireless
             ListWirelessGatewaysResponse resp = new ListWirelessGatewaysResponse();
             do
             {
-                ListWirelessGatewaysRequest req = new ListWirelessGatewaysRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWirelessGatewaysRequest req = new ListWirelessGatewaysRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWirelessGatewaysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WirelessGatewayList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWirelessGatewaysAsync(req);
+                    
+                    foreach (var obj in resp.WirelessGatewayList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

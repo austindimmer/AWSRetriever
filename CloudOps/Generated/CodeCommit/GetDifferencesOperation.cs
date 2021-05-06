@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             GetDifferencesResponse resp = new GetDifferencesResponse();
             do
             {
-                GetDifferencesRequest req = new GetDifferencesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetDifferencesRequest req = new GetDifferencesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetDifferencesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Differences)
-                {
-                    AddObject(obj);
+                    resp = await client.GetDifferencesAsync(req);
+                    
+                    foreach (var obj in resp.Differences)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

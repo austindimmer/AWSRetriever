@@ -29,22 +29,30 @@ namespace CloudOps.Backup
             ListBackupVaultsResponse resp = new ListBackupVaultsResponse();
             do
             {
-                ListBackupVaultsRequest req = new ListBackupVaultsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBackupVaultsRequest req = new ListBackupVaultsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBackupVaultsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BackupVaultList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBackupVaultsAsync(req);
+                    
+                    foreach (var obj in resp.BackupVaultList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

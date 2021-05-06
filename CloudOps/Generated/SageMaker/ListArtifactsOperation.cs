@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListArtifactsResponse resp = new ListArtifactsResponse();
             do
             {
-                ListArtifactsRequest req = new ListArtifactsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListArtifactsRequest req = new ListArtifactsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListArtifactsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ArtifactSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListArtifactsAsync(req);
+                    
+                    foreach (var obj in resp.ArtifactSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

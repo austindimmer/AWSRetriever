@@ -29,22 +29,30 @@ namespace CloudOps.CloudFormation
             DescribeStackResourceDriftsResponse resp = new DescribeStackResourceDriftsResponse();
             do
             {
-                DescribeStackResourceDriftsRequest req = new DescribeStackResourceDriftsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeStackResourceDriftsRequest req = new DescribeStackResourceDriftsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeStackResourceDriftsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StackResourceDrifts)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeStackResourceDriftsAsync(req);
+                    
+                    foreach (var obj in resp.StackResourceDrifts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

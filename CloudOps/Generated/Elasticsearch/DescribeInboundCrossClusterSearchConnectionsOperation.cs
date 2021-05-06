@@ -29,22 +29,30 @@ namespace CloudOps.Elasticsearch
             DescribeInboundCrossClusterSearchConnectionsResponse resp = new DescribeInboundCrossClusterSearchConnectionsResponse();
             do
             {
-                DescribeInboundCrossClusterSearchConnectionsRequest req = new DescribeInboundCrossClusterSearchConnectionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeInboundCrossClusterSearchConnectionsRequest req = new DescribeInboundCrossClusterSearchConnectionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeInboundCrossClusterSearchConnectionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CrossClusterSearchConnections)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeInboundCrossClusterSearchConnectionsAsync(req);
+                    
+                    foreach (var obj in resp.CrossClusterSearchConnections)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.MediaConnect
             ListFlowsResponse resp = new ListFlowsResponse();
             do
             {
-                ListFlowsRequest req = new ListFlowsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFlowsRequest req = new ListFlowsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFlowsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Flows)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFlowsAsync(req);
+                    
+                    foreach (var obj in resp.Flows)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

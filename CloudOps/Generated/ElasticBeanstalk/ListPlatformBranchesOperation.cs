@@ -29,22 +29,30 @@ namespace CloudOps.ElasticBeanstalk
             ListPlatformBranchesResponse resp = new ListPlatformBranchesResponse();
             do
             {
-                ListPlatformBranchesRequest req = new ListPlatformBranchesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    ListPlatformBranchesRequest req = new ListPlatformBranchesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.ListPlatformBranchesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PlatformBranchSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPlatformBranchesAsync(req);
+                    
+                    foreach (var obj in resp.PlatformBranchSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

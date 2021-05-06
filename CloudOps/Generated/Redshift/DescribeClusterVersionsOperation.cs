@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeClusterVersionsResponse resp = new DescribeClusterVersionsResponse();
             do
             {
-                DescribeClusterVersionsRequest req = new DescribeClusterVersionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeClusterVersionsRequest req = new DescribeClusterVersionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClusterVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ClusterVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClusterVersionsAsync(req);
+                    
+                    foreach (var obj in resp.ClusterVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

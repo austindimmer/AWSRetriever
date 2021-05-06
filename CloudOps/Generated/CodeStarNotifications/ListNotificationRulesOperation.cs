@@ -29,22 +29,30 @@ namespace CloudOps.CodeStarNotifications
             ListNotificationRulesResponse resp = new ListNotificationRulesResponse();
             do
             {
-                ListNotificationRulesRequest req = new ListNotificationRulesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListNotificationRulesRequest req = new ListNotificationRulesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListNotificationRulesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NotificationRules)
-                {
-                    AddObject(obj);
+                    resp = await client.ListNotificationRulesAsync(req);
+                    
+                    foreach (var obj in resp.NotificationRules)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

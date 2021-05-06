@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeRouteTablesResponse resp = new DescribeRouteTablesResponse();
             do
             {
-                DescribeRouteTablesRequest req = new DescribeRouteTablesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeRouteTablesRequest req = new DescribeRouteTablesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeRouteTablesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RouteTables)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeRouteTablesAsync(req);
+                    
+                    foreach (var obj in resp.RouteTables)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

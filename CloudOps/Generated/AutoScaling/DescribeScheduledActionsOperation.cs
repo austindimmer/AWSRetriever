@@ -29,22 +29,30 @@ namespace CloudOps.AutoScaling
             DescribeScheduledActionsResponse resp = new DescribeScheduledActionsResponse();
             do
             {
-                DescribeScheduledActionsRequest req = new DescribeScheduledActionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeScheduledActionsRequest req = new DescribeScheduledActionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeScheduledActionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ScheduledUpdateGroupActions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeScheduledActionsAsync(req);
+                    
+                    foreach (var obj in resp.ScheduledUpdateGroupActions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

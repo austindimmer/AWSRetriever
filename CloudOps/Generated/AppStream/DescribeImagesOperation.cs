@@ -29,22 +29,30 @@ namespace CloudOps.AppStream
             DescribeImagesResponse resp = new DescribeImagesResponse();
             do
             {
-                DescribeImagesRequest req = new DescribeImagesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeImagesRequest req = new DescribeImagesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeImagesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Images)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeImagesAsync(req);
+                    
+                    foreach (var obj in resp.Images)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

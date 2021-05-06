@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListDatasetExportJobsResponse resp = new ListDatasetExportJobsResponse();
             do
             {
-                ListDatasetExportJobsRequest req = new ListDatasetExportJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDatasetExportJobsRequest req = new ListDatasetExportJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDatasetExportJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatasetExportJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDatasetExportJobsAsync(req);
+                    
+                    foreach (var obj in resp.DatasetExportJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

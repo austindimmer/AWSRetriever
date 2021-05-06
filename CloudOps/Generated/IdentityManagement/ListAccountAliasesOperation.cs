@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListAccountAliasesResponse resp = new ListAccountAliasesResponse();
             do
             {
-                ListAccountAliasesRequest req = new ListAccountAliasesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListAccountAliasesRequest req = new ListAccountAliasesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListAccountAliasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AccountAliases)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAccountAliasesAsync(req);
+                    
+                    foreach (var obj in resp.AccountAliases)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.AutoScaling
             DescribeAutoScalingGroupsResponse resp = new DescribeAutoScalingGroupsResponse();
             do
             {
-                DescribeAutoScalingGroupsRequest req = new DescribeAutoScalingGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeAutoScalingGroupsRequest req = new DescribeAutoScalingGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAutoScalingGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AutoScalingGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAutoScalingGroupsAsync(req);
+                    
+                    foreach (var obj in resp.AutoScalingGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

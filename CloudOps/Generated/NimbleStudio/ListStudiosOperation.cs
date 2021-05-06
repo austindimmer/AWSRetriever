@@ -29,20 +29,28 @@ namespace CloudOps.NimbleStudio
             ListStudiosResponse resp = new ListStudiosResponse();
             do
             {
-                ListStudiosRequest req = new ListStudiosRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListStudiosRequest req = new ListStudiosRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListStudiosAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Studios)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStudiosAsync(req);
+                    
+                    foreach (var obj in resp.Studios)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

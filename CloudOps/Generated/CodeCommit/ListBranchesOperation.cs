@@ -29,20 +29,28 @@ namespace CloudOps.CodeCommit
             ListBranchesResponse resp = new ListBranchesResponse();
             do
             {
-                ListBranchesRequest req = new ListBranchesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListBranchesRequest req = new ListBranchesRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListBranchesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Branches)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBranchesAsync(req);
+                    
+                    foreach (var obj in resp.Branches)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

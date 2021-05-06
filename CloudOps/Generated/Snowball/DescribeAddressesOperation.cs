@@ -29,22 +29,30 @@ namespace CloudOps.Snowball
             DescribeAddressesResponse resp = new DescribeAddressesResponse();
             do
             {
-                DescribeAddressesRequest req = new DescribeAddressesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeAddressesRequest req = new DescribeAddressesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAddressesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Addresses)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAddressesAsync(req);
+                    
+                    foreach (var obj in resp.Addresses)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

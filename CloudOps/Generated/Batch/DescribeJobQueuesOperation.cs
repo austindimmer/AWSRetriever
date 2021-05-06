@@ -29,22 +29,30 @@ namespace CloudOps.Batch
             DescribeJobQueuesResponse resp = new DescribeJobQueuesResponse();
             do
             {
-                DescribeJobQueuesRequest req = new DescribeJobQueuesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeJobQueuesRequest req = new DescribeJobQueuesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeJobQueuesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JobQueues)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeJobQueuesAsync(req);
+                    
+                    foreach (var obj in resp.JobQueues)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

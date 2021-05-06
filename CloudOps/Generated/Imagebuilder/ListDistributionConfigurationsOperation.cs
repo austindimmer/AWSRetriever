@@ -29,22 +29,30 @@ namespace CloudOps.Imagebuilder
             ListDistributionConfigurationsResponse resp = new ListDistributionConfigurationsResponse();
             do
             {
-                ListDistributionConfigurationsRequest req = new ListDistributionConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDistributionConfigurationsRequest req = new ListDistributionConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDistributionConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DistributionConfigurationSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDistributionConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.DistributionConfigurationSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

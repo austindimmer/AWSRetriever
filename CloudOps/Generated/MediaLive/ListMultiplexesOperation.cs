@@ -29,22 +29,30 @@ namespace CloudOps.MediaLive
             ListMultiplexesResponse resp = new ListMultiplexesResponse();
             do
             {
-                ListMultiplexesRequest req = new ListMultiplexesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMultiplexesRequest req = new ListMultiplexesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMultiplexesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Multiplexes)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMultiplexesAsync(req);
+                    
+                    foreach (var obj in resp.Multiplexes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

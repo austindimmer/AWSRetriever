@@ -29,22 +29,30 @@ namespace CloudOps.APIGateway
             GetUsagePlansResponse resp = new GetUsagePlansResponse();
             do
             {
-                GetUsagePlansRequest req = new GetUsagePlansRequest
+                try
                 {
-                    Position = resp.Position
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    GetUsagePlansRequest req = new GetUsagePlansRequest
+                    {
+                        Position = resp.Position
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.GetUsagePlansAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.GetUsagePlansAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Position));
         }

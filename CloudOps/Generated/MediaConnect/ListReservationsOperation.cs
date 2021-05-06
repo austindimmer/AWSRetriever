@@ -29,22 +29,30 @@ namespace CloudOps.MediaConnect
             ListReservationsResponse resp = new ListReservationsResponse();
             do
             {
-                ListReservationsRequest req = new ListReservationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListReservationsRequest req = new ListReservationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListReservationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Reservations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListReservationsAsync(req);
+                    
+                    foreach (var obj in resp.Reservations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

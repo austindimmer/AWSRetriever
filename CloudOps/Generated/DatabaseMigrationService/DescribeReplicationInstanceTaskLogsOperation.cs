@@ -29,27 +29,35 @@ namespace CloudOps.DatabaseMigrationService
             DescribeReplicationInstanceTaskLogsResponse resp = new DescribeReplicationInstanceTaskLogsResponse();
             do
             {
-                DescribeReplicationInstanceTaskLogsRequest req = new DescribeReplicationInstanceTaskLogsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReplicationInstanceTaskLogsRequest req = new DescribeReplicationInstanceTaskLogsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReplicationInstanceTaskLogsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReplicationInstanceArn)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReplicationInstanceTaskLogsAsync(req);
+                    
+                    foreach (var obj in resp.ReplicationInstanceArn)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ReplicationInstanceTaskLogs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.ReplicationInstanceTaskLogs)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

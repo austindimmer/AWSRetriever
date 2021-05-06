@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListCustomMetricsResponse resp = new ListCustomMetricsResponse();
             do
             {
-                ListCustomMetricsRequest req = new ListCustomMetricsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCustomMetricsRequest req = new ListCustomMetricsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCustomMetricsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MetricNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCustomMetricsAsync(req);
+                    
+                    foreach (var obj in resp.MetricNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.AuditManager
             ListAssessmentReportsResponse resp = new ListAssessmentReportsResponse();
             do
             {
-                ListAssessmentReportsRequest req = new ListAssessmentReportsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAssessmentReportsRequest req = new ListAssessmentReportsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAssessmentReportsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AssessmentReports)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAssessmentReportsAsync(req);
+                    
+                    foreach (var obj in resp.AssessmentReports)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

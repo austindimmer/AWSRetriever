@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListSipRulesResponse resp = new ListSipRulesResponse();
             do
             {
-                ListSipRulesRequest req = new ListSipRulesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSipRulesRequest req = new ListSipRulesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSipRulesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SipRules)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSipRulesAsync(req);
+                    
+                    foreach (var obj in resp.SipRules)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

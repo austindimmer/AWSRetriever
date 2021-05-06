@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeHsmConfigurationsResponse resp = new DescribeHsmConfigurationsResponse();
             do
             {
-                DescribeHsmConfigurationsRequest req = new DescribeHsmConfigurationsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeHsmConfigurationsRequest req = new DescribeHsmConfigurationsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeHsmConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HsmConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeHsmConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.HsmConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

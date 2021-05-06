@@ -29,22 +29,30 @@ namespace CloudOps.WellArchitected
             ListShareInvitationsResponse resp = new ListShareInvitationsResponse();
             do
             {
-                ListShareInvitationsRequest req = new ListShareInvitationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListShareInvitationsRequest req = new ListShareInvitationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListShareInvitationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ShareInvitationSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListShareInvitationsAsync(req);
+                    
+                    foreach (var obj in resp.ShareInvitationSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

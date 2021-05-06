@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListNotebookInstancesResponse resp = new ListNotebookInstancesResponse();
             do
             {
-                ListNotebookInstancesRequest req = new ListNotebookInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListNotebookInstancesRequest req = new ListNotebookInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListNotebookInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NotebookInstances)
-                {
-                    AddObject(obj);
+                    resp = await client.ListNotebookInstancesAsync(req);
+                    
+                    foreach (var obj in resp.NotebookInstances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

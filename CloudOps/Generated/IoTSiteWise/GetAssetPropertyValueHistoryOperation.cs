@@ -29,22 +29,30 @@ namespace CloudOps.IoTSiteWise
             GetAssetPropertyValueHistoryResponse resp = new GetAssetPropertyValueHistoryResponse();
             do
             {
-                GetAssetPropertyValueHistoryRequest req = new GetAssetPropertyValueHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetAssetPropertyValueHistoryRequest req = new GetAssetPropertyValueHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetAssetPropertyValueHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AssetPropertyValueHistory)
-                {
-                    AddObject(obj);
+                    resp = await client.GetAssetPropertyValueHistoryAsync(req);
+                    
+                    foreach (var obj in resp.AssetPropertyValueHistory)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

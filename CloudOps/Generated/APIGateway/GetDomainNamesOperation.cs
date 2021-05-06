@@ -29,22 +29,30 @@ namespace CloudOps.APIGateway
             GetDomainNamesResponse resp = new GetDomainNamesResponse();
             do
             {
-                GetDomainNamesRequest req = new GetDomainNamesRequest
+                try
                 {
-                    Position = resp.Position
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    GetDomainNamesRequest req = new GetDomainNamesRequest
+                    {
+                        Position = resp.Position
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.GetDomainNamesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.GetDomainNamesAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Position));
         }

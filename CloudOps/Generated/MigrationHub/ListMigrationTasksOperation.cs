@@ -29,22 +29,30 @@ namespace CloudOps.MigrationHub
             ListMigrationTasksResponse resp = new ListMigrationTasksResponse();
             do
             {
-                ListMigrationTasksRequest req = new ListMigrationTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMigrationTasksRequest req = new ListMigrationTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMigrationTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MigrationTaskSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMigrationTasksAsync(req);
+                    
+                    foreach (var obj in resp.MigrationTaskSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

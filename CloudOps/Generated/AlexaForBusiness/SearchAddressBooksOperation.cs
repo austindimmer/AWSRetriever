@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             SearchAddressBooksResponse resp = new SearchAddressBooksResponse();
             do
             {
-                SearchAddressBooksRequest req = new SearchAddressBooksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchAddressBooksRequest req = new SearchAddressBooksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchAddressBooksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AddressBooks)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchAddressBooksAsync(req);
+                    
+                    foreach (var obj in resp.AddressBooks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

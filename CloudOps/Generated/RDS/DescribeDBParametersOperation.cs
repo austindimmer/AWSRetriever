@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBParametersResponse resp = new DescribeDBParametersResponse();
             do
             {
-                DescribeDBParametersRequest req = new DescribeDBParametersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBParametersRequest req = new DescribeDBParametersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBParametersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Parameters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBParametersAsync(req);
+                    
+                    foreach (var obj in resp.Parameters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

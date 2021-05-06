@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             SearchContactsResponse resp = new SearchContactsResponse();
             do
             {
-                SearchContactsRequest req = new SearchContactsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchContactsRequest req = new SearchContactsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchContactsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Contacts)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchContactsAsync(req);
+                    
+                    foreach (var obj in resp.Contacts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

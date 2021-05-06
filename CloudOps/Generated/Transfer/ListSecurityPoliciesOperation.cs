@@ -29,22 +29,30 @@ namespace CloudOps.Transfer
             ListSecurityPoliciesResponse resp = new ListSecurityPoliciesResponse();
             do
             {
-                ListSecurityPoliciesRequest req = new ListSecurityPoliciesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSecurityPoliciesRequest req = new ListSecurityPoliciesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSecurityPoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SecurityPolicyNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSecurityPoliciesAsync(req);
+                    
+                    foreach (var obj in resp.SecurityPolicyNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

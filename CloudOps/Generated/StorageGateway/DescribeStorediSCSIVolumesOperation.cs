@@ -31,12 +31,21 @@ namespace CloudOps.StorageGateway
             {                    
                                     
             };
-            resp = await client.DescribeStorediSCSIVolumesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.StorediSCSIVolumes)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeStorediSCSIVolumesAsync(req);
+                
+                foreach (var obj in resp.StorediSCSIVolumes)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

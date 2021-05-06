@@ -29,22 +29,30 @@ namespace CloudOps.LocationService
             ListTrackersResponse resp = new ListTrackersResponse();
             do
             {
-                ListTrackersRequest req = new ListTrackersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTrackersRequest req = new ListTrackersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTrackersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Entries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTrackersAsync(req);
+                    
+                    foreach (var obj in resp.Entries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

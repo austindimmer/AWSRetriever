@@ -29,22 +29,30 @@ namespace CloudOps.Athena
             ListTableMetadataResponse resp = new ListTableMetadataResponse();
             do
             {
-                ListTableMetadataRequest req = new ListTableMetadataRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTableMetadataRequest req = new ListTableMetadataRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTableMetadataAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TableMetadataList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTableMetadataAsync(req);
+                    
+                    foreach (var obj in resp.TableMetadataList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

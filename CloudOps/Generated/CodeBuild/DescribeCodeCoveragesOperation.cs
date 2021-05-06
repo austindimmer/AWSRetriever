@@ -29,22 +29,30 @@ namespace CloudOps.CodeBuild
             DescribeCodeCoveragesResponse resp = new DescribeCodeCoveragesResponse();
             do
             {
-                DescribeCodeCoveragesRequest req = new DescribeCodeCoveragesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeCodeCoveragesRequest req = new DescribeCodeCoveragesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCodeCoveragesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CodeCoverages)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCodeCoveragesAsync(req);
+                    
+                    foreach (var obj in resp.CodeCoverages)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

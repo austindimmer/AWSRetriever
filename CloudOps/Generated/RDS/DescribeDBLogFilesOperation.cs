@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBLogFilesResponse resp = new DescribeDBLogFilesResponse();
             do
             {
-                DescribeDBLogFilesRequest req = new DescribeDBLogFilesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBLogFilesRequest req = new DescribeDBLogFilesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBLogFilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DescribeDBLogFiles)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBLogFilesAsync(req);
+                    
+                    foreach (var obj in resp.DescribeDBLogFiles)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

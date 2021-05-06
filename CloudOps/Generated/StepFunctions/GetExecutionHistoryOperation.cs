@@ -29,22 +29,30 @@ namespace CloudOps.StepFunctions
             GetExecutionHistoryResponse resp = new GetExecutionHistoryResponse();
             do
             {
-                GetExecutionHistoryRequest req = new GetExecutionHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetExecutionHistoryRequest req = new GetExecutionHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetExecutionHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Events)
-                {
-                    AddObject(obj);
+                    resp = await client.GetExecutionHistoryAsync(req);
+                    
+                    foreach (var obj in resp.Events)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

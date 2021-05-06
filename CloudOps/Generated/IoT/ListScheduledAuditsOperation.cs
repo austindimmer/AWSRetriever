@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListScheduledAuditsResponse resp = new ListScheduledAuditsResponse();
             do
             {
-                ListScheduledAuditsRequest req = new ListScheduledAuditsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListScheduledAuditsRequest req = new ListScheduledAuditsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListScheduledAuditsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ScheduledAudits)
-                {
-                    AddObject(obj);
+                    resp = await client.ListScheduledAuditsAsync(req);
+                    
+                    foreach (var obj in resp.ScheduledAudits)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

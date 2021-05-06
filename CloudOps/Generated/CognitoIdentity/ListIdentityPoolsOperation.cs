@@ -29,22 +29,30 @@ namespace CloudOps.CognitoIdentity
             ListIdentityPoolsResponse resp = new ListIdentityPoolsResponse();
             do
             {
-                ListIdentityPoolsRequest req = new ListIdentityPoolsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListIdentityPoolsRequest req = new ListIdentityPoolsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListIdentityPoolsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.IdentityPools)
-                {
-                    AddObject(obj);
+                    resp = await client.ListIdentityPoolsAsync(req);
+                    
+                    foreach (var obj in resp.IdentityPools)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

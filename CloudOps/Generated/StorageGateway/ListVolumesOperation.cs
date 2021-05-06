@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListVolumesResponse resp = new ListVolumesResponse();
             do
             {
-                ListVolumesRequest req = new ListVolumesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListVolumesRequest req = new ListVolumesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListVolumesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VolumeInfos)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVolumesAsync(req);
+                    
+                    foreach (var obj in resp.VolumeInfos)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

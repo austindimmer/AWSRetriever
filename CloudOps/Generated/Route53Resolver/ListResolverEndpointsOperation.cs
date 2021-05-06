@@ -29,22 +29,30 @@ namespace CloudOps.Route53Resolver
             ListResolverEndpointsResponse resp = new ListResolverEndpointsResponse();
             do
             {
-                ListResolverEndpointsRequest req = new ListResolverEndpointsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResolverEndpointsRequest req = new ListResolverEndpointsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResolverEndpointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResolverEndpoints)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResolverEndpointsAsync(req);
+                    
+                    foreach (var obj in resp.ResolverEndpoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

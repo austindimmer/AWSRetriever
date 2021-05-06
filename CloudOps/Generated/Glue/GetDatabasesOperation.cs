@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetDatabasesResponse resp = new GetDatabasesResponse();
             do
             {
-                GetDatabasesRequest req = new GetDatabasesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetDatabasesRequest req = new GetDatabasesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetDatabasesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatabaseList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetDatabasesAsync(req);
+                    
+                    foreach (var obj in resp.DatabaseList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

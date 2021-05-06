@@ -29,22 +29,30 @@ namespace CloudOps.TranscribeService
             ListVocabularyFiltersResponse resp = new ListVocabularyFiltersResponse();
             do
             {
-                ListVocabularyFiltersRequest req = new ListVocabularyFiltersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListVocabularyFiltersRequest req = new ListVocabularyFiltersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListVocabularyFiltersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VocabularyFilters)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVocabularyFiltersAsync(req);
+                    
+                    foreach (var obj in resp.VocabularyFilters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

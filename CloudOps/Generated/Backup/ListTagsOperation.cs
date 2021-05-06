@@ -29,22 +29,30 @@ namespace CloudOps.Backup
             ListTagsResponse resp = new ListTagsResponse();
             do
             {
-                ListTagsRequest req = new ListTagsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTagsRequest req = new ListTagsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTagsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tags)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTagsAsync(req);
+                    
+                    foreach (var obj in resp.Tags)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

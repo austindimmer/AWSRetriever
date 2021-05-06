@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetResourcePoliciesResponse resp = new GetResourcePoliciesResponse();
             do
             {
-                GetResourcePoliciesRequest req = new GetResourcePoliciesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetResourcePoliciesRequest req = new GetResourcePoliciesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetResourcePoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GetResourcePoliciesResponseList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetResourcePoliciesAsync(req);
+                    
+                    foreach (var obj in resp.GetResourcePoliciesResponseList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

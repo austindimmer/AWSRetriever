@@ -29,20 +29,28 @@ namespace CloudOps.CloudTrail
             ListPublicKeysResponse resp = new ListPublicKeysResponse();
             do
             {
-                ListPublicKeysRequest req = new ListPublicKeysRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListPublicKeysRequest req = new ListPublicKeysRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListPublicKeysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PublicKeyList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPublicKeysAsync(req);
+                    
+                    foreach (var obj in resp.PublicKeyList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

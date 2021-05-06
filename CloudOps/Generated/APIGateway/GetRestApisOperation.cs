@@ -29,22 +29,30 @@ namespace CloudOps.APIGateway
             GetRestApisResponse resp = new GetRestApisResponse();
             do
             {
-                GetRestApisRequest req = new GetRestApisRequest
+                try
                 {
-                    Position = resp.Position
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    GetRestApisRequest req = new GetRestApisRequest
+                    {
+                        Position = resp.Position
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.GetRestApisAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.GetRestApisAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Position));
         }

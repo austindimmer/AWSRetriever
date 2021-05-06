@@ -29,22 +29,30 @@ namespace CloudOps.Route53Resolver
             ListFirewallDomainListsResponse resp = new ListFirewallDomainListsResponse();
             do
             {
-                ListFirewallDomainListsRequest req = new ListFirewallDomainListsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFirewallDomainListsRequest req = new ListFirewallDomainListsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFirewallDomainListsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FirewallDomainLists)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFirewallDomainListsAsync(req);
+                    
+                    foreach (var obj in resp.FirewallDomainLists)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

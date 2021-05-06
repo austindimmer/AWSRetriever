@@ -29,22 +29,30 @@ namespace CloudOps.LocationService
             ListPlaceIndexesResponse resp = new ListPlaceIndexesResponse();
             do
             {
-                ListPlaceIndexesRequest req = new ListPlaceIndexesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPlaceIndexesRequest req = new ListPlaceIndexesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPlaceIndexesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Entries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPlaceIndexesAsync(req);
+                    
+                    foreach (var obj in resp.Entries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

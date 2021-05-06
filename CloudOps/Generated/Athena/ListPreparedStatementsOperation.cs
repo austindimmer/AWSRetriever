@@ -29,22 +29,30 @@ namespace CloudOps.Athena
             ListPreparedStatementsResponse resp = new ListPreparedStatementsResponse();
             do
             {
-                ListPreparedStatementsRequest req = new ListPreparedStatementsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPreparedStatementsRequest req = new ListPreparedStatementsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPreparedStatementsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PreparedStatements)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPreparedStatementsAsync(req);
+                    
+                    foreach (var obj in resp.PreparedStatements)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

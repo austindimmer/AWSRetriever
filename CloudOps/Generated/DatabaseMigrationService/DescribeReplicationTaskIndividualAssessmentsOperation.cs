@@ -29,22 +29,30 @@ namespace CloudOps.DatabaseMigrationService
             DescribeReplicationTaskIndividualAssessmentsResponse resp = new DescribeReplicationTaskIndividualAssessmentsResponse();
             do
             {
-                DescribeReplicationTaskIndividualAssessmentsRequest req = new DescribeReplicationTaskIndividualAssessmentsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReplicationTaskIndividualAssessmentsRequest req = new DescribeReplicationTaskIndividualAssessmentsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReplicationTaskIndividualAssessmentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReplicationTaskIndividualAssessments)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReplicationTaskIndividualAssessmentsAsync(req);
+                    
+                    foreach (var obj in resp.ReplicationTaskIndividualAssessments)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

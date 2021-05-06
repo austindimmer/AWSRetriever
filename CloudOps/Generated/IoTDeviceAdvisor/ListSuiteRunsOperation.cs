@@ -29,22 +29,30 @@ namespace CloudOps.IoTDeviceAdvisor
             ListSuiteRunsResponse resp = new ListSuiteRunsResponse();
             do
             {
-                ListSuiteRunsRequest req = new ListSuiteRunsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSuiteRunsRequest req = new ListSuiteRunsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSuiteRunsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SuiteRunsList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSuiteRunsAsync(req);
+                    
+                    foreach (var obj in resp.SuiteRunsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

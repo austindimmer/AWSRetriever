@@ -29,42 +29,50 @@ namespace CloudOps.CodeCommit
             GetMergeConflictsResponse resp = new GetMergeConflictsResponse();
             do
             {
-                GetMergeConflictsRequest req = new GetMergeConflictsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxConflictFiles = maxItems
-                                        
-                };
+                    GetMergeConflictsRequest req = new GetMergeConflictsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxConflictFiles = maxItems
+                                            
+                    };
 
-                resp = await client.GetMergeConflicts(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Mergeable)
-                {
-                    AddObject(obj);
+                    resp = await client.GetMergeConflictsAsync(req);
+                    
+                    foreach (var obj in resp.Mergeable)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.DestinationCommitId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.SourceCommitId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.BaseCommitId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ConflictMetadataList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.DestinationCommitId)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.SourceCommitId)
-                {
-                    AddObject(obj);
-                }
-                
-                foreach (var obj in resp.BaseCommitId)
-                {
-                    AddObject(obj);
-                }
-                
-                foreach (var obj in resp.ConflictMetadataList)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.MediaTailor
             ListPlaybackConfigurationsResponse resp = new ListPlaybackConfigurationsResponse();
             do
             {
-                ListPlaybackConfigurationsRequest req = new ListPlaybackConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPlaybackConfigurationsRequest req = new ListPlaybackConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPlaybackConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPlaybackConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

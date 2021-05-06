@@ -29,22 +29,30 @@ namespace CloudOps.DatabaseMigrationService
             DescribeEndpointSettingsResponse resp = new DescribeEndpointSettingsResponse();
             do
             {
-                DescribeEndpointSettingsRequest req = new DescribeEndpointSettingsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeEndpointSettingsRequest req = new DescribeEndpointSettingsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEndpointSettingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EndpointSettings)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEndpointSettingsAsync(req);
+                    
+                    foreach (var obj in resp.EndpointSettings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

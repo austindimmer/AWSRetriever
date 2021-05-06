@@ -29,22 +29,30 @@ namespace CloudOps.Batch
             DescribeComputeEnvironmentsResponse resp = new DescribeComputeEnvironmentsResponse();
             do
             {
-                DescribeComputeEnvironmentsRequest req = new DescribeComputeEnvironmentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeComputeEnvironmentsRequest req = new DescribeComputeEnvironmentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeComputeEnvironmentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ComputeEnvironments)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeComputeEnvironmentsAsync(req);
+                    
+                    foreach (var obj in resp.ComputeEnvironments)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

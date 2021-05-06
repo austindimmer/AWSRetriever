@@ -29,22 +29,30 @@ namespace CloudOps.CloudWatchLogs
             DescribeLogGroupsResponse resp = new DescribeLogGroupsResponse();
             do
             {
-                DescribeLogGroupsRequest req = new DescribeLogGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeLogGroupsRequest req = new DescribeLogGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeLogGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LogGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLogGroupsAsync(req);
+                    
+                    foreach (var obj in resp.LogGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

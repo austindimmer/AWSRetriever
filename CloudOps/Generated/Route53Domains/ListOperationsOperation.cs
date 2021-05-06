@@ -29,22 +29,30 @@ namespace CloudOps.Route53Domains
             ListOperationsResponse resp = new ListOperationsResponse();
             do
             {
-                ListOperationsRequest req = new ListOperationsRequest
+                try
                 {
-                    Marker = resp.NextPageMarker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListOperationsRequest req = new ListOperationsRequest
+                    {
+                        Marker = resp.NextPageMarker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListOperationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Operations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOperationsAsync(req);
+                    
+                    foreach (var obj in resp.Operations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageMarker));
         }

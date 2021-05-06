@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListLabelingJobsResponse resp = new ListLabelingJobsResponse();
             do
             {
-                ListLabelingJobsRequest req = new ListLabelingJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListLabelingJobsRequest req = new ListLabelingJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListLabelingJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LabelingJobSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLabelingJobsAsync(req);
+                    
+                    foreach (var obj in resp.LabelingJobSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

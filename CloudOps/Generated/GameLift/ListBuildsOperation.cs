@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             ListBuildsResponse resp = new ListBuildsResponse();
             do
             {
-                ListBuildsRequest req = new ListBuildsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListBuildsRequest req = new ListBuildsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListBuildsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Builds)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBuildsAsync(req);
+                    
+                    foreach (var obj in resp.Builds)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

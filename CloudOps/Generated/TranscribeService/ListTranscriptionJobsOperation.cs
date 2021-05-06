@@ -29,22 +29,30 @@ namespace CloudOps.TranscribeService
             ListTranscriptionJobsResponse resp = new ListTranscriptionJobsResponse();
             do
             {
-                ListTranscriptionJobsRequest req = new ListTranscriptionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTranscriptionJobsRequest req = new ListTranscriptionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTranscriptionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TranscriptionJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTranscriptionJobsAsync(req);
+                    
+                    foreach (var obj in resp.TranscriptionJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

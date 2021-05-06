@@ -29,22 +29,30 @@ namespace CloudOps.GroundStation
             ListDataflowEndpointGroupsResponse resp = new ListDataflowEndpointGroupsResponse();
             do
             {
-                ListDataflowEndpointGroupsRequest req = new ListDataflowEndpointGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDataflowEndpointGroupsRequest req = new ListDataflowEndpointGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDataflowEndpointGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DataflowEndpointGroupList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDataflowEndpointGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DataflowEndpointGroupList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

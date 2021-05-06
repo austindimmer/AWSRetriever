@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeActivationsResponse resp = new DescribeActivationsResponse();
             do
             {
-                DescribeActivationsRequest req = new DescribeActivationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeActivationsRequest req = new DescribeActivationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeActivationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ActivationList)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeActivationsAsync(req);
+                    
+                    foreach (var obj in resp.ActivationList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Schemas
             ListDiscoverersResponse resp = new ListDiscoverersResponse();
             do
             {
-                ListDiscoverersRequest req = new ListDiscoverersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListDiscoverersRequest req = new ListDiscoverersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListDiscoverersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Discoverers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDiscoverersAsync(req);
+                    
+                    foreach (var obj in resp.Discoverers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

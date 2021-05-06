@@ -29,22 +29,30 @@ namespace CloudOps.Macie
             ListS3ResourcesResponse resp = new ListS3ResourcesResponse();
             do
             {
-                ListS3ResourcesRequest req = new ListS3ResourcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListS3ResourcesRequest req = new ListS3ResourcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListS3ResourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.S3Resources)
-                {
-                    AddObject(obj);
+                    resp = await client.ListS3ResourcesAsync(req);
+                    
+                    foreach (var obj in resp.S3Resources)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

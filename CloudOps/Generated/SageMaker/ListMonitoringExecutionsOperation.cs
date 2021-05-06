@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListMonitoringExecutionsResponse resp = new ListMonitoringExecutionsResponse();
             do
             {
-                ListMonitoringExecutionsRequest req = new ListMonitoringExecutionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMonitoringExecutionsRequest req = new ListMonitoringExecutionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMonitoringExecutionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MonitoringExecutionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMonitoringExecutionsAsync(req);
+                    
+                    foreach (var obj in resp.MonitoringExecutionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

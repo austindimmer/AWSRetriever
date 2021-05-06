@@ -31,12 +31,21 @@ namespace CloudOps.ElasticLoadBalancing
             {                    
                                     
             };
-            resp = await client.DescribeInstanceHealthAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.InstanceStates)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeInstanceHealthAsync(req);
+                
+                foreach (var obj in resp.InstanceStates)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

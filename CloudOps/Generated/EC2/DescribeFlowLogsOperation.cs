@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeFlowLogsResponse resp = new DescribeFlowLogsResponse();
             do
             {
-                DescribeFlowLogsRequest req = new DescribeFlowLogsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeFlowLogsRequest req = new DescribeFlowLogsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeFlowLogsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FlowLogs)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeFlowLogsAsync(req);
+                    
+                    foreach (var obj in resp.FlowLogs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeNetworkAclsResponse resp = new DescribeNetworkAclsResponse();
             do
             {
-                DescribeNetworkAclsRequest req = new DescribeNetworkAclsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeNetworkAclsRequest req = new DescribeNetworkAclsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeNetworkAclsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NetworkAcls)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeNetworkAclsAsync(req);
+                    
+                    foreach (var obj in resp.NetworkAcls)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

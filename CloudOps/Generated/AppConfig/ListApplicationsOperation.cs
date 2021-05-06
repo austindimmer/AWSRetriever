@@ -26,25 +26,33 @@ namespace CloudOps.AppConfig
             ConfigureClient(config);            
             AmazonAppConfigClient client = new AmazonAppConfigClient(creds, config);
             
-            ListApplicationsResponse resp = new ListApplicationsResponse();
+            ApplicationsResponse resp = new ApplicationsResponse();
             do
             {
-                ListApplicationsRequest req = new ListApplicationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListApplicationsRequest req = new ListApplicationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListApplicationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.ListApplicationsAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

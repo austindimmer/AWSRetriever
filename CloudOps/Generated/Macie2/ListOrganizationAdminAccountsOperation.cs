@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.Macie;
-using Amazon.Macie.Model;
+using Amazon.Macie2;
+using Amazon.Macie2.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.Macie
+namespace CloudOps.Macie2
 {
     public class ListOrganizationAdminAccountsOperation : Operation
     {
@@ -15,36 +15,44 @@ namespace CloudOps.Macie
 
         public override string Method => "GET";
 
-        public override string ServiceName => "Macie";
+        public override string ServiceName => "Macie2";
 
-        public override string ServiceID => "Macie";
+        public override string ServiceID => "Macie2";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonMacieConfig config = new AmazonMacieConfig();
+            AmazonMacie2Config config = new AmazonMacie2Config();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonMacieClient client = new AmazonMacieClient(creds, config);
+            AmazonMacie2Client client = new AmazonMacie2Client(creds, config);
             
             ListOrganizationAdminAccountsResponse resp = new ListOrganizationAdminAccountsResponse();
             do
             {
-                ListOrganizationAdminAccountsRequest req = new ListOrganizationAdminAccountsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListOrganizationAdminAccountsRequest req = new ListOrganizationAdminAccountsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListOrganizationAdminAccounts(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AdminAccounts)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOrganizationAdminAccountsAsync(req);
+                    
+                    foreach (var obj in resp.AdminAccounts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

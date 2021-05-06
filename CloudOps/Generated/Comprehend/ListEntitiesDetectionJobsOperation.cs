@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListEntitiesDetectionJobsResponse resp = new ListEntitiesDetectionJobsResponse();
             do
             {
-                ListEntitiesDetectionJobsRequest req = new ListEntitiesDetectionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEntitiesDetectionJobsRequest req = new ListEntitiesDetectionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEntitiesDetectionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EntitiesDetectionJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEntitiesDetectionJobsAsync(req);
+                    
+                    foreach (var obj in resp.EntitiesDetectionJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

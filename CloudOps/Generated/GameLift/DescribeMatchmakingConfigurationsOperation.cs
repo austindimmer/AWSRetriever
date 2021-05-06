@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             DescribeMatchmakingConfigurationsResponse resp = new DescribeMatchmakingConfigurationsResponse();
             do
             {
-                DescribeMatchmakingConfigurationsRequest req = new DescribeMatchmakingConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeMatchmakingConfigurationsRequest req = new DescribeMatchmakingConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMatchmakingConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Configurations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMatchmakingConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.Configurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

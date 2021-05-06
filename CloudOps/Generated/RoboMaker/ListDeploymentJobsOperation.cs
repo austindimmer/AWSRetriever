@@ -29,22 +29,30 @@ namespace CloudOps.RoboMaker
             ListDeploymentJobsResponse resp = new ListDeploymentJobsResponse();
             do
             {
-                ListDeploymentJobsRequest req = new ListDeploymentJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDeploymentJobsRequest req = new ListDeploymentJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDeploymentJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DeploymentJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDeploymentJobsAsync(req);
+                    
+                    foreach (var obj in resp.DeploymentJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

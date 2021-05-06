@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribePrefixListsResponse resp = new DescribePrefixListsResponse();
             do
             {
-                DescribePrefixListsRequest req = new DescribePrefixListsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePrefixListsRequest req = new DescribePrefixListsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePrefixListsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PrefixLists)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePrefixListsAsync(req);
+                    
+                    foreach (var obj in resp.PrefixLists)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

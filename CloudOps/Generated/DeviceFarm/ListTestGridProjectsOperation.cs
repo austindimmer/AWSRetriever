@@ -29,22 +29,30 @@ namespace CloudOps.DeviceFarm
             ListTestGridProjectsResponse resp = new ListTestGridProjectsResponse();
             do
             {
-                ListTestGridProjectsRequest req = new ListTestGridProjectsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResult = maxItems
-                                        
-                };
+                    ListTestGridProjectsRequest req = new ListTestGridProjectsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResult = maxItems
+                                            
+                    };
 
-                resp = await client.ListTestGridProjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TestGridProjects)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTestGridProjectsAsync(req);
+                    
+                    foreach (var obj in resp.TestGridProjects)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

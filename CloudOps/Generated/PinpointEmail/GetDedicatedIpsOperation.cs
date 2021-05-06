@@ -29,22 +29,30 @@ namespace CloudOps.PinpointEmail
             GetDedicatedIpsResponse resp = new GetDedicatedIpsResponse();
             do
             {
-                GetDedicatedIpsRequest req = new GetDedicatedIpsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    GetDedicatedIpsRequest req = new GetDedicatedIpsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.GetDedicatedIpsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DedicatedIps)
-                {
-                    AddObject(obj);
+                    resp = await client.GetDedicatedIpsAsync(req);
+                    
+                    foreach (var obj in resp.DedicatedIps)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

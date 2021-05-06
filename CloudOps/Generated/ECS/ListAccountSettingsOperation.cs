@@ -29,22 +29,30 @@ namespace CloudOps.ECS
             ListAccountSettingsResponse resp = new ListAccountSettingsResponse();
             do
             {
-                ListAccountSettingsRequest req = new ListAccountSettingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAccountSettingsRequest req = new ListAccountSettingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAccountSettingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Settings)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAccountSettingsAsync(req);
+                    
+                    foreach (var obj in resp.Settings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

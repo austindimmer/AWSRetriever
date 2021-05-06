@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeMaintenanceWindowScheduleResponse resp = new DescribeMaintenanceWindowScheduleResponse();
             do
             {
-                DescribeMaintenanceWindowScheduleRequest req = new DescribeMaintenanceWindowScheduleRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeMaintenanceWindowScheduleRequest req = new DescribeMaintenanceWindowScheduleRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMaintenanceWindowScheduleAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ScheduledWindowExecutions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMaintenanceWindowScheduleAsync(req);
+                    
+                    foreach (var obj in resp.ScheduledWindowExecutions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

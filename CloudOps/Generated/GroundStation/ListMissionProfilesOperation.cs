@@ -29,22 +29,30 @@ namespace CloudOps.GroundStation
             ListMissionProfilesResponse resp = new ListMissionProfilesResponse();
             do
             {
-                ListMissionProfilesRequest req = new ListMissionProfilesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMissionProfilesRequest req = new ListMissionProfilesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMissionProfilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MissionProfileList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMissionProfilesAsync(req);
+                    
+                    foreach (var obj in resp.MissionProfileList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

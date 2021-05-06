@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeNetworkInsightsAnalysesResponse resp = new DescribeNetworkInsightsAnalysesResponse();
             do
             {
-                DescribeNetworkInsightsAnalysesRequest req = new DescribeNetworkInsightsAnalysesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeNetworkInsightsAnalysesRequest req = new DescribeNetworkInsightsAnalysesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeNetworkInsightsAnalysesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NetworkInsightsAnalyses)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeNetworkInsightsAnalysesAsync(req);
+                    
+                    foreach (var obj in resp.NetworkInsightsAnalyses)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

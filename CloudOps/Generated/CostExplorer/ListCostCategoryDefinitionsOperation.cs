@@ -29,22 +29,30 @@ namespace CloudOps.CostExplorer
             ListCostCategoryDefinitionsResponse resp = new ListCostCategoryDefinitionsResponse();
             do
             {
-                ListCostCategoryDefinitionsRequest req = new ListCostCategoryDefinitionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCostCategoryDefinitionsRequest req = new ListCostCategoryDefinitionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCostCategoryDefinitionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CostCategoryReferences)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCostCategoryDefinitionsAsync(req);
+                    
+                    foreach (var obj in resp.CostCategoryReferences)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

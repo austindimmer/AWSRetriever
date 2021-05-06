@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.CodeStarconnections;
-using Amazon.CodeStarconnections.Model;
+using Amazon.CodeStarConnections;
+using Amazon.CodeStarConnections.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.CodeStarconnections
+namespace CloudOps.CodeStarConnections
 {
     public class ListHostsOperation : Operation
     {
@@ -15,36 +15,44 @@ namespace CloudOps.CodeStarconnections
 
         public override string Method => "POST";
 
-        public override string ServiceName => "CodeStarconnections";
+        public override string ServiceName => "CodeStarConnections";
 
         public override string ServiceID => "CodeStar connections";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonCodeStarconnectionsConfig config = new AmazonCodeStarconnectionsConfig();
+            AmazonCodeStarConnectionsConfig config = new AmazonCodeStarConnectionsConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonCodeStarconnectionsClient client = new AmazonCodeStarconnectionsClient(creds, config);
+            AmazonCodeStarConnectionsClient client = new AmazonCodeStarConnectionsClient(creds, config);
             
             ListHostsResponse resp = new ListHostsResponse();
             do
             {
-                ListHostsRequest req = new ListHostsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListHostsRequest req = new ListHostsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListHostsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Hosts)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHostsAsync(req);
+                    
+                    foreach (var obj in resp.Hosts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

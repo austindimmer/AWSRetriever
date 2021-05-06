@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeClientVpnEndpointsResponse resp = new DescribeClientVpnEndpointsResponse();
             do
             {
-                DescribeClientVpnEndpointsRequest req = new DescribeClientVpnEndpointsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeClientVpnEndpointsRequest req = new DescribeClientVpnEndpointsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClientVpnEndpointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ClientVpnEndpoints)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClientVpnEndpointsAsync(req);
+                    
+                    foreach (var obj in resp.ClientVpnEndpoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

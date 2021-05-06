@@ -29,22 +29,30 @@ namespace CloudOps.ForecastService
             ListPredictorsResponse resp = new ListPredictorsResponse();
             do
             {
-                ListPredictorsRequest req = new ListPredictorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPredictorsRequest req = new ListPredictorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPredictorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Predictors)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPredictorsAsync(req);
+                    
+                    foreach (var obj in resp.Predictors)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

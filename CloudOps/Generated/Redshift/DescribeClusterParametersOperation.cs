@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeClusterParametersResponse resp = new DescribeClusterParametersResponse();
             do
             {
-                DescribeClusterParametersRequest req = new DescribeClusterParametersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeClusterParametersRequest req = new DescribeClusterParametersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClusterParametersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Parameters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClusterParametersAsync(req);
+                    
+                    foreach (var obj in resp.Parameters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

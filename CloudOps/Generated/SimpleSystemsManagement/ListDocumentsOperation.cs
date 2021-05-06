@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             ListDocumentsResponse resp = new ListDocumentsResponse();
             do
             {
-                ListDocumentsRequest req = new ListDocumentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDocumentsRequest req = new ListDocumentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDocumentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DocumentIdentifiers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDocumentsAsync(req);
+                    
+                    foreach (var obj in resp.DocumentIdentifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.TranscribeService
             ListMedicalTranscriptionJobsResponse resp = new ListMedicalTranscriptionJobsResponse();
             do
             {
-                ListMedicalTranscriptionJobsRequest req = new ListMedicalTranscriptionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMedicalTranscriptionJobsRequest req = new ListMedicalTranscriptionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMedicalTranscriptionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MedicalTranscriptionJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMedicalTranscriptionJobsAsync(req);
+                    
+                    foreach (var obj in resp.MedicalTranscriptionJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

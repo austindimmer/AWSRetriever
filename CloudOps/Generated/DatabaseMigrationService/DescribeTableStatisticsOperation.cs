@@ -29,27 +29,35 @@ namespace CloudOps.DatabaseMigrationService
             DescribeTableStatisticsResponse resp = new DescribeTableStatisticsResponse();
             do
             {
-                DescribeTableStatisticsRequest req = new DescribeTableStatisticsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeTableStatisticsRequest req = new DescribeTableStatisticsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTableStatisticsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReplicationTaskArn)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTableStatisticsAsync(req);
+                    
+                    foreach (var obj in resp.ReplicationTaskArn)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.TableStatistics)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.TableStatistics)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

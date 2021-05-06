@@ -29,22 +29,30 @@ namespace CloudOps.QLDB
             ListLedgersResponse resp = new ListLedgersResponse();
             do
             {
-                ListLedgersRequest req = new ListLedgersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListLedgersRequest req = new ListLedgersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListLedgersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Ledgers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLedgersAsync(req);
+                    
+                    foreach (var obj in resp.Ledgers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

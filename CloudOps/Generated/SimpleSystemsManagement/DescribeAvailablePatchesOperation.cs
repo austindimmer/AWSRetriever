@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeAvailablePatchesResponse resp = new DescribeAvailablePatchesResponse();
             do
             {
-                DescribeAvailablePatchesRequest req = new DescribeAvailablePatchesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeAvailablePatchesRequest req = new DescribeAvailablePatchesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAvailablePatchesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Patches)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAvailablePatchesAsync(req);
+                    
+                    foreach (var obj in resp.Patches)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

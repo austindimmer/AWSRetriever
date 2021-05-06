@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             GetLabelsResponse resp = new GetLabelsResponse();
             do
             {
-                GetLabelsRequest req = new GetLabelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetLabelsRequest req = new GetLabelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetLabelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Labels)
-                {
-                    AddObject(obj);
+                    resp = await client.GetLabelsAsync(req);
+                    
+                    foreach (var obj in resp.Labels)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.LexModelBuildingService
             GetBotsResponse resp = new GetBotsResponse();
             do
             {
-                GetBotsRequest req = new GetBotsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetBotsRequest req = new GetBotsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetBotsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Bots)
-                {
-                    AddObject(obj);
+                    resp = await client.GetBotsAsync(req);
+                    
+                    foreach (var obj in resp.Bots)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

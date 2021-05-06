@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             SearchTransitGatewayMulticastGroupsResponse resp = new SearchTransitGatewayMulticastGroupsResponse();
             do
             {
-                SearchTransitGatewayMulticastGroupsRequest req = new SearchTransitGatewayMulticastGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchTransitGatewayMulticastGroupsRequest req = new SearchTransitGatewayMulticastGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchTransitGatewayMulticastGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MulticastGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchTransitGatewayMulticastGroupsAsync(req);
+                    
+                    foreach (var obj in resp.MulticastGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

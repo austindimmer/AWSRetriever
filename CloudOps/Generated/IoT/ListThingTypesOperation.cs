@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListThingTypesResponse resp = new ListThingTypesResponse();
             do
             {
-                ListThingTypesRequest req = new ListThingTypesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListThingTypesRequest req = new ListThingTypesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListThingTypesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ThingTypes)
-                {
-                    AddObject(obj);
+                    resp = await client.ListThingTypesAsync(req);
+                    
+                    foreach (var obj in resp.ThingTypes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

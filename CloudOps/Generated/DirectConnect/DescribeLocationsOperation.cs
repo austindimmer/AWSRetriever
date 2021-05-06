@@ -31,12 +31,21 @@ namespace CloudOps.DirectConnect
             {                    
                                     
             };
-            resp = await client.DescribeLocationsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.Locations)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeLocationsAsync(req);
+                
+                foreach (var obj in resp.Locations)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

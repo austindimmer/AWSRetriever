@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             GetExternalModelsResponse resp = new GetExternalModelsResponse();
             do
             {
-                GetExternalModelsRequest req = new GetExternalModelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetExternalModelsRequest req = new GetExternalModelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetExternalModelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ExternalModels)
-                {
-                    AddObject(obj);
+                    resp = await client.GetExternalModelsAsync(req);
+                    
+                    foreach (var obj in resp.ExternalModels)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

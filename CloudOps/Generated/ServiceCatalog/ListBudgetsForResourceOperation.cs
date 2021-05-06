@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListBudgetsForResourceResponse resp = new ListBudgetsForResourceResponse();
             do
             {
-                ListBudgetsForResourceRequest req = new ListBudgetsForResourceRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListBudgetsForResourceRequest req = new ListBudgetsForResourceRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListBudgetsForResourceAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Budgets)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBudgetsForResourceAsync(req);
+                    
+                    foreach (var obj in resp.Budgets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

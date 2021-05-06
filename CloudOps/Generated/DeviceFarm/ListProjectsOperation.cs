@@ -29,20 +29,28 @@ namespace CloudOps.DeviceFarm
             ListProjectsResponse resp = new ListProjectsResponse();
             do
             {
-                ListProjectsRequest req = new ListProjectsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListProjectsRequest req = new ListProjectsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListProjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Projects)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProjectsAsync(req);
+                    
+                    foreach (var obj in resp.Projects)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

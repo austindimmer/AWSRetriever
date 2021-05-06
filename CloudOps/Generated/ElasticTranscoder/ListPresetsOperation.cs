@@ -29,20 +29,28 @@ namespace CloudOps.ElasticTranscoder
             ListPresetsResponse resp = new ListPresetsResponse();
             do
             {
-                ListPresetsRequest req = new ListPresetsRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                                        
-                };
+                    ListPresetsRequest req = new ListPresetsRequest
+                    {
+                        PageToken = resp.NextPageToken
+                                            
+                    };
 
-                resp = await client.ListPresetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Presets)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPresetsAsync(req);
+                    
+                    foreach (var obj in resp.Presets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

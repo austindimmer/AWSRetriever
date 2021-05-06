@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             SearchNetworkProfilesResponse resp = new SearchNetworkProfilesResponse();
             do
             {
-                SearchNetworkProfilesRequest req = new SearchNetworkProfilesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchNetworkProfilesRequest req = new SearchNetworkProfilesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchNetworkProfilesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NetworkProfiles)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchNetworkProfilesAsync(req);
+                    
+                    foreach (var obj in resp.NetworkProfiles)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

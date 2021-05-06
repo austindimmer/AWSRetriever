@@ -31,12 +31,21 @@ namespace CloudOps.AWSHealth
             {                    
                                     
             };
-            resp = await client.DescribeEntityAggregatesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.EntityAggregates)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeEntityAggregatesAsync(req);
+                
+                foreach (var obj in resp.EntityAggregates)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

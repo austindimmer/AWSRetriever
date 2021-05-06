@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             GetInsightsResponse resp = new GetInsightsResponse();
             do
             {
-                GetInsightsRequest req = new GetInsightsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetInsightsRequest req = new GetInsightsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetInsightsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Insights)
-                {
-                    AddObject(obj);
+                    resp = await client.GetInsightsAsync(req);
+                    
+                    foreach (var obj in resp.Insights)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

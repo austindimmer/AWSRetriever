@@ -29,20 +29,28 @@ namespace CloudOps.ElasticTranscoder
             ListPipelinesResponse resp = new ListPipelinesResponse();
             do
             {
-                ListPipelinesRequest req = new ListPipelinesRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                                        
-                };
+                    ListPipelinesRequest req = new ListPipelinesRequest
+                    {
+                        PageToken = resp.NextPageToken
+                                            
+                    };
 
-                resp = await client.ListPipelinesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Pipelines)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPipelinesAsync(req);
+                    
+                    foreach (var obj in resp.Pipelines)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

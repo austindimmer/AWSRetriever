@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribePendingMaintenanceActionsResponse resp = new DescribePendingMaintenanceActionsResponse();
             do
             {
-                DescribePendingMaintenanceActionsRequest req = new DescribePendingMaintenanceActionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribePendingMaintenanceActionsRequest req = new DescribePendingMaintenanceActionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePendingMaintenanceActionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PendingMaintenanceActions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePendingMaintenanceActionsAsync(req);
+                    
+                    foreach (var obj in resp.PendingMaintenanceActions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

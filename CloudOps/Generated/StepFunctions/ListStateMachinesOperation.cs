@@ -29,22 +29,30 @@ namespace CloudOps.StepFunctions
             ListStateMachinesResponse resp = new ListStateMachinesResponse();
             do
             {
-                ListStateMachinesRequest req = new ListStateMachinesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListStateMachinesRequest req = new ListStateMachinesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListStateMachinesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StateMachines)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStateMachinesAsync(req);
+                    
+                    foreach (var obj in resp.StateMachines)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

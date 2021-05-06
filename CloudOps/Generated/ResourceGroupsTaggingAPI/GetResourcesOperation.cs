@@ -29,22 +29,30 @@ namespace CloudOps.ResourceGroupsTaggingAPI
             GetResourcesResponse resp = new GetResourcesResponse();
             do
             {
-                GetResourcesRequest req = new GetResourcesRequest
+                try
                 {
-                    PaginationToken = resp.PaginationToken
-                    ,
-                    ResourcesPerPage = maxItems
-                                        
-                };
+                    GetResourcesRequest req = new GetResourcesRequest
+                    {
+                        PaginationToken = resp.PaginationToken
+                        ,
+                        ResourcesPerPage = maxItems
+                                            
+                    };
 
-                resp = await client.GetResourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceTagMappingList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetResourcesAsync(req);
+                    
+                    foreach (var obj in resp.ResourceTagMappingList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.PaginationToken));
         }

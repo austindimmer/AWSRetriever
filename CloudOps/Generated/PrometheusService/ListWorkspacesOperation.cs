@@ -29,22 +29,30 @@ namespace CloudOps.PrometheusService
             ListWorkspacesResponse resp = new ListWorkspacesResponse();
             do
             {
-                ListWorkspacesRequest req = new ListWorkspacesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorkspacesRequest req = new ListWorkspacesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorkspacesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Workspaces)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorkspacesAsync(req);
+                    
+                    foreach (var obj in resp.Workspaces)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

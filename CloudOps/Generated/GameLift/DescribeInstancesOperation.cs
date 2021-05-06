@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             DescribeInstancesResponse resp = new DescribeInstancesResponse();
             do
             {
-                DescribeInstancesRequest req = new DescribeInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeInstancesRequest req = new DescribeInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Instances)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeInstancesAsync(req);
+                    
+                    foreach (var obj in resp.Instances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

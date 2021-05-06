@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeInstanceCreditSpecificationsResponse resp = new DescribeInstanceCreditSpecificationsResponse();
             do
             {
-                DescribeInstanceCreditSpecificationsRequest req = new DescribeInstanceCreditSpecificationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeInstanceCreditSpecificationsRequest req = new DescribeInstanceCreditSpecificationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeInstanceCreditSpecificationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InstanceCreditSpecifications)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeInstanceCreditSpecificationsAsync(req);
+                    
+                    foreach (var obj in resp.InstanceCreditSpecifications)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

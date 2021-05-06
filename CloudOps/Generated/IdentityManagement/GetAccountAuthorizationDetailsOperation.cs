@@ -29,37 +29,45 @@ namespace CloudOps.IdentityManagement
             GetAccountAuthorizationDetailsResponse resp = new GetAccountAuthorizationDetailsResponse();
             do
             {
-                GetAccountAuthorizationDetailsRequest req = new GetAccountAuthorizationDetailsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    GetAccountAuthorizationDetailsRequest req = new GetAccountAuthorizationDetailsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.GetAccountAuthorizationDetailsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.UserDetailList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetAccountAuthorizationDetailsAsync(req);
+                    
+                    foreach (var obj in resp.Policies)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.UserDetailList)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.GroupDetailList)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.RoleDetailList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.GroupDetailList)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.RoleDetailList)
-                {
-                    AddObject(obj);
-                }
-                
-                foreach (var obj in resp.Policies)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

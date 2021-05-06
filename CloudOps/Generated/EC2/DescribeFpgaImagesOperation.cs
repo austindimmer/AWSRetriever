@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeFpgaImagesResponse resp = new DescribeFpgaImagesResponse();
             do
             {
-                DescribeFpgaImagesRequest req = new DescribeFpgaImagesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeFpgaImagesRequest req = new DescribeFpgaImagesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeFpgaImagesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FpgaImages)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeFpgaImagesAsync(req);
+                    
+                    foreach (var obj in resp.FpgaImages)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

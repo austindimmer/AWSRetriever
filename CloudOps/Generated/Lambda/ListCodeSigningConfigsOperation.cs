@@ -29,22 +29,30 @@ namespace CloudOps.Lambda
             ListCodeSigningConfigsResponse resp = new ListCodeSigningConfigsResponse();
             do
             {
-                ListCodeSigningConfigsRequest req = new ListCodeSigningConfigsRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListCodeSigningConfigsRequest req = new ListCodeSigningConfigsRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListCodeSigningConfigsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CodeSigningConfigs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCodeSigningConfigsAsync(req);
+                    
+                    foreach (var obj in resp.CodeSigningConfigs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

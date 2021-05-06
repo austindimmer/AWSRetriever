@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListChannelMembershipsForAppInstanceUserResponse resp = new ListChannelMembershipsForAppInstanceUserResponse();
             do
             {
-                ListChannelMembershipsForAppInstanceUserRequest req = new ListChannelMembershipsForAppInstanceUserRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListChannelMembershipsForAppInstanceUserRequest req = new ListChannelMembershipsForAppInstanceUserRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListChannelMembershipsForAppInstanceUserAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ChannelMemberships)
-                {
-                    AddObject(obj);
+                    resp = await client.ListChannelMembershipsForAppInstanceUserAsync(req);
+                    
+                    foreach (var obj in resp.ChannelMemberships)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

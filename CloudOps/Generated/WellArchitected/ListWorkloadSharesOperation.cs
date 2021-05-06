@@ -29,27 +29,35 @@ namespace CloudOps.WellArchitected
             ListWorkloadSharesResponse resp = new ListWorkloadSharesResponse();
             do
             {
-                ListWorkloadSharesRequest req = new ListWorkloadSharesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorkloadSharesRequest req = new ListWorkloadSharesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorkloadSharesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorkloadId)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorkloadSharesAsync(req);
+                    
+                    foreach (var obj in resp.WorkloadShareSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.WorkloadId)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.WorkloadShareSummaries)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

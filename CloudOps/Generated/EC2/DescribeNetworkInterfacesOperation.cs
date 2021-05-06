@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeNetworkInterfacesResponse resp = new DescribeNetworkInterfacesResponse();
             do
             {
-                DescribeNetworkInterfacesRequest req = new DescribeNetworkInterfacesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeNetworkInterfacesRequest req = new DescribeNetworkInterfacesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeNetworkInterfacesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NetworkInterfaces)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeNetworkInterfacesAsync(req);
+                    
+                    foreach (var obj in resp.NetworkInterfaces)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

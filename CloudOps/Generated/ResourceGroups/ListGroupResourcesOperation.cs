@@ -29,32 +29,40 @@ namespace CloudOps.ResourceGroups
             ListGroupResourcesResponse resp = new ListGroupResourcesResponse();
             do
             {
-                ListGroupResourcesRequest req = new ListGroupResourcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListGroupResourcesRequest req = new ListGroupResourcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListGroupResourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Resources)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGroupResourcesAsync(req);
+                    
+                    foreach (var obj in resp.Resources)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ResourceIdentifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.QueryErrors)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.ResourceIdentifiers)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.QueryErrors)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

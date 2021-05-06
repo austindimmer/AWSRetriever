@@ -29,22 +29,30 @@ namespace CloudOps.Detective
             ListInvitationsResponse resp = new ListInvitationsResponse();
             do
             {
-                ListInvitationsRequest req = new ListInvitationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListInvitationsRequest req = new ListInvitationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListInvitationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Invitations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListInvitationsAsync(req);
+                    
+                    foreach (var obj in resp.Invitations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

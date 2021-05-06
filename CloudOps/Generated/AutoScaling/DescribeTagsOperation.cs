@@ -29,22 +29,30 @@ namespace CloudOps.AutoScaling
             DescribeTagsResponse resp = new DescribeTagsResponse();
             do
             {
-                DescribeTagsRequest req = new DescribeTagsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeTagsRequest req = new DescribeTagsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTagsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tags)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTagsAsync(req);
+                    
+                    foreach (var obj in resp.Tags)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

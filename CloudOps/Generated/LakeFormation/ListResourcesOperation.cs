@@ -29,22 +29,30 @@ namespace CloudOps.LakeFormation
             ListResourcesResponse resp = new ListResourcesResponse();
             do
             {
-                ListResourcesRequest req = new ListResourcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResourcesRequest req = new ListResourcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResourceInfoList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResourcesAsync(req);
+                    
+                    foreach (var obj in resp.ResourceInfoList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DownloadDBLogFilePortionResponse resp = new DownloadDBLogFilePortionResponse();
             do
             {
-                DownloadDBLogFilePortionRequest req = new DownloadDBLogFilePortionRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    NumberOfLines = maxItems
-                                        
-                };
+                    DownloadDBLogFilePortionRequest req = new DownloadDBLogFilePortionRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        NumberOfLines = maxItems
+                                            
+                    };
 
-                resp = await client.DownloadDBLogFilePortionAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LogFileData)
-                {
-                    AddObject(obj);
+                    resp = await client.DownloadDBLogFilePortionAsync(req);
+                    
+                    foreach (var obj in resp.LogFileData)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

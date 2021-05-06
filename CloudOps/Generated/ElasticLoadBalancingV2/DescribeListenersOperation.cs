@@ -29,20 +29,28 @@ namespace CloudOps.ElasticLoadBalancingV2
             DescribeListenersResponse resp = new DescribeListenersResponse();
             do
             {
-                DescribeListenersRequest req = new DescribeListenersRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                                        
-                };
+                    DescribeListenersRequest req = new DescribeListenersRequest
+                    {
+                        Marker = resp.NextMarker
+                                            
+                    };
 
-                resp = await client.DescribeListenersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Listeners)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeListenersAsync(req);
+                    
+                    foreach (var obj in resp.Listeners)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

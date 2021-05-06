@@ -29,22 +29,30 @@ namespace CloudOps.DatabaseMigrationService
             DescribeOrderableReplicationInstancesResponse resp = new DescribeOrderableReplicationInstancesResponse();
             do
             {
-                DescribeOrderableReplicationInstancesRequest req = new DescribeOrderableReplicationInstancesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeOrderableReplicationInstancesRequest req = new DescribeOrderableReplicationInstancesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeOrderableReplicationInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.OrderableReplicationInstances)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeOrderableReplicationInstancesAsync(req);
+                    
+                    foreach (var obj in resp.OrderableReplicationInstances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

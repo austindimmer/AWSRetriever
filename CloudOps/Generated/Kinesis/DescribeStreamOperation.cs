@@ -29,24 +29,32 @@ namespace CloudOps.Kinesis
             DescribeStreamResponse resp = new DescribeStreamResponse();
             do
             {
-                DescribeStreamRequest req = new DescribeStreamRequest
+                try
                 {
-                    ExclusiveStartShardId = resp.StreamDescription.Shards[0].ShardId
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeStreamRequest req = new DescribeStreamRequest
+                    {
+                        ExclusiveStartShardId = resp.StreamDescriptionShards1ShardId
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeStreamAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StreamDescription.Shards)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeStreamAsync(req);
+                    
+                    foreach (var obj in resp.StreamDescriptionShards)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
-            while (!string.IsNullOrEmpty(resp.StreamDescription.Shards[0].ShardId));
+            while (!string.IsNullOrEmpty(resp.StreamDescriptionShards1ShardId));
         }
     }
 }

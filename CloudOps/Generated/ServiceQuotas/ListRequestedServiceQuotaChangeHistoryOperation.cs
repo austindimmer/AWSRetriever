@@ -29,22 +29,30 @@ namespace CloudOps.ServiceQuotas
             ListRequestedServiceQuotaChangeHistoryResponse resp = new ListRequestedServiceQuotaChangeHistoryResponse();
             do
             {
-                ListRequestedServiceQuotaChangeHistoryRequest req = new ListRequestedServiceQuotaChangeHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRequestedServiceQuotaChangeHistoryRequest req = new ListRequestedServiceQuotaChangeHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRequestedServiceQuotaChangeHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RequestedQuotas)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRequestedServiceQuotaChangeHistoryAsync(req);
+                    
+                    foreach (var obj in resp.RequestedQuotas)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

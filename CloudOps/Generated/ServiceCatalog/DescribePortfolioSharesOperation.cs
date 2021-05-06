@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             DescribePortfolioSharesResponse resp = new DescribePortfolioSharesResponse();
             do
             {
-                DescribePortfolioSharesRequest req = new DescribePortfolioSharesRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    DescribePortfolioSharesRequest req = new DescribePortfolioSharesRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePortfolioSharesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PortfolioShareDetails)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePortfolioSharesAsync(req);
+                    
+                    foreach (var obj in resp.PortfolioShareDetails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

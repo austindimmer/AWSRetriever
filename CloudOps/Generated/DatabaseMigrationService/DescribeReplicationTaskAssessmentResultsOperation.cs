@@ -29,27 +29,35 @@ namespace CloudOps.DatabaseMigrationService
             DescribeReplicationTaskAssessmentResultsResponse resp = new DescribeReplicationTaskAssessmentResultsResponse();
             do
             {
-                DescribeReplicationTaskAssessmentResultsRequest req = new DescribeReplicationTaskAssessmentResultsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReplicationTaskAssessmentResultsRequest req = new DescribeReplicationTaskAssessmentResultsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReplicationTaskAssessmentResultsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BucketName)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReplicationTaskAssessmentResultsAsync(req);
+                    
+                    foreach (var obj in resp.BucketName)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ReplicationTaskAssessmentResults)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.ReplicationTaskAssessmentResults)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

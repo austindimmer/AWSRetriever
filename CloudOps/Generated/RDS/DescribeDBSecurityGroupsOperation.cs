@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBSecurityGroupsResponse resp = new DescribeDBSecurityGroupsResponse();
             do
             {
-                DescribeDBSecurityGroupsRequest req = new DescribeDBSecurityGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBSecurityGroupsRequest req = new DescribeDBSecurityGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBSecurityGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBSecurityGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBSecurityGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DBSecurityGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

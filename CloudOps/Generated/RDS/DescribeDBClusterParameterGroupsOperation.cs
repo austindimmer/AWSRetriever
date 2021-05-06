@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBClusterParameterGroupsResponse resp = new DescribeDBClusterParameterGroupsResponse();
             do
             {
-                DescribeDBClusterParameterGroupsRequest req = new DescribeDBClusterParameterGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBClusterParameterGroupsRequest req = new DescribeDBClusterParameterGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBClusterParameterGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBClusterParameterGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBClusterParameterGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DBClusterParameterGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.APIGateway
             GetVpcLinksResponse resp = new GetVpcLinksResponse();
             do
             {
-                GetVpcLinksRequest req = new GetVpcLinksRequest
+                try
                 {
-                    Position = resp.Position
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    GetVpcLinksRequest req = new GetVpcLinksRequest
+                    {
+                        Position = resp.Position
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.GetVpcLinksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.GetVpcLinksAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Position));
         }

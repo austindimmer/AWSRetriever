@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             GetBehaviorModelTrainingSummariesResponse resp = new GetBehaviorModelTrainingSummariesResponse();
             do
             {
-                GetBehaviorModelTrainingSummariesRequest req = new GetBehaviorModelTrainingSummariesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetBehaviorModelTrainingSummariesRequest req = new GetBehaviorModelTrainingSummariesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetBehaviorModelTrainingSummariesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Summaries)
-                {
-                    AddObject(obj);
+                    resp = await client.GetBehaviorModelTrainingSummariesAsync(req);
+                    
+                    foreach (var obj in resp.Summaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

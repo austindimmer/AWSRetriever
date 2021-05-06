@@ -29,22 +29,30 @@ namespace CloudOps.Neptune
             DescribeEventSubscriptionsResponse resp = new DescribeEventSubscriptionsResponse();
             do
             {
-                DescribeEventSubscriptionsRequest req = new DescribeEventSubscriptionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeEventSubscriptionsRequest req = new DescribeEventSubscriptionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEventSubscriptionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EventSubscriptionsList)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEventSubscriptionsAsync(req);
+                    
+                    foreach (var obj in resp.EventSubscriptionsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

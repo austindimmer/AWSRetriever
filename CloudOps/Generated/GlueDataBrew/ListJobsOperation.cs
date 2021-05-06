@@ -29,22 +29,30 @@ namespace CloudOps.GlueDataBrew
             ListJobsResponse resp = new ListJobsResponse();
             do
             {
-                ListJobsRequest req = new ListJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListJobsRequest req = new ListJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Jobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListJobsAsync(req);
+                    
+                    foreach (var obj in resp.Jobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

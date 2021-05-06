@@ -29,22 +29,30 @@ namespace CloudOps.LookoutMetrics
             ListAnomalyDetectorsResponse resp = new ListAnomalyDetectorsResponse();
             do
             {
-                ListAnomalyDetectorsRequest req = new ListAnomalyDetectorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAnomalyDetectorsRequest req = new ListAnomalyDetectorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAnomalyDetectorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AnomalyDetectorSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAnomalyDetectorsAsync(req);
+                    
+                    foreach (var obj in resp.AnomalyDetectorSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

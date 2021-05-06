@@ -29,22 +29,30 @@ namespace CloudOps.CloudWatchLogs
             DescribeDestinationsResponse resp = new DescribeDestinationsResponse();
             do
             {
-                DescribeDestinationsRequest req = new DescribeDestinationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeDestinationsRequest req = new DescribeDestinationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDestinationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Destinations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDestinationsAsync(req);
+                    
+                    foreach (var obj in resp.Destinations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

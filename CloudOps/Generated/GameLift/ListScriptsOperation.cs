@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             ListScriptsResponse resp = new ListScriptsResponse();
             do
             {
-                ListScriptsRequest req = new ListScriptsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListScriptsRequest req = new ListScriptsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListScriptsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Scripts)
-                {
-                    AddObject(obj);
+                    resp = await client.ListScriptsAsync(req);
+                    
+                    foreach (var obj in resp.Scripts)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

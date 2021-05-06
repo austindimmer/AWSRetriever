@@ -29,22 +29,30 @@ namespace CloudOps.IoTThingsGraph
             SearchFlowTemplatesResponse resp = new SearchFlowTemplatesResponse();
             do
             {
-                SearchFlowTemplatesRequest req = new SearchFlowTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchFlowTemplatesRequest req = new SearchFlowTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchFlowTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Summaries)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchFlowTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.Summaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeTableRestoreStatusResponse resp = new DescribeTableRestoreStatusResponse();
             do
             {
-                DescribeTableRestoreStatusRequest req = new DescribeTableRestoreStatusRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeTableRestoreStatusRequest req = new DescribeTableRestoreStatusRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTableRestoreStatusAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TableRestoreStatusDetails)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTableRestoreStatusAsync(req);
+                    
+                    foreach (var obj in resp.TableRestoreStatusDetails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.NetworkFirewall
             ListRuleGroupsResponse resp = new ListRuleGroupsResponse();
             do
             {
-                ListRuleGroupsRequest req = new ListRuleGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRuleGroupsRequest req = new ListRuleGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRuleGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RuleGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRuleGroupsAsync(req);
+                    
+                    foreach (var obj in resp.RuleGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

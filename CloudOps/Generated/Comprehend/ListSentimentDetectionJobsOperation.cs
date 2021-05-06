@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListSentimentDetectionJobsResponse resp = new ListSentimentDetectionJobsResponse();
             do
             {
-                ListSentimentDetectionJobsRequest req = new ListSentimentDetectionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSentimentDetectionJobsRequest req = new ListSentimentDetectionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSentimentDetectionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SentimentDetectionJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSentimentDetectionJobsAsync(req);
+                    
+                    foreach (var obj in resp.SentimentDetectionJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

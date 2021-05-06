@@ -29,22 +29,30 @@ namespace CloudOps.AppMesh
             ListVirtualRoutersResponse resp = new ListVirtualRoutersResponse();
             do
             {
-                ListVirtualRoutersRequest req = new ListVirtualRoutersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListVirtualRoutersRequest req = new ListVirtualRoutersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListVirtualRoutersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VirtualRouters)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVirtualRoutersAsync(req);
+                    
+                    foreach (var obj in resp.VirtualRouters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

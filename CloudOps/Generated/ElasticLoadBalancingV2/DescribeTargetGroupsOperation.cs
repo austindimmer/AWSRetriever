@@ -29,20 +29,28 @@ namespace CloudOps.ElasticLoadBalancingV2
             DescribeTargetGroupsResponse resp = new DescribeTargetGroupsResponse();
             do
             {
-                DescribeTargetGroupsRequest req = new DescribeTargetGroupsRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                                        
-                };
+                    DescribeTargetGroupsRequest req = new DescribeTargetGroupsRequest
+                    {
+                        Marker = resp.NextMarker
+                                            
+                    };
 
-                resp = await client.DescribeTargetGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TargetGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTargetGroupsAsync(req);
+                    
+                    foreach (var obj in resp.TargetGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

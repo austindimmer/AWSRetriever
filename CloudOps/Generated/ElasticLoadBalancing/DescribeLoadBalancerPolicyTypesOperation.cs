@@ -31,12 +31,21 @@ namespace CloudOps.ElasticLoadBalancing
             {                    
                                     
             };
-            resp = await client.DescribeLoadBalancerPolicyTypesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.PolicyTypeDescriptions)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeLoadBalancerPolicyTypesAsync(req);
+                
+                foreach (var obj in resp.PolicyTypeDescriptions)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

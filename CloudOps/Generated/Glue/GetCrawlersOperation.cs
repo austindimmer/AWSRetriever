@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetCrawlersResponse resp = new GetCrawlersResponse();
             do
             {
-                GetCrawlersRequest req = new GetCrawlersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetCrawlersRequest req = new GetCrawlersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetCrawlersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Crawlers)
-                {
-                    AddObject(obj);
+                    resp = await client.GetCrawlersAsync(req);
+                    
+                    foreach (var obj in resp.Crawlers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

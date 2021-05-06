@@ -29,22 +29,30 @@ namespace CloudOps.Outposts
             ListSitesResponse resp = new ListSitesResponse();
             do
             {
-                ListSitesRequest req = new ListSitesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSitesRequest req = new ListSitesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSitesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Sites)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSitesAsync(req);
+                    
+                    foreach (var obj in resp.Sites)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListDocumentClassificationJobsResponse resp = new ListDocumentClassificationJobsResponse();
             do
             {
-                ListDocumentClassificationJobsRequest req = new ListDocumentClassificationJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDocumentClassificationJobsRequest req = new ListDocumentClassificationJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDocumentClassificationJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DocumentClassificationJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDocumentClassificationJobsAsync(req);
+                    
+                    foreach (var obj in resp.DocumentClassificationJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

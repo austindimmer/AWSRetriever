@@ -29,22 +29,30 @@ namespace CloudOps.IoTWireless
             ListWirelessDevicesResponse resp = new ListWirelessDevicesResponse();
             do
             {
-                ListWirelessDevicesRequest req = new ListWirelessDevicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWirelessDevicesRequest req = new ListWirelessDevicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWirelessDevicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WirelessDeviceList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWirelessDevicesAsync(req);
+                    
+                    foreach (var obj in resp.WirelessDeviceList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

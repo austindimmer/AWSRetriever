@@ -29,22 +29,30 @@ namespace CloudOps.ApplicationInsights
             ListConfigurationHistoryResponse resp = new ListConfigurationHistoryResponse();
             do
             {
-                ListConfigurationHistoryRequest req = new ListConfigurationHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListConfigurationHistoryRequest req = new ListConfigurationHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListConfigurationHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EventList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListConfigurationHistoryAsync(req);
+                    
+                    foreach (var obj in resp.EventList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

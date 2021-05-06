@@ -29,22 +29,30 @@ namespace CloudOps.StepFunctions
             ListActivitiesResponse resp = new ListActivitiesResponse();
             do
             {
-                ListActivitiesRequest req = new ListActivitiesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListActivitiesRequest req = new ListActivitiesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListActivitiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Activities)
-                {
-                    AddObject(obj);
+                    resp = await client.ListActivitiesAsync(req);
+                    
+                    foreach (var obj in resp.Activities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

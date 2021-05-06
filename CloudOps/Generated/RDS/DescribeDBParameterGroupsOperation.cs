@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBParameterGroupsResponse resp = new DescribeDBParameterGroupsResponse();
             do
             {
-                DescribeDBParameterGroupsRequest req = new DescribeDBParameterGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBParameterGroupsRequest req = new DescribeDBParameterGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBParameterGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBParameterGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBParameterGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DBParameterGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

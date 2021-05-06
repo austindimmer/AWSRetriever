@@ -29,22 +29,30 @@ namespace CloudOps.LookoutEquipment
             ListDataIngestionJobsResponse resp = new ListDataIngestionJobsResponse();
             do
             {
-                ListDataIngestionJobsRequest req = new ListDataIngestionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDataIngestionJobsRequest req = new ListDataIngestionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDataIngestionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DataIngestionJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDataIngestionJobsAsync(req);
+                    
+                    foreach (var obj in resp.DataIngestionJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.CloudHSMV2
             DescribeClustersResponse resp = new DescribeClustersResponse();
             do
             {
-                DescribeClustersRequest req = new DescribeClustersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeClustersRequest req = new DescribeClustersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClustersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Clusters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClustersAsync(req);
+                    
+                    foreach (var obj in resp.Clusters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

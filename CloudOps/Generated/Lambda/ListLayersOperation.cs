@@ -29,22 +29,30 @@ namespace CloudOps.Lambda
             ListLayersResponse resp = new ListLayersResponse();
             do
             {
-                ListLayersRequest req = new ListLayersRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListLayersRequest req = new ListLayersRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListLayersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Layers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLayersAsync(req);
+                    
+                    foreach (var obj in resp.Layers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

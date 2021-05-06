@@ -29,22 +29,30 @@ namespace CloudOps.EKS
             DescribeAddonVersionsResponse resp = new DescribeAddonVersionsResponse();
             do
             {
-                DescribeAddonVersionsRequest req = new DescribeAddonVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeAddonVersionsRequest req = new DescribeAddonVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAddonVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Addons)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAddonVersionsAsync(req);
+                    
+                    foreach (var obj in resp.Addons)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.ElasticBeanstalk
             DescribeEnvironmentManagedActionHistoryResponse resp = new DescribeEnvironmentManagedActionHistoryResponse();
             do
             {
-                DescribeEnvironmentManagedActionHistoryRequest req = new DescribeEnvironmentManagedActionHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    DescribeEnvironmentManagedActionHistoryRequest req = new DescribeEnvironmentManagedActionHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEnvironmentManagedActionHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ManagedActionHistoryItems)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEnvironmentManagedActionHistoryAsync(req);
+                    
+                    foreach (var obj in resp.ManagedActionHistoryItems)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

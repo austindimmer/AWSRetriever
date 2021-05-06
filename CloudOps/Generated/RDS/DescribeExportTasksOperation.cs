@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeExportTasksResponse resp = new DescribeExportTasksResponse();
             do
             {
-                DescribeExportTasksRequest req = new DescribeExportTasksRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeExportTasksRequest req = new DescribeExportTasksRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeExportTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ExportTasks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeExportTasksAsync(req);
+                    
+                    foreach (var obj in resp.ExportTasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

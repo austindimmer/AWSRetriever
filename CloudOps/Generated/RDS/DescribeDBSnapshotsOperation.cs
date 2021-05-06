@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeDBSnapshotsResponse resp = new DescribeDBSnapshotsResponse();
             do
             {
-                DescribeDBSnapshotsRequest req = new DescribeDBSnapshotsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBSnapshotsRequest req = new DescribeDBSnapshotsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBSnapshotsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBSnapshots)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBSnapshotsAsync(req);
+                    
+                    foreach (var obj in resp.DBSnapshots)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

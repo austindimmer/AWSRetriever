@@ -29,20 +29,28 @@ namespace CloudOps.CodeDeploy
             ListDeploymentConfigsResponse resp = new ListDeploymentConfigsResponse();
             do
             {
-                ListDeploymentConfigsRequest req = new ListDeploymentConfigsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListDeploymentConfigsRequest req = new ListDeploymentConfigsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListDeploymentConfigsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DeploymentConfigsList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDeploymentConfigsAsync(req);
+                    
+                    foreach (var obj in resp.DeploymentConfigsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

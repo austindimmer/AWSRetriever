@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListSchemasResponse resp = new ListSchemasResponse();
             do
             {
-                ListSchemasRequest req = new ListSchemasRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSchemasRequest req = new ListSchemasRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSchemasAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Schemas)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSchemasAsync(req);
+                    
+                    foreach (var obj in resp.Schemas)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

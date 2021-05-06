@@ -29,22 +29,30 @@ namespace CloudOps.KeyManagementService
             ListKeysResponse resp = new ListKeysResponse();
             do
             {
-                ListKeysRequest req = new ListKeysRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListKeysRequest req = new ListKeysRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListKeysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Keys)
-                {
-                    AddObject(obj);
+                    resp = await client.ListKeysAsync(req);
+                    
+                    foreach (var obj in resp.Keys)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

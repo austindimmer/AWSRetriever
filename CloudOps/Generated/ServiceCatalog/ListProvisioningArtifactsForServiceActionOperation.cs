@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListProvisioningArtifactsForServiceActionResponse resp = new ListProvisioningArtifactsForServiceActionResponse();
             do
             {
-                ListProvisioningArtifactsForServiceActionRequest req = new ListProvisioningArtifactsForServiceActionRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListProvisioningArtifactsForServiceActionRequest req = new ListProvisioningArtifactsForServiceActionRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListProvisioningArtifactsForServiceActionAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProvisioningArtifactViews)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProvisioningArtifactsForServiceActionAsync(req);
+                    
+                    foreach (var obj in resp.ProvisioningArtifactViews)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

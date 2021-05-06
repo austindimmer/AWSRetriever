@@ -29,22 +29,30 @@ namespace CloudOps.AppRegistry
             ListAttributeGroupsResponse resp = new ListAttributeGroupsResponse();
             do
             {
-                ListAttributeGroupsRequest req = new ListAttributeGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAttributeGroupsRequest req = new ListAttributeGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAttributeGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AttributeGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAttributeGroupsAsync(req);
+                    
+                    foreach (var obj in resp.AttributeGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

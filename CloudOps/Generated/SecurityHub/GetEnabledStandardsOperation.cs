@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             GetEnabledStandardsResponse resp = new GetEnabledStandardsResponse();
             do
             {
-                GetEnabledStandardsRequest req = new GetEnabledStandardsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetEnabledStandardsRequest req = new GetEnabledStandardsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetEnabledStandardsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StandardsSubscriptions)
-                {
-                    AddObject(obj);
+                    resp = await client.GetEnabledStandardsAsync(req);
+                    
+                    foreach (var obj in resp.StandardsSubscriptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

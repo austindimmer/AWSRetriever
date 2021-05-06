@@ -31,12 +31,21 @@ namespace CloudOps.StorageGateway
             {                    
                                     
             };
-            resp = await client.ListVolumeRecoveryPointsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.VolumeRecoveryPointInfos)
+            try
             {
-                AddObject(obj);
+                resp = await client.ListVolumeRecoveryPointsAsync(req);
+                
+                foreach (var obj in resp.VolumeRecoveryPointInfos)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

@@ -29,22 +29,30 @@ namespace CloudOps.MachineLearning
             DescribeDataSourcesResponse resp = new DescribeDataSourcesResponse();
             do
             {
-                DescribeDataSourcesRequest req = new DescribeDataSourcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeDataSourcesRequest req = new DescribeDataSourcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDataSourcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Results)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDataSourcesAsync(req);
+                    
+                    foreach (var obj in resp.Results)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

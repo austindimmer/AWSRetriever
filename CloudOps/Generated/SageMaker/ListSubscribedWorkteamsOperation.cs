@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListSubscribedWorkteamsResponse resp = new ListSubscribedWorkteamsResponse();
             do
             {
-                ListSubscribedWorkteamsRequest req = new ListSubscribedWorkteamsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSubscribedWorkteamsRequest req = new ListSubscribedWorkteamsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSubscribedWorkteamsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SubscribedWorkteams)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSubscribedWorkteamsAsync(req);
+                    
+                    foreach (var obj in resp.SubscribedWorkteams)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

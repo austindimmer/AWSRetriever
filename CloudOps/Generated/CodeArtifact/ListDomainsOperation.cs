@@ -29,22 +29,30 @@ namespace CloudOps.CodeArtifact
             ListDomainsResponse resp = new ListDomainsResponse();
             do
             {
-                ListDomainsRequest req = new ListDomainsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDomainsRequest req = new ListDomainsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDomainsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Domains)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDomainsAsync(req);
+                    
+                    foreach (var obj in resp.Domains)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

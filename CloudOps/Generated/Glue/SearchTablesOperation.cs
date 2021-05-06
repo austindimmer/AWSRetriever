@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             SearchTablesResponse resp = new SearchTablesResponse();
             do
             {
-                SearchTablesRequest req = new SearchTablesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchTablesRequest req = new SearchTablesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchTablesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TableList)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchTablesAsync(req);
+                    
+                    foreach (var obj in resp.TableList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

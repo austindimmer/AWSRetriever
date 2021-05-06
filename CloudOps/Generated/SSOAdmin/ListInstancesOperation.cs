@@ -29,22 +29,30 @@ namespace CloudOps.SSOAdmin
             ListInstancesResponse resp = new ListInstancesResponse();
             do
             {
-                ListInstancesRequest req = new ListInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListInstancesRequest req = new ListInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Instances)
-                {
-                    AddObject(obj);
+                    resp = await client.ListInstancesAsync(req);
+                    
+                    foreach (var obj in resp.Instances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

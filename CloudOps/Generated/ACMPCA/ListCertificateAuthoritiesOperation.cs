@@ -29,22 +29,30 @@ namespace CloudOps.ACMPCA
             ListCertificateAuthoritiesResponse resp = new ListCertificateAuthoritiesResponse();
             do
             {
-                ListCertificateAuthoritiesRequest req = new ListCertificateAuthoritiesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCertificateAuthoritiesRequest req = new ListCertificateAuthoritiesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCertificateAuthoritiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CertificateAuthorities)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCertificateAuthoritiesAsync(req);
+                    
+                    foreach (var obj in resp.CertificateAuthorities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

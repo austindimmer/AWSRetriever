@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListModelExplainabilityJobDefinitionsResponse resp = new ListModelExplainabilityJobDefinitionsResponse();
             do
             {
-                ListModelExplainabilityJobDefinitionsRequest req = new ListModelExplainabilityJobDefinitionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListModelExplainabilityJobDefinitionsRequest req = new ListModelExplainabilityJobDefinitionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListModelExplainabilityJobDefinitionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JobDefinitionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListModelExplainabilityJobDefinitionsAsync(req);
+                    
+                    foreach (var obj in resp.JobDefinitionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

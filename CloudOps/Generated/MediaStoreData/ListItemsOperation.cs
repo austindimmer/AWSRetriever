@@ -7,7 +7,7 @@ namespace CloudOps.MediaStoreData
 {
     public class ListItemsOperation : Operation
     {
-        public override string Name => "ListItems";
+        public override string Name => "List.Items";
 
         public override string Description => "Provides a list of metadata entries about folders and objects in the specified folder.";
  
@@ -29,22 +29,30 @@ namespace CloudOps.MediaStoreData
             ListItemsResponse resp = new ListItemsResponse();
             do
             {
-                ListItemsRequest req = new ListItemsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListItemsRequest req = new ListItemsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListItemsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.ListItemsAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

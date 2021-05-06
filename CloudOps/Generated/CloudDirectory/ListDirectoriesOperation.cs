@@ -29,22 +29,30 @@ namespace CloudOps.CloudDirectory
             ListDirectoriesResponse resp = new ListDirectoriesResponse();
             do
             {
-                ListDirectoriesRequest req = new ListDirectoriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDirectoriesRequest req = new ListDirectoriesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDirectoriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Directories)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDirectoriesAsync(req);
+                    
+                    foreach (var obj in resp.Directories)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

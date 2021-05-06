@@ -29,20 +29,28 @@ namespace CloudOps.DeviceFarm
             ListOfferingsResponse resp = new ListOfferingsResponse();
             do
             {
-                ListOfferingsRequest req = new ListOfferingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListOfferingsRequest req = new ListOfferingsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListOfferingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Offerings)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOfferingsAsync(req);
+                    
+                    foreach (var obj in resp.Offerings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

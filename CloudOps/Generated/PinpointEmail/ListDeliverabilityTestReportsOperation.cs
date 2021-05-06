@@ -29,22 +29,30 @@ namespace CloudOps.PinpointEmail
             ListDeliverabilityTestReportsResponse resp = new ListDeliverabilityTestReportsResponse();
             do
             {
-                ListDeliverabilityTestReportsRequest req = new ListDeliverabilityTestReportsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListDeliverabilityTestReportsRequest req = new ListDeliverabilityTestReportsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListDeliverabilityTestReportsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DeliverabilityTestReports)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDeliverabilityTestReportsAsync(req);
+                    
+                    foreach (var obj in resp.DeliverabilityTestReports)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

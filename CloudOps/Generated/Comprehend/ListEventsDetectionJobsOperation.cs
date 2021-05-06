@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListEventsDetectionJobsResponse resp = new ListEventsDetectionJobsResponse();
             do
             {
-                ListEventsDetectionJobsRequest req = new ListEventsDetectionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEventsDetectionJobsRequest req = new ListEventsDetectionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEventsDetectionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EventsDetectionJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEventsDetectionJobsAsync(req);
+                    
+                    foreach (var obj in resp.EventsDetectionJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

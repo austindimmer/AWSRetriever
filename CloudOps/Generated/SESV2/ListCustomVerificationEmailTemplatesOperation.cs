@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.SimpleEmailV2;
-using Amazon.SimpleEmailV2.Model;
+using Amazon.SESV2;
+using Amazon.SESV2.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.SimpleEmailV2
+namespace CloudOps.SESV2
 {
     public class ListCustomVerificationEmailTemplatesOperation : Operation
     {
@@ -15,36 +15,44 @@ namespace CloudOps.SimpleEmailV2
 
         public override string Method => "GET";
 
-        public override string ServiceName => "SimpleEmailV2";
+        public override string ServiceName => "SESV2";
 
-        public override string ServiceID => "SimpleEmailV2";
+        public override string ServiceID => "SESv2";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSimpleEmailServiceV2Config config = new AmazonSimpleEmailServiceV2Config();
+            AmazonSESV2Config config = new AmazonSESV2Config();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSimpleEmailServiceV2Client client = new AmazonSimpleEmailServiceV2Client(creds, config);
+            AmazonSESV2Client client = new AmazonSESV2Client(creds, config);
             
             ListCustomVerificationEmailTemplatesResponse resp = new ListCustomVerificationEmailTemplatesResponse();
             do
             {
-                ListCustomVerificationEmailTemplatesRequest req = new ListCustomVerificationEmailTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListCustomVerificationEmailTemplatesRequest req = new ListCustomVerificationEmailTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListCustomVerificationEmailTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CustomVerificationEmailTemplates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCustomVerificationEmailTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.CustomVerificationEmailTemplates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

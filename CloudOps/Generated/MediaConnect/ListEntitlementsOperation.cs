@@ -29,22 +29,30 @@ namespace CloudOps.MediaConnect
             ListEntitlementsResponse resp = new ListEntitlementsResponse();
             do
             {
-                ListEntitlementsRequest req = new ListEntitlementsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEntitlementsRequest req = new ListEntitlementsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEntitlementsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Entitlements)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEntitlementsAsync(req);
+                    
+                    foreach (var obj in resp.Entitlements)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

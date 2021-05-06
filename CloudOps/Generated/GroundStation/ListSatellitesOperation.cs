@@ -29,22 +29,30 @@ namespace CloudOps.GroundStation
             ListSatellitesResponse resp = new ListSatellitesResponse();
             do
             {
-                ListSatellitesRequest req = new ListSatellitesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSatellitesRequest req = new ListSatellitesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSatellitesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Satellites)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSatellitesAsync(req);
+                    
+                    foreach (var obj in resp.Satellites)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

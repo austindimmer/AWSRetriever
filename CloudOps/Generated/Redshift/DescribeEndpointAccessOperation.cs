@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeEndpointAccessResponse resp = new DescribeEndpointAccessResponse();
             do
             {
-                DescribeEndpointAccessRequest req = new DescribeEndpointAccessRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeEndpointAccessRequest req = new DescribeEndpointAccessRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEndpointAccessAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EndpointAccessList)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEndpointAccessAsync(req);
+                    
+                    foreach (var obj in resp.EndpointAccessList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

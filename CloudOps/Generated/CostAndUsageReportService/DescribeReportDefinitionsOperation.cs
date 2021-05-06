@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.CostAndUsageReport;
-using Amazon.CostAndUsageReport.Model;
+using Amazon.CostAndUsageReportService;
+using Amazon.CostAndUsageReportService.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.CostAndUsageReportService
@@ -21,30 +21,38 @@ namespace CloudOps.CostAndUsageReportService
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonCostAndUsageReportConfig config = new AmazonCostAndUsageReportConfig();
+            AmazonCostAndUsageReportServiceConfig config = new AmazonCostAndUsageReportServiceConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonCostAndUsageReportClient client = new AmazonCostAndUsageReportClient(creds, config);
+            AmazonCostAndUsageReportServiceClient client = new AmazonCostAndUsageReportServiceClient(creds, config);
             
             DescribeReportDefinitionsResponse resp = new DescribeReportDefinitionsResponse();
             do
             {
-                DescribeReportDefinitionsRequest req = new DescribeReportDefinitionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeReportDefinitionsRequest req = new DescribeReportDefinitionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReportDefinitionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReportDefinitions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReportDefinitionsAsync(req);
+                    
+                    foreach (var obj in resp.ReportDefinitions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

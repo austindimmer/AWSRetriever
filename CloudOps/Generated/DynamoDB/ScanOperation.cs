@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
+using Amazon.DynamoDB;
+using Amazon.DynamoDB.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.DynamoDBv2
+namespace CloudOps.DynamoDB
 {
     public class ScanOperation : Operation
     {
@@ -15,9 +15,9 @@ namespace CloudOps.DynamoDBv2
 
         public override string Method => "POST";
 
-        public override string ServiceName => "DynamoDBv2";
+        public override string ServiceName => "DynamoDB";
 
-        public override string ServiceID => "DynamoDBv2";
+        public override string ServiceID => "DynamoDB";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
@@ -29,24 +29,32 @@ namespace CloudOps.DynamoDBv2
             ScanResponse resp = new ScanResponse();
             do
             {
-                ScanRequest req = new ScanRequest
+                try
                 {
-                    ExclusiveStartKey = resp.LastEvaluatedKey
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ScanRequest req = new ScanRequest
+                    {
+                        ExclusiveStartKey = resp.LastEvaluatedKey
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ScanAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.ScanAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
-            while (resp.LastEvaluatedKey.Count > 0);
+            while (!string.IsNullOrEmpty(resp.LastEvaluatedKey));
         }
     }
 }

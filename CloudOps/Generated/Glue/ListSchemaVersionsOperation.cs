@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             ListSchemaVersionsResponse resp = new ListSchemaVersionsResponse();
             do
             {
-                ListSchemaVersionsRequest req = new ListSchemaVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSchemaVersionsRequest req = new ListSchemaVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSchemaVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Schemas)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSchemaVersionsAsync(req);
+                    
+                    foreach (var obj in resp.Schemas)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

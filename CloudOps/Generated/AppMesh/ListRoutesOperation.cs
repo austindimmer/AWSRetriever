@@ -29,22 +29,30 @@ namespace CloudOps.AppMesh
             ListRoutesResponse resp = new ListRoutesResponse();
             do
             {
-                ListRoutesRequest req = new ListRoutesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListRoutesRequest req = new ListRoutesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListRoutesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Routes)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRoutesAsync(req);
+                    
+                    foreach (var obj in resp.Routes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -1,9 +1,9 @@
 using Amazon;
-using Amazon.SimpleEmailV2;
-using Amazon.SimpleEmailV2.Model;
+using Amazon.SESV2;
+using Amazon.SESV2.Model;
 using Amazon.Runtime;
 
-namespace CloudOps.SimpleEmailV2
+namespace CloudOps.SESV2
 {
     public class ListEmailIdentitiesOperation : Operation
     {
@@ -15,36 +15,44 @@ namespace CloudOps.SimpleEmailV2
 
         public override string Method => "GET";
 
-        public override string ServiceName => "SimpleEmailV2";
+        public override string ServiceName => "SESV2";
 
-        public override string ServiceID => "SimpleEmailV2";
+        public override string ServiceID => "SESv2";
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSimpleEmailServiceV2Config config = new AmazonSimpleEmailServiceV2Config();
+            AmazonSESV2Config config = new AmazonSESV2Config();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSimpleEmailServiceV2Client client = new AmazonSimpleEmailServiceV2Client(creds, config);
+            AmazonSESV2Client client = new AmazonSESV2Client(creds, config);
             
             ListEmailIdentitiesResponse resp = new ListEmailIdentitiesResponse();
             do
             {
-                ListEmailIdentitiesRequest req = new ListEmailIdentitiesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListEmailIdentitiesRequest req = new ListEmailIdentitiesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListEmailIdentitiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EmailIdentities)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEmailIdentitiesAsync(req);
+                    
+                    foreach (var obj in resp.EmailIdentities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Inspector
             ListAssessmentTargetsResponse resp = new ListAssessmentTargetsResponse();
             do
             {
-                ListAssessmentTargetsRequest req = new ListAssessmentTargetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAssessmentTargetsRequest req = new ListAssessmentTargetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAssessmentTargetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AssessmentTargetArns)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAssessmentTargetsAsync(req);
+                    
+                    foreach (var obj in resp.AssessmentTargetArns)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

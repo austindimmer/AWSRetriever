@@ -29,22 +29,30 @@ namespace CloudOps.FSx
             DescribeDataRepositoryTasksResponse resp = new DescribeDataRepositoryTasksResponse();
             do
             {
-                DescribeDataRepositoryTasksRequest req = new DescribeDataRepositoryTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeDataRepositoryTasksRequest req = new DescribeDataRepositoryTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDataRepositoryTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DataRepositoryTasks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDataRepositoryTasksAsync(req);
+                    
+                    foreach (var obj in resp.DataRepositoryTasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

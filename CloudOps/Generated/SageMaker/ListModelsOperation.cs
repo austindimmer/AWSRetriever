@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListModelsResponse resp = new ListModelsResponse();
             do
             {
-                ListModelsRequest req = new ListModelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListModelsRequest req = new ListModelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListModelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Models)
-                {
-                    AddObject(obj);
+                    resp = await client.ListModelsAsync(req);
+                    
+                    foreach (var obj in resp.Models)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

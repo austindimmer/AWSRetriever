@@ -29,22 +29,30 @@ namespace CloudOps.IoTWireless
             ListDestinationsResponse resp = new ListDestinationsResponse();
             do
             {
-                ListDestinationsRequest req = new ListDestinationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDestinationsRequest req = new ListDestinationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDestinationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DestinationList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDestinationsAsync(req);
+                    
+                    foreach (var obj in resp.DestinationList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

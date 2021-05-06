@@ -29,20 +29,28 @@ namespace CloudOps.DevOpsGuru
             ListNotificationChannelsResponse resp = new ListNotificationChannelsResponse();
             do
             {
-                ListNotificationChannelsRequest req = new ListNotificationChannelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListNotificationChannelsRequest req = new ListNotificationChannelsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListNotificationChannelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Channels)
-                {
-                    AddObject(obj);
+                    resp = await client.ListNotificationChannelsAsync(req);
+                    
+                    foreach (var obj in resp.Channels)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

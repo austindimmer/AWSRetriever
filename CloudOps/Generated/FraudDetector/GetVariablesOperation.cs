@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             GetVariablesResponse resp = new GetVariablesResponse();
             do
             {
-                GetVariablesRequest req = new GetVariablesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetVariablesRequest req = new GetVariablesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetVariablesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Variables)
-                {
-                    AddObject(obj);
+                    resp = await client.GetVariablesAsync(req);
+                    
+                    foreach (var obj in resp.Variables)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

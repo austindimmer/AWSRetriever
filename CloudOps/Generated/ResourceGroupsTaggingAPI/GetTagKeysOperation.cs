@@ -29,20 +29,28 @@ namespace CloudOps.ResourceGroupsTaggingAPI
             GetTagKeysResponse resp = new GetTagKeysResponse();
             do
             {
-                GetTagKeysRequest req = new GetTagKeysRequest
+                try
                 {
-                    PaginationToken = resp.PaginationToken
-                                        
-                };
+                    GetTagKeysRequest req = new GetTagKeysRequest
+                    {
+                        PaginationToken = resp.PaginationToken
+                                            
+                    };
 
-                resp = await client.GetTagKeysAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TagKeys)
-                {
-                    AddObject(obj);
+                    resp = await client.GetTagKeysAsync(req);
+                    
+                    foreach (var obj in resp.TagKeys)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.PaginationToken));
         }

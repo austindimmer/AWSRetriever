@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             GetOpsSummaryResponse resp = new GetOpsSummaryResponse();
             do
             {
-                GetOpsSummaryRequest req = new GetOpsSummaryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetOpsSummaryRequest req = new GetOpsSummaryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetOpsSummaryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Entities)
-                {
-                    AddObject(obj);
+                    resp = await client.GetOpsSummaryAsync(req);
+                    
+                    foreach (var obj in resp.Entities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

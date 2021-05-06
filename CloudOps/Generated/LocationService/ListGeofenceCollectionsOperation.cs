@@ -29,22 +29,30 @@ namespace CloudOps.LocationService
             ListGeofenceCollectionsResponse resp = new ListGeofenceCollectionsResponse();
             do
             {
-                ListGeofenceCollectionsRequest req = new ListGeofenceCollectionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListGeofenceCollectionsRequest req = new ListGeofenceCollectionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListGeofenceCollectionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Entries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGeofenceCollectionsAsync(req);
+                    
+                    foreach (var obj in resp.Entries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

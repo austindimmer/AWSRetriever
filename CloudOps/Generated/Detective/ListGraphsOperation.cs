@@ -29,22 +29,30 @@ namespace CloudOps.Detective
             ListGraphsResponse resp = new ListGraphsResponse();
             do
             {
-                ListGraphsRequest req = new ListGraphsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListGraphsRequest req = new ListGraphsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListGraphsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GraphList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGraphsAsync(req);
+                    
+                    foreach (var obj in resp.GraphList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

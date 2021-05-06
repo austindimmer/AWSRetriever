@@ -29,20 +29,28 @@ namespace CloudOps.CloudFormation
             DescribeStacksResponse resp = new DescribeStacksResponse();
             do
             {
-                DescribeStacksRequest req = new DescribeStacksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    DescribeStacksRequest req = new DescribeStacksRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.DescribeStacksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Stacks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeStacksAsync(req);
+                    
+                    foreach (var obj in resp.Stacks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

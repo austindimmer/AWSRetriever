@@ -29,22 +29,30 @@ namespace CloudOps.Elasticsearch
             ListElasticsearchVersionsResponse resp = new ListElasticsearchVersionsResponse();
             do
             {
-                ListElasticsearchVersionsRequest req = new ListElasticsearchVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListElasticsearchVersionsRequest req = new ListElasticsearchVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListElasticsearchVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ElasticsearchVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListElasticsearchVersionsAsync(req);
+                    
+                    foreach (var obj in resp.ElasticsearchVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

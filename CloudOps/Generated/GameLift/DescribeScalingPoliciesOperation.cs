@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             DescribeScalingPoliciesResponse resp = new DescribeScalingPoliciesResponse();
             do
             {
-                DescribeScalingPoliciesRequest req = new DescribeScalingPoliciesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeScalingPoliciesRequest req = new DescribeScalingPoliciesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeScalingPoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ScalingPolicies)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeScalingPoliciesAsync(req);
+                    
+                    foreach (var obj in resp.ScalingPolicies)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

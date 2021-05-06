@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             SearchGameSessionsResponse resp = new SearchGameSessionsResponse();
             do
             {
-                SearchGameSessionsRequest req = new SearchGameSessionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    SearchGameSessionsRequest req = new SearchGameSessionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.SearchGameSessionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GameSessions)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchGameSessionsAsync(req);
+                    
+                    foreach (var obj in resp.GameSessions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.FIS
             ListExperimentTemplatesResponse resp = new ListExperimentTemplatesResponse();
             do
             {
-                ListExperimentTemplatesRequest req = new ListExperimentTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListExperimentTemplatesRequest req = new ListExperimentTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListExperimentTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ExperimentTemplates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListExperimentTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.ExperimentTemplates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

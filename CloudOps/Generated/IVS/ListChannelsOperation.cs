@@ -29,22 +29,30 @@ namespace CloudOps.IVS
             ListChannelsResponse resp = new ListChannelsResponse();
             do
             {
-                ListChannelsRequest req = new ListChannelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListChannelsRequest req = new ListChannelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListChannelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Channels)
-                {
-                    AddObject(obj);
+                    resp = await client.ListChannelsAsync(req);
+                    
+                    foreach (var obj in resp.Channels)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

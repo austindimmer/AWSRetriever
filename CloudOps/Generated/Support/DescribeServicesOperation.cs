@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.AWSSupport;
-using Amazon.AWSSupport.Model;
+using Amazon.Support;
+using Amazon.Support.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.Support
@@ -21,22 +21,31 @@ namespace CloudOps.Support
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonAWSSupportConfig config = new AmazonAWSSupportConfig();
+            AmazonSupportConfig config = new AmazonSupportConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonAWSSupportClient client = new AmazonAWSSupportClient(creds, config);
+            AmazonSupportClient client = new AmazonSupportClient(creds, config);
             
             DescribeServicesResponse resp = new DescribeServicesResponse();
             DescribeServicesRequest req = new DescribeServicesRequest
             {                    
                                     
             };
-            resp = await client.DescribeServicesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.Services)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeServicesAsync(req);
+                
+                foreach (var obj in resp.Services)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

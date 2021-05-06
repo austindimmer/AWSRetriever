@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             ListGameServersResponse resp = new ListGameServersResponse();
             do
             {
-                ListGameServersRequest req = new ListGameServersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListGameServersRequest req = new ListGameServersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListGameServersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GameServers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGameServersAsync(req);
+                    
+                    foreach (var obj in resp.GameServers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

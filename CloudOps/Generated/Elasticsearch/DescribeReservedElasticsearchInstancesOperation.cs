@@ -29,22 +29,30 @@ namespace CloudOps.Elasticsearch
             DescribeReservedElasticsearchInstancesResponse resp = new DescribeReservedElasticsearchInstancesResponse();
             do
             {
-                DescribeReservedElasticsearchInstancesRequest req = new DescribeReservedElasticsearchInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeReservedElasticsearchInstancesRequest req = new DescribeReservedElasticsearchInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReservedElasticsearchInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReservedElasticsearchInstances)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReservedElasticsearchInstancesAsync(req);
+                    
+                    foreach (var obj in resp.ReservedElasticsearchInstances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

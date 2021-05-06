@@ -29,20 +29,30 @@ namespace CloudOps.CloudFront
             ListStreamingDistributionsResponse resp = new ListStreamingDistributionsResponse();
             do
             {
-                ListStreamingDistributionsRequest req = new ListStreamingDistributionsRequest
+                try
                 {
-                    Marker = resp.StreamingDistributionList.NextMarker,
-                    MaxItems = maxItems.ToString()
-                };
+                    ListStreamingDistributionsRequest req = new ListStreamingDistributionsRequest
+                    {
+                        Marker = resp.StreamingDistributionList.NextMarker
+                        ,
+                        MaxItems = maxItems.ToString()
+                                            
+                    };
 
-                resp = await client.ListStreamingDistributionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.StreamingDistributionList.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStreamingDistributionsAsync(req);
+                    
+                    foreach (var obj in resp.StreamingDistributionList.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.StreamingDistributionList.NextMarker));
         }

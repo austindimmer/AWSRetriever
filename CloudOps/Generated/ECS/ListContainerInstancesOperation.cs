@@ -29,22 +29,30 @@ namespace CloudOps.ECS
             ListContainerInstancesResponse resp = new ListContainerInstancesResponse();
             do
             {
-                ListContainerInstancesRequest req = new ListContainerInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListContainerInstancesRequest req = new ListContainerInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListContainerInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ContainerInstanceArns)
-                {
-                    AddObject(obj);
+                    resp = await client.ListContainerInstancesAsync(req);
+                    
+                    foreach (var obj in resp.ContainerInstanceArns)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

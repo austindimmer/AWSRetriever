@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeUserGroupsResponse resp = new DescribeUserGroupsResponse();
             do
             {
-                DescribeUserGroupsRequest req = new DescribeUserGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeUserGroupsRequest req = new DescribeUserGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeUserGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.UserGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeUserGroupsAsync(req);
+                    
+                    foreach (var obj in resp.UserGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

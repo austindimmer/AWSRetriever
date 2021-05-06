@@ -29,22 +29,30 @@ namespace CloudOps.IoTSiteWise
             ListAssetsResponse resp = new ListAssetsResponse();
             do
             {
-                ListAssetsRequest req = new ListAssetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAssetsRequest req = new ListAssetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAssetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AssetSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAssetsAsync(req);
+                    
+                    foreach (var obj in resp.AssetSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

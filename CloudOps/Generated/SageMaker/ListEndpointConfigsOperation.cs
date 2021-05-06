@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListEndpointConfigsResponse resp = new ListEndpointConfigsResponse();
             do
             {
-                ListEndpointConfigsRequest req = new ListEndpointConfigsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEndpointConfigsRequest req = new ListEndpointConfigsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEndpointConfigsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EndpointConfigs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEndpointConfigsAsync(req);
+                    
+                    foreach (var obj in resp.EndpointConfigs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

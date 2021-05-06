@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeHsmClientCertificatesResponse resp = new DescribeHsmClientCertificatesResponse();
             do
             {
-                DescribeHsmClientCertificatesRequest req = new DescribeHsmClientCertificatesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeHsmClientCertificatesRequest req = new DescribeHsmClientCertificatesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeHsmClientCertificatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HsmClientCertificates)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeHsmClientCertificatesAsync(req);
+                    
+                    foreach (var obj in resp.HsmClientCertificates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

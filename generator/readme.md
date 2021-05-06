@@ -2,14 +2,15 @@
 
 Generates CloudOps classes from AWS sdk sources.
 
-SDKROOT is this: https://github.com/aws/aws-sdk-net
+SDKROOT is this: <https://github.com/aws/aws-sdk-net>
 
 Build & Run:
 
 ```bash
 go get ./...
-go build 
-./generator -output ../CloudOps/ -sdkroot ../aws-sdk-net/
+cd generator
+go build
+generator -output ../CloudOps/ -sdkroot ../aws-sdk-net/
 ```
 
 Apply the patches:

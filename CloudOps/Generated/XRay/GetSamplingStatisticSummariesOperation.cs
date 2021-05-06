@@ -29,20 +29,28 @@ namespace CloudOps.XRay
             GetSamplingStatisticSummariesResponse resp = new GetSamplingStatisticSummariesResponse();
             do
             {
-                GetSamplingStatisticSummariesRequest req = new GetSamplingStatisticSummariesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    GetSamplingStatisticSummariesRequest req = new GetSamplingStatisticSummariesRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.GetSamplingStatisticSummariesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SamplingStatisticSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.GetSamplingStatisticSummariesAsync(req);
+                    
+                    foreach (var obj in resp.SamplingStatisticSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

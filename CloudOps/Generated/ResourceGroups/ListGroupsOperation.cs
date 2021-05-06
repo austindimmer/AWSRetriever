@@ -29,22 +29,30 @@ namespace CloudOps.ResourceGroups
             ListGroupsResponse resp = new ListGroupsResponse();
             do
             {
-                ListGroupsRequest req = new ListGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListGroupsRequest req = new ListGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GroupIdentifiers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGroupsAsync(req);
+                    
+                    foreach (var obj in resp.GroupIdentifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

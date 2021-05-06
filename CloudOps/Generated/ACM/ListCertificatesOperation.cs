@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.CertificateManager;
-using Amazon.CertificateManager.Model;
+using Amazon.ACM;
+using Amazon.ACM.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.ACM
@@ -21,30 +21,38 @@ namespace CloudOps.ACM
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonCertificateManagerConfig config = new AmazonCertificateManagerConfig();
+            AmazonACMConfig config = new AmazonACMConfig();
             config.RegionEndpoint = region;
-            ConfigureClient(config);
-            AmazonCertificateManagerClient client = new AmazonCertificateManagerClient(creds, config);
+            ConfigureClient(config);            
+            AmazonACMClient client = new AmazonACMClient(creds, config);
             
             ListCertificatesResponse resp = new ListCertificatesResponse();
             do
             {
-                ListCertificatesRequest req = new ListCertificatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListCertificatesRequest req = new ListCertificatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListCertificatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CertificateSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCertificatesAsync(req);
+                    
+                    foreach (var obj in resp.CertificateSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

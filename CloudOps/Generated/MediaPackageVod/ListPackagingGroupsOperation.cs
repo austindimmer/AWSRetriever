@@ -29,22 +29,30 @@ namespace CloudOps.MediaPackageVod
             ListPackagingGroupsResponse resp = new ListPackagingGroupsResponse();
             do
             {
-                ListPackagingGroupsRequest req = new ListPackagingGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPackagingGroupsRequest req = new ListPackagingGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPackagingGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PackagingGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPackagingGroupsAsync(req);
+                    
+                    foreach (var obj in resp.PackagingGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

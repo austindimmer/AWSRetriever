@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
+using Amazon.DynamoDB;
+using Amazon.DynamoDB.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.DynamoDB
@@ -29,27 +29,35 @@ namespace CloudOps.DynamoDB
             BatchGetItemResponse resp = new BatchGetItemResponse();
             do
             {
-                BatchGetItemRequest req = new BatchGetItemRequest
+                try
                 {
-                    RequestItems = resp.UnprocessedKeys
-                                        
-                };
+                    BatchGetItemRequest req = new BatchGetItemRequest
+                    {
+                        RequestItems = resp.UnprocessedKeys
+                                            
+                    };
 
-                resp = await client.BatchGetItemAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Responses)
-                {
-                    AddObject(obj);
+                    resp = await client.BatchGetItemAsync(req);
+                    
+                    foreach (var obj in resp.Responses)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.UnprocessedKeys)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.UnprocessedKeys)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
-            while ( resp.UnprocessedKeys.Count > 0);
+            while (!string.IsNullOrEmpty(resp.UnprocessedKeys));
         }
     }
 }

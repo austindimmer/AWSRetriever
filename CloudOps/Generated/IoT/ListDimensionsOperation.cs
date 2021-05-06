@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListDimensionsResponse resp = new ListDimensionsResponse();
             do
             {
-                ListDimensionsRequest req = new ListDimensionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDimensionsRequest req = new ListDimensionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDimensionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DimensionNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDimensionsAsync(req);
+                    
+                    foreach (var obj in resp.DimensionNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

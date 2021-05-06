@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeVpcEndpointConnectionNotificationsResponse resp = new DescribeVpcEndpointConnectionNotificationsResponse();
             do
             {
-                DescribeVpcEndpointConnectionNotificationsRequest req = new DescribeVpcEndpointConnectionNotificationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeVpcEndpointConnectionNotificationsRequest req = new DescribeVpcEndpointConnectionNotificationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeVpcEndpointConnectionNotificationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConnectionNotificationSet)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeVpcEndpointConnectionNotificationsAsync(req);
+                    
+                    foreach (var obj in resp.ConnectionNotificationSet)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

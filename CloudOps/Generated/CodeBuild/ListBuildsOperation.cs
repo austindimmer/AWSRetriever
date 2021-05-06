@@ -29,20 +29,28 @@ namespace CloudOps.CodeBuild
             ListBuildsResponse resp = new ListBuildsResponse();
             do
             {
-                ListBuildsRequest req = new ListBuildsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListBuildsRequest req = new ListBuildsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListBuildsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Ids)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBuildsAsync(req);
+                    
+                    foreach (var obj in resp.Ids)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

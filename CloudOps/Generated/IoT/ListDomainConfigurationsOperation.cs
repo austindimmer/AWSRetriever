@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListDomainConfigurationsResponse resp = new ListDomainConfigurationsResponse();
             do
             {
-                ListDomainConfigurationsRequest req = new ListDomainConfigurationsRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListDomainConfigurationsRequest req = new ListDomainConfigurationsRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListDomainConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DomainConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDomainConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.DomainConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.S3Outposts
             ListEndpointsResponse resp = new ListEndpointsResponse();
             do
             {
-                ListEndpointsRequest req = new ListEndpointsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEndpointsRequest req = new ListEndpointsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEndpointsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Endpoints)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEndpointsAsync(req);
+                    
+                    foreach (var obj in resp.Endpoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.NetworkFirewall
             ListFirewallPoliciesResponse resp = new ListFirewallPoliciesResponse();
             do
             {
-                ListFirewallPoliciesRequest req = new ListFirewallPoliciesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFirewallPoliciesRequest req = new ListFirewallPoliciesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFirewallPoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FirewallPolicies)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFirewallPoliciesAsync(req);
+                    
+                    foreach (var obj in resp.FirewallPolicies)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

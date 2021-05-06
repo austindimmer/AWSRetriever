@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeTransitGatewayMulticastDomainsResponse resp = new DescribeTransitGatewayMulticastDomainsResponse();
             do
             {
-                DescribeTransitGatewayMulticastDomainsRequest req = new DescribeTransitGatewayMulticastDomainsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeTransitGatewayMulticastDomainsRequest req = new DescribeTransitGatewayMulticastDomainsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTransitGatewayMulticastDomainsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TransitGatewayMulticastDomains)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTransitGatewayMulticastDomainsAsync(req);
+                    
+                    foreach (var obj in resp.TransitGatewayMulticastDomains)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

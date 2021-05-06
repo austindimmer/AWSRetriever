@@ -29,22 +29,30 @@ namespace CloudOps.CloudFormation
             ListStackSetOperationResultsResponse resp = new ListStackSetOperationResultsResponse();
             do
             {
-                ListStackSetOperationResultsRequest req = new ListStackSetOperationResultsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListStackSetOperationResultsRequest req = new ListStackSetOperationResultsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListStackSetOperationResultsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Summaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListStackSetOperationResultsAsync(req);
+                    
+                    foreach (var obj in resp.Summaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

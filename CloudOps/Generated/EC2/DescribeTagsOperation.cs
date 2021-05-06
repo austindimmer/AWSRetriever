@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeTagsResponse resp = new DescribeTagsResponse();
             do
             {
-                DescribeTagsRequest req = new DescribeTagsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeTagsRequest req = new DescribeTagsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTagsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tags)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTagsAsync(req);
+                    
+                    foreach (var obj in resp.Tags)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

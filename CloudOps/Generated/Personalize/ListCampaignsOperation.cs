@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListCampaignsResponse resp = new ListCampaignsResponse();
             do
             {
-                ListCampaignsRequest req = new ListCampaignsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCampaignsRequest req = new ListCampaignsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCampaignsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Campaigns)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCampaignsAsync(req);
+                    
+                    foreach (var obj in resp.Campaigns)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

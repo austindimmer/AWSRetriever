@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetCrawlerMetricsResponse resp = new GetCrawlerMetricsResponse();
             do
             {
-                GetCrawlerMetricsRequest req = new GetCrawlerMetricsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetCrawlerMetricsRequest req = new GetCrawlerMetricsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetCrawlerMetricsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CrawlerMetricsList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetCrawlerMetricsAsync(req);
+                    
+                    foreach (var obj in resp.CrawlerMetricsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

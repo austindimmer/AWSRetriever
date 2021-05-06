@@ -29,27 +29,35 @@ namespace CloudOps.Athena
             GetQueryResultsResponse resp = new GetQueryResultsResponse();
             do
             {
-                GetQueryResultsRequest req = new GetQueryResultsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetQueryResultsRequest req = new GetQueryResultsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetQueryResults(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.UpdateCount)
-                {
-                    AddObject(obj);
+                    resp = await client.GetQueryResultsAsync(req);
+                    
+                    foreach (var obj in resp.UpdateCount)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ResultSet)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.ResultSet)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

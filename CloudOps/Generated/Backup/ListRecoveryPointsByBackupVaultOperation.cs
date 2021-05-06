@@ -29,22 +29,30 @@ namespace CloudOps.Backup
             ListRecoveryPointsByBackupVaultResponse resp = new ListRecoveryPointsByBackupVaultResponse();
             do
             {
-                ListRecoveryPointsByBackupVaultRequest req = new ListRecoveryPointsByBackupVaultRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRecoveryPointsByBackupVaultRequest req = new ListRecoveryPointsByBackupVaultRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRecoveryPointsByBackupVaultAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RecoveryPoints)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRecoveryPointsByBackupVaultAsync(req);
+                    
+                    foreach (var obj in resp.RecoveryPoints)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

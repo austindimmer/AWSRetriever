@@ -29,27 +29,35 @@ namespace CloudOps.CloudWatch
             GetMetricDataResponse resp = new GetMetricDataResponse();
             do
             {
-                GetMetricDataRequest req = new GetMetricDataRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxDatapoints = maxItems
-                                        
-                };
+                    GetMetricDataRequest req = new GetMetricDataRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxDatapoints = maxItems
+                                            
+                    };
 
-                resp = await client.GetMetricDataAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Messages)
-                {
-                    AddObject(obj);
+                    resp = await client.GetMetricDataAsync(req);
+                    
+                    foreach (var obj in resp.MetricDataResults)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.Messages)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.MetricDataResults)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.IoTSiteWise
             ListPortalsResponse resp = new ListPortalsResponse();
             do
             {
-                ListPortalsRequest req = new ListPortalsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPortalsRequest req = new ListPortalsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPortalsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PortalSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPortalsAsync(req);
+                    
+                    foreach (var obj in resp.PortalSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

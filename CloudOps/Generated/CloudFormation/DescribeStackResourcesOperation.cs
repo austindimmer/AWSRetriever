@@ -31,12 +31,21 @@ namespace CloudOps.CloudFormation
             {                    
                                     
             };
-            resp = await client.DescribeStackResourcesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.StackResources)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeStackResourcesAsync(req);
+                
+                foreach (var obj in resp.StackResources)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

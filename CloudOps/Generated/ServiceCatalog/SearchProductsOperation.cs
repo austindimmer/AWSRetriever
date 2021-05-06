@@ -29,27 +29,35 @@ namespace CloudOps.ServiceCatalog
             SearchProductsResponse resp = new SearchProductsResponse();
             do
             {
-                SearchProductsRequest req = new SearchProductsRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    SearchProductsRequest req = new SearchProductsRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.SearchProductsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProductViewSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchProductsAsync(req);
+                    
+                    foreach (var obj in resp.ProductViewSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ProductViewAggregations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.ProductViewAggregations)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

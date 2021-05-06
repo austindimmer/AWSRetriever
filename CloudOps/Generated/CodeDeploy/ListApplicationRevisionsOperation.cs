@@ -29,20 +29,28 @@ namespace CloudOps.CodeDeploy
             ListApplicationRevisionsResponse resp = new ListApplicationRevisionsResponse();
             do
             {
-                ListApplicationRevisionsRequest req = new ListApplicationRevisionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListApplicationRevisionsRequest req = new ListApplicationRevisionsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListApplicationRevisionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Revisions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListApplicationRevisionsAsync(req);
+                    
+                    foreach (var obj in resp.Revisions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

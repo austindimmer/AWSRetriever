@@ -16,6 +16,18 @@
     <Content Include="itemgroup.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Generated\ACM\" />
+    <Folder Include="Generated\CodeStarConnections\" />
+    <Folder Include="Generated\CostAndUsageReportService\" />
+    <Folder Include="Generated\DynamoDB\" />
+    <Folder Include="Generated\EFS\" />
+    <Folder Include="Generated\EMR\" />
+    <Folder Include="Generated\LookoutForVision\" />
+    <Folder Include="Generated\Macie2\" />
+    <Folder Include="Generated\Macie\" />
+    <Folder Include="Generated\SESV2\" />
+    <Folder Include="Generated\SimpleEmail\" />
+    <Folder Include="Generated\Support\" />
     <Folder Include="Generated\SWF\" />
   </ItemGroup>
   <ItemGroup>
@@ -705,12 +717,42 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Generated\ACM\ListCertificatesOperation.cs" />
+    <Compile Remove="Generated\AppConfig\ListApplicationsOperation.cs" />
     <Compile Remove="Generated\Athena\GetQueryResultsOperation.cs" />
     <Compile Remove="Generated\CodeCommit\DescribeMergeConflictsOperation.cs" />
     <Compile Remove="Generated\CodeCommit\DescribePullRequestEventsOperation.cs" />
     <Compile Remove="Generated\CodeCommit\GetMergeConflictsOperation.cs" />
+    <Compile Remove="Generated\CodeStarConnections\ListConnectionsOperation.cs" />
+    <Compile Remove="Generated\CodeStarConnections\ListHostsOperation.cs" />
+    <Compile Remove="Generated\CostAndUsageReportService\DescribeReportDefinitionsOperation.cs" />
+    <Compile Remove="Generated\DocDB\DescribeCertificatesOperation.cs" />
+    <Compile Remove="Generated\DocDB\DescribeEventsOperation.cs" />
+    <Compile Remove="Generated\DynamoDB\BatchGetItemOperation.cs" />
+    <Compile Remove="Generated\DynamoDB\ListContributorInsightsOperation.cs" />
+    <Compile Remove="Generated\DynamoDB\ListExportsOperation.cs" />
+    <Compile Remove="Generated\DynamoDB\ListTablesOperation.cs" />
+    <Compile Remove="Generated\DynamoDB\QueryOperation.cs" />
+    <Compile Remove="Generated\DynamoDB\ScanOperation.cs" />
+    <Compile Remove="Generated\EFS\DescribeAccessPointsOperation.cs" />
+    <Compile Remove="Generated\EFS\DescribeFileSystemsOperation.cs" />
+    <Compile Remove="Generated\ElastiCache\DescribeEngineDefaultParametersOperation.cs" />
+    <Compile Remove="Generated\ElastiCache\DescribeEventsOperation.cs" />
     <Compile Remove="Generated\EMR\DescribeJobFlowsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListBootstrapActionsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListClustersOperation.cs" />
+    <Compile Remove="Generated\EMR\ListInstanceFleetsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListInstanceGroupsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListInstancesOperation.cs" />
+    <Compile Remove="Generated\EMR\ListNotebookExecutionsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListSecurityConfigurationsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListStepsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListStudioSessionMappingsOperation.cs" />
+    <Compile Remove="Generated\EMR\ListStudiosOperation.cs" />
     <Compile Remove="Generated\Glacier\ListMultipartUploadsOperation.cs" />
+    <Compile Remove="Generated\IoT\ListTopicRulesOperation.cs" />
+    <Compile Remove="Generated\Kinesis\DescribeStreamOperation.cs" />
+    <Compile Remove="Generated\LookoutForVision\ListProjectsOperation.cs" />
     <Compile Remove="Generated\Macie2\DescribeBucketsOperation.cs" />
     <Compile Remove="Generated\Macie2\GetUsageStatisticsOperation.cs" />
     <Compile Remove="Generated\Macie2\ListClassificationJobsOperation.cs" />
@@ -718,8 +760,31 @@
     <Compile Remove="Generated\Macie2\ListFindingsFiltersOperation.cs" />
     <Compile Remove="Generated\Macie2\ListFindingsOperation.cs" />
     <Compile Remove="Generated\Macie2\ListInvitationsOperation.cs" />
+    <Compile Remove="Generated\Macie2\ListMembersOperation.cs" />
     <Compile Remove="Generated\Macie2\ListOrganizationAdminAccountsOperation.cs" />
+    <Compile Remove="Generated\Macie\ListMemberAccountsOperation.cs" />
+    <Compile Remove="Generated\Macie\ListS3ResourcesOperation.cs" />
+    <Compile Remove="Generated\Neptune\DescribeEventsOperation.cs" />
+    <Compile Remove="Generated\RDS\DescribeEngineDefaultParametersOperation.cs" />
+    <Compile Remove="Generated\RDS\DescribeEventsOperation.cs" />
+    <Compile Remove="Generated\RDS\DescribeEventSubscriptionsOperation.cs" />
+    <Compile Remove="Generated\Redshift\DescribeEventsOperation.cs" />
     <Compile Remove="Generated\Route53\ListQueryLoggingConfigsOperation.cs" />
+    <Compile Remove="Generated\SESV2\GetDedicatedIpsOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListConfigurationSetsOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListContactListsOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListCustomVerificationEmailTemplatesOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListDedicatedIpPoolsOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListDeliverabilityTestReportsOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListEmailIdentitiesOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListEmailTemplatesOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListImportJobsOperation.cs" />
+    <Compile Remove="Generated\SESV2\ListSuppressedDestinationsOperation.cs" />
+    <Compile Remove="Generated\SimpleEmail\ListCustomVerificationEmailTemplatesOperation.cs" />
+    <Compile Remove="Generated\SimpleEmail\ListIdentitiesOperation.cs" />
+    <Compile Remove="Generated\SimpleEmail\ListVerifiedEmailAddressesOperation.cs" />
+    <Compile Remove="Generated\Support\DescribeCasesOperation.cs" />
+    <Compile Remove="Generated\Support\DescribeServicesOperation.cs" />
     <Compile Remove="Generated\SWF\GetWorkflowExecutionHistoryOperation.cs" />
     <Compile Remove="Generated\SWF\ListActivityTypesOperation.cs" />
     <Compile Remove="Generated\SWF\ListClosedWorkflowExecutionsOperation.cs" />

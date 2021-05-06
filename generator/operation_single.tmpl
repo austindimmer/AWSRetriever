@@ -33,14 +33,23 @@ namespace CloudOps.{{.ServiceName}}
                 {{.PagingationLimitKey}} = maxItems
                 {{end}}                    
             };
-            resp = await client.{{.OperationName}}Async(req);
-            CheckError(resp.HttpStatusCode, "{{.ResponseCode}}");                
-            {{range .PaginationResultKey}}
-            foreach (var obj in resp.{{.}})
+            
+            try
             {
-                AddObject(obj);
+                resp = await client.{{.OperationName}}Async(req);
+                {{range .PaginationResultKey}}
+                foreach (var obj in resp.{{.}})
+                {
+                    AddObject(obj);
+                }
+                {{end}}
             }
-            {{end}}
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "{{.ResponseCode}}");                
+                throw;
+            }
+            
         }
     }
 }

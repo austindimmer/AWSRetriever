@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeFastSnapshotRestoresResponse resp = new DescribeFastSnapshotRestoresResponse();
             do
             {
-                DescribeFastSnapshotRestoresRequest req = new DescribeFastSnapshotRestoresRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeFastSnapshotRestoresRequest req = new DescribeFastSnapshotRestoresRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeFastSnapshotRestoresAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FastSnapshotRestores)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeFastSnapshotRestoresAsync(req);
+                    
+                    foreach (var obj in resp.FastSnapshotRestores)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

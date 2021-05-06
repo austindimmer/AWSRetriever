@@ -29,22 +29,30 @@ namespace CloudOps.MediaPackage
             ListHarvestJobsResponse resp = new ListHarvestJobsResponse();
             do
             {
-                ListHarvestJobsRequest req = new ListHarvestJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListHarvestJobsRequest req = new ListHarvestJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListHarvestJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HarvestJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHarvestJobsAsync(req);
+                    
+                    foreach (var obj in resp.HarvestJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

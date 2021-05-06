@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             ListConferenceProvidersResponse resp = new ListConferenceProvidersResponse();
             do
             {
-                ListConferenceProvidersRequest req = new ListConferenceProvidersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListConferenceProvidersRequest req = new ListConferenceProvidersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListConferenceProvidersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConferenceProviders)
-                {
-                    AddObject(obj);
+                    resp = await client.ListConferenceProvidersAsync(req);
+                    
+                    foreach (var obj in resp.ConferenceProviders)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

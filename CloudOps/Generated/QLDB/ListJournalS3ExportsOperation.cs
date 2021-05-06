@@ -29,22 +29,30 @@ namespace CloudOps.QLDB
             ListJournalS3ExportsResponse resp = new ListJournalS3ExportsResponse();
             do
             {
-                ListJournalS3ExportsRequest req = new ListJournalS3ExportsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListJournalS3ExportsRequest req = new ListJournalS3ExportsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListJournalS3ExportsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JournalS3Exports)
-                {
-                    AddObject(obj);
+                    resp = await client.ListJournalS3ExportsAsync(req);
+                    
+                    foreach (var obj in resp.JournalS3Exports)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

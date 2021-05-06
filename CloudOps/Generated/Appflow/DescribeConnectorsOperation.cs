@@ -29,20 +29,28 @@ namespace CloudOps.Appflow
             DescribeConnectorsResponse resp = new DescribeConnectorsResponse();
             do
             {
-                DescribeConnectorsRequest req = new DescribeConnectorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    DescribeConnectorsRequest req = new DescribeConnectorsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.DescribeConnectorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConnectorConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeConnectorsAsync(req);
+                    
+                    foreach (var obj in resp.ConnectorConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

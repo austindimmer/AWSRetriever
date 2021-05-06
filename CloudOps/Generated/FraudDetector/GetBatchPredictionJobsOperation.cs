@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             GetBatchPredictionJobsResponse resp = new GetBatchPredictionJobsResponse();
             do
             {
-                GetBatchPredictionJobsRequest req = new GetBatchPredictionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetBatchPredictionJobsRequest req = new GetBatchPredictionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetBatchPredictionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BatchPredictions)
-                {
-                    AddObject(obj);
+                    resp = await client.GetBatchPredictionJobsAsync(req);
+                    
+                    foreach (var obj in resp.BatchPredictions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

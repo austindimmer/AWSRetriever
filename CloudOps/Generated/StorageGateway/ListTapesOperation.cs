@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListTapesResponse resp = new ListTapesResponse();
             do
             {
-                ListTapesRequest req = new ListTapesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListTapesRequest req = new ListTapesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListTapesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TapeInfos)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTapesAsync(req);
+                    
+                    foreach (var obj in resp.TapeInfos)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Lambda
             ListFunctionsResponse resp = new ListFunctionsResponse();
             do
             {
-                ListFunctionsRequest req = new ListFunctionsRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListFunctionsRequest req = new ListFunctionsRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListFunctionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Functions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFunctionsAsync(req);
+                    
+                    foreach (var obj in resp.Functions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

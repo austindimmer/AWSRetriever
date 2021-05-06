@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListSigningCertificatesResponse resp = new ListSigningCertificatesResponse();
             do
             {
-                ListSigningCertificatesRequest req = new ListSigningCertificatesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListSigningCertificatesRequest req = new ListSigningCertificatesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListSigningCertificatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Certificates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSigningCertificatesAsync(req);
+                    
+                    foreach (var obj in resp.Certificates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

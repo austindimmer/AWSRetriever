@@ -29,22 +29,30 @@ namespace CloudOps.AutoScaling
             DescribeLaunchConfigurationsResponse resp = new DescribeLaunchConfigurationsResponse();
             do
             {
-                DescribeLaunchConfigurationsRequest req = new DescribeLaunchConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeLaunchConfigurationsRequest req = new DescribeLaunchConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeLaunchConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LaunchConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeLaunchConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.LaunchConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

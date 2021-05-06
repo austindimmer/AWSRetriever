@@ -29,22 +29,30 @@ namespace CloudOps.IoTAnalytics
             ListDatastoresResponse resp = new ListDatastoresResponse();
             do
             {
-                ListDatastoresRequest req = new ListDatastoresRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDatastoresRequest req = new ListDatastoresRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDatastoresAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatastoreSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDatastoresAsync(req);
+                    
+                    foreach (var obj in resp.DatastoreSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

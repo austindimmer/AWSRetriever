@@ -31,12 +31,21 @@ namespace CloudOps.DirectConnect
             {                    
                                     
             };
-            resp = await client.DescribeVirtualGatewaysAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.VirtualGateways)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeVirtualGatewaysAsync(req);
+                
+                foreach (var obj in resp.VirtualGateways)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

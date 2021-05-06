@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
+using Amazon.DynamoDB;
+using Amazon.DynamoDB.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.DynamoDB
@@ -29,24 +29,32 @@ namespace CloudOps.DynamoDB
             QueryResponse resp = new QueryResponse();
             do
             {
-                QueryRequest req = new QueryRequest
+                try
                 {
-                    ExclusiveStartKey = resp.LastEvaluatedKey
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    QueryRequest req = new QueryRequest
+                    {
+                        ExclusiveStartKey = resp.LastEvaluatedKey
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.QueryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.QueryAsync(req);
+                    
+                    foreach (var obj in resp.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
-            while (!string.IsNullOrEmpty(resp.LastEvaluatedKey.ToString()));
+            while (!string.IsNullOrEmpty(resp.LastEvaluatedKey));
         }
     }
 }

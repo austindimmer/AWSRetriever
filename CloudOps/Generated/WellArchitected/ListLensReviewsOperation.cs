@@ -29,27 +29,36 @@ namespace CloudOps.WellArchitected
             ListLensReviewsResponse resp = new ListLensReviewsResponse();
             do
             {
-                ListLensReviewsRequest req = new ListLensReviewsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListLensReviewsRequest req = new ListLensReviewsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListLensReviewsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorkloadId)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLensReviewsAsync(req);
+                    
+                    foreach (var obj in resp.LensReviewSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.WorkloadId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    
                 }
-                
-                foreach (var obj in resp.LensReviewSummaries)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

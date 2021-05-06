@@ -29,22 +29,30 @@ namespace CloudOps.IoTSecureTunneling
             ListTunnelsResponse resp = new ListTunnelsResponse();
             do
             {
-                ListTunnelsRequest req = new ListTunnelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTunnelsRequest req = new ListTunnelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTunnelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TunnelSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTunnelsAsync(req);
+                    
+                    foreach (var obj in resp.TunnelSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

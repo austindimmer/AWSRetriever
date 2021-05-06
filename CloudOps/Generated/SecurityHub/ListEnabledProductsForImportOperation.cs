@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             ListEnabledProductsForImportResponse resp = new ListEnabledProductsForImportResponse();
             do
             {
-                ListEnabledProductsForImportRequest req = new ListEnabledProductsForImportRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListEnabledProductsForImportRequest req = new ListEnabledProductsForImportRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListEnabledProductsForImportAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProductSubscriptions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEnabledProductsForImportAsync(req);
+                    
+                    foreach (var obj in resp.ProductSubscriptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

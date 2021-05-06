@@ -29,22 +29,30 @@ namespace CloudOps.Imagebuilder
             ListComponentsResponse resp = new ListComponentsResponse();
             do
             {
-                ListComponentsRequest req = new ListComponentsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListComponentsRequest req = new ListComponentsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListComponentsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ComponentVersionList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListComponentsAsync(req);
+                    
+                    foreach (var obj in resp.ComponentVersionList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

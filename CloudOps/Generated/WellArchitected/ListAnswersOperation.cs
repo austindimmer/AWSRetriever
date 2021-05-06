@@ -29,32 +29,41 @@ namespace CloudOps.WellArchitected
             ListAnswersResponse resp = new ListAnswersResponse();
             do
             {
-                ListAnswersRequest req = new ListAnswersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAnswersRequest req = new ListAnswersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAnswersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorkloadId)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAnswersAsync(req);
+                    
+                    foreach (var obj in resp.LensAlias)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.AnswerSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.WorkloadId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    
                 }
-                
-                foreach (var obj in resp.LensAlias)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.AnswerSummaries)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

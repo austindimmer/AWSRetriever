@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             GetCommentsForComparedCommitResponse resp = new GetCommentsForComparedCommitResponse();
             do
             {
-                GetCommentsForComparedCommitRequest req = new GetCommentsForComparedCommitRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetCommentsForComparedCommitRequest req = new GetCommentsForComparedCommitRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetCommentsForComparedCommitAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CommentsForComparedCommitData)
-                {
-                    AddObject(obj);
+                    resp = await client.GetCommentsForComparedCommitAsync(req);
+                    
+                    foreach (var obj in resp.CommentsForComparedCommitData)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

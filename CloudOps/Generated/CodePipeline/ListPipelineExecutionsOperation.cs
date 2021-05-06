@@ -29,22 +29,30 @@ namespace CloudOps.CodePipeline
             ListPipelineExecutionsResponse resp = new ListPipelineExecutionsResponse();
             do
             {
-                ListPipelineExecutionsRequest req = new ListPipelineExecutionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPipelineExecutionsRequest req = new ListPipelineExecutionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPipelineExecutionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PipelineExecutionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPipelineExecutionsAsync(req);
+                    
+                    foreach (var obj in resp.PipelineExecutionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListModelQualityJobDefinitionsResponse resp = new ListModelQualityJobDefinitionsResponse();
             do
             {
-                ListModelQualityJobDefinitionsRequest req = new ListModelQualityJobDefinitionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListModelQualityJobDefinitionsRequest req = new ListModelQualityJobDefinitionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListModelQualityJobDefinitionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JobDefinitionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListModelQualityJobDefinitionsAsync(req);
+                    
+                    foreach (var obj in resp.JobDefinitionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

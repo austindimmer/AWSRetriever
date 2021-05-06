@@ -29,22 +29,30 @@ namespace CloudOps.ElasticInference
             DescribeAcceleratorsResponse resp = new DescribeAcceleratorsResponse();
             do
             {
-                DescribeAcceleratorsRequest req = new DescribeAcceleratorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeAcceleratorsRequest req = new DescribeAcceleratorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAcceleratorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AcceleratorSet)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAcceleratorsAsync(req);
+                    
+                    foreach (var obj in resp.AcceleratorSet)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

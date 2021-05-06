@@ -29,22 +29,30 @@ namespace CloudOps.RoboMaker
             ListWorldTemplatesResponse resp = new ListWorldTemplatesResponse();
             do
             {
-                ListWorldTemplatesRequest req = new ListWorldTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorldTemplatesRequest req = new ListWorldTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorldTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TemplateSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorldTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.TemplateSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

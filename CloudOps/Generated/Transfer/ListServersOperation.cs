@@ -29,22 +29,30 @@ namespace CloudOps.Transfer
             ListServersResponse resp = new ListServersResponse();
             do
             {
-                ListServersRequest req = new ListServersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListServersRequest req = new ListServersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListServersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Servers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListServersAsync(req);
+                    
+                    foreach (var obj in resp.Servers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

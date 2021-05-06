@@ -31,12 +31,21 @@ namespace CloudOps.StorageGateway
             {                    
                                     
             };
-            resp = await client.ListLocalDisksAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.Disks)
+            try
             {
-                AddObject(obj);
+                resp = await client.ListLocalDisksAsync(req);
+                
+                foreach (var obj in resp.Disks)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeTransitGatewayConnectPeersResponse resp = new DescribeTransitGatewayConnectPeersResponse();
             do
             {
-                DescribeTransitGatewayConnectPeersRequest req = new DescribeTransitGatewayConnectPeersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeTransitGatewayConnectPeersRequest req = new DescribeTransitGatewayConnectPeersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTransitGatewayConnectPeersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TransitGatewayConnectPeers)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTransitGatewayConnectPeersAsync(req);
+                    
+                    foreach (var obj in resp.TransitGatewayConnectPeers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

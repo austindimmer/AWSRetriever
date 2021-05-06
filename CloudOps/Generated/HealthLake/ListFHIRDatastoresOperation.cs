@@ -29,22 +29,30 @@ namespace CloudOps.HealthLake
             ListFHIRDatastoresResponse resp = new ListFHIRDatastoresResponse();
             do
             {
-                ListFHIRDatastoresRequest req = new ListFHIRDatastoresRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFHIRDatastoresRequest req = new ListFHIRDatastoresRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFHIRDatastoresAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatastorePropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFHIRDatastoresAsync(req);
+                    
+                    foreach (var obj in resp.DatastorePropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

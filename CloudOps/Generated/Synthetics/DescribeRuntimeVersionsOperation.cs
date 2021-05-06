@@ -29,22 +29,30 @@ namespace CloudOps.Synthetics
             DescribeRuntimeVersionsResponse resp = new DescribeRuntimeVersionsResponse();
             do
             {
-                DescribeRuntimeVersionsRequest req = new DescribeRuntimeVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeRuntimeVersionsRequest req = new DescribeRuntimeVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeRuntimeVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RuntimeVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeRuntimeVersionsAsync(req);
+                    
+                    foreach (var obj in resp.RuntimeVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

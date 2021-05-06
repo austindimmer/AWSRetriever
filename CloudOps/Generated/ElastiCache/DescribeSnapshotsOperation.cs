@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeSnapshotsResponse resp = new DescribeSnapshotsResponse();
             do
             {
-                DescribeSnapshotsRequest req = new DescribeSnapshotsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeSnapshotsRequest req = new DescribeSnapshotsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSnapshotsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Snapshots)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSnapshotsAsync(req);
+                    
+                    foreach (var obj in resp.Snapshots)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

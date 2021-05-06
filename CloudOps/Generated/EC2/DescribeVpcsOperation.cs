@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeVpcsResponse resp = new DescribeVpcsResponse();
             do
             {
-                DescribeVpcsRequest req = new DescribeVpcsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeVpcsRequest req = new DescribeVpcsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeVpcsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Vpcs)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeVpcsAsync(req);
+                    
+                    foreach (var obj in resp.Vpcs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

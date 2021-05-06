@@ -29,22 +29,30 @@ namespace CloudOps.RoboMaker
             ListWorldGenerationJobsResponse resp = new ListWorldGenerationJobsResponse();
             do
             {
-                ListWorldGenerationJobsRequest req = new ListWorldGenerationJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorldGenerationJobsRequest req = new ListWorldGenerationJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorldGenerationJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorldGenerationJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorldGenerationJobsAsync(req);
+                    
+                    foreach (var obj in resp.WorldGenerationJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

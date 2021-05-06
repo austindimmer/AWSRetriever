@@ -29,22 +29,30 @@ namespace CloudOps.Imagebuilder
             ListInfrastructureConfigurationsResponse resp = new ListInfrastructureConfigurationsResponse();
             do
             {
-                ListInfrastructureConfigurationsRequest req = new ListInfrastructureConfigurationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListInfrastructureConfigurationsRequest req = new ListInfrastructureConfigurationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListInfrastructureConfigurationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.InfrastructureConfigurationSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListInfrastructureConfigurationsAsync(req);
+                    
+                    foreach (var obj in resp.InfrastructureConfigurationSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

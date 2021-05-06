@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeCacheSubnetGroupsResponse resp = new DescribeCacheSubnetGroupsResponse();
             do
             {
-                DescribeCacheSubnetGroupsRequest req = new DescribeCacheSubnetGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeCacheSubnetGroupsRequest req = new DescribeCacheSubnetGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCacheSubnetGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CacheSubnetGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCacheSubnetGroupsAsync(req);
+                    
+                    foreach (var obj in resp.CacheSubnetGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

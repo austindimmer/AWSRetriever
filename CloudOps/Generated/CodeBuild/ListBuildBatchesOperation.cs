@@ -29,22 +29,30 @@ namespace CloudOps.CodeBuild
             ListBuildBatchesResponse resp = new ListBuildBatchesResponse();
             do
             {
-                ListBuildBatchesRequest req = new ListBuildBatchesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBuildBatchesRequest req = new ListBuildBatchesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBuildBatchesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Ids)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBuildBatchesAsync(req);
+                    
+                    foreach (var obj in resp.Ids)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

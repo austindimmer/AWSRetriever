@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             DescribeStandardsResponse resp = new DescribeStandardsResponse();
             do
             {
-                DescribeStandardsRequest req = new DescribeStandardsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeStandardsRequest req = new DescribeStandardsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeStandardsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Standards)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeStandardsAsync(req);
+                    
+                    foreach (var obj in resp.Standards)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

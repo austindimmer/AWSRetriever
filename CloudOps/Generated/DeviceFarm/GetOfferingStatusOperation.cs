@@ -29,25 +29,33 @@ namespace CloudOps.DeviceFarm
             GetOfferingStatusResponse resp = new GetOfferingStatusResponse();
             do
             {
-                GetOfferingStatusRequest req = new GetOfferingStatusRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    GetOfferingStatusRequest req = new GetOfferingStatusRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.GetOfferingStatusAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NextPeriod)
-                {
-                    AddObject(obj);
+                    resp = await client.GetOfferingStatusAsync(req);
+                    
+                    foreach (var obj in resp.Current)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.NextPeriod)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                foreach (var obj in resp.Current)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

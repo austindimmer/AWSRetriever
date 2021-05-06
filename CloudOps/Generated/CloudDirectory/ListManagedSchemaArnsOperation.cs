@@ -29,22 +29,30 @@ namespace CloudOps.CloudDirectory
             ListManagedSchemaArnsResponse resp = new ListManagedSchemaArnsResponse();
             do
             {
-                ListManagedSchemaArnsRequest req = new ListManagedSchemaArnsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListManagedSchemaArnsRequest req = new ListManagedSchemaArnsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListManagedSchemaArnsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SchemaArns)
-                {
-                    AddObject(obj);
+                    resp = await client.ListManagedSchemaArnsAsync(req);
+                    
+                    foreach (var obj in resp.SchemaArns)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

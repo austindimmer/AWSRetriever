@@ -29,22 +29,30 @@ namespace CloudOps.AutoScaling
             DescribePoliciesResponse resp = new DescribePoliciesResponse();
             do
             {
-                DescribePoliciesRequest req = new DescribePoliciesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribePoliciesRequest req = new DescribePoliciesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ScalingPolicies)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePoliciesAsync(req);
+                    
+                    foreach (var obj in resp.ScalingPolicies)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

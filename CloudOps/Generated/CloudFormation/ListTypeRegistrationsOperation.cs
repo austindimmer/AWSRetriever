@@ -29,22 +29,30 @@ namespace CloudOps.CloudFormation
             ListTypeRegistrationsResponse resp = new ListTypeRegistrationsResponse();
             do
             {
-                ListTypeRegistrationsRequest req = new ListTypeRegistrationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTypeRegistrationsRequest req = new ListTypeRegistrationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTypeRegistrationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RegistrationTokenList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTypeRegistrationsAsync(req);
+                    
+                    foreach (var obj in resp.RegistrationTokenList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

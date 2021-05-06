@@ -29,22 +29,30 @@ namespace CloudOps.Inspector
             ListFindingsResponse resp = new ListFindingsResponse();
             do
             {
-                ListFindingsRequest req = new ListFindingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFindingsRequest req = new ListFindingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFindingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FindingArns)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFindingsAsync(req);
+                    
+                    foreach (var obj in resp.FindingArns)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

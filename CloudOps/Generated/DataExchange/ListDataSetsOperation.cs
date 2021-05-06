@@ -29,22 +29,30 @@ namespace CloudOps.DataExchange
             ListDataSetsResponse resp = new ListDataSetsResponse();
             do
             {
-                ListDataSetsRequest req = new ListDataSetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDataSetsRequest req = new ListDataSetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDataSetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DataSets)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDataSetsAsync(req);
+                    
+                    foreach (var obj in resp.DataSets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

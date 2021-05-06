@@ -29,22 +29,30 @@ namespace CloudOps.Athena
             ListNamedQueriesResponse resp = new ListNamedQueriesResponse();
             do
             {
-                ListNamedQueriesRequest req = new ListNamedQueriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListNamedQueriesRequest req = new ListNamedQueriesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListNamedQueriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.NamedQueryIds)
-                {
-                    AddObject(obj);
+                    resp = await client.ListNamedQueriesAsync(req);
+                    
+                    foreach (var obj in resp.NamedQueryIds)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

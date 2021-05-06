@@ -29,22 +29,30 @@ namespace CloudOps.SecurityHub
             DescribeProductsResponse resp = new DescribeProductsResponse();
             do
             {
-                DescribeProductsRequest req = new DescribeProductsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeProductsRequest req = new DescribeProductsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeProductsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Products)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeProductsAsync(req);
+                    
+                    foreach (var obj in resp.Products)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

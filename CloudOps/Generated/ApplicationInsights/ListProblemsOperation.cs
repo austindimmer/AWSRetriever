@@ -29,22 +29,30 @@ namespace CloudOps.ApplicationInsights
             ListProblemsResponse resp = new ListProblemsResponse();
             do
             {
-                ListProblemsRequest req = new ListProblemsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProblemsRequest req = new ListProblemsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProblemsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProblemList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProblemsAsync(req);
+                    
+                    foreach (var obj in resp.ProblemList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

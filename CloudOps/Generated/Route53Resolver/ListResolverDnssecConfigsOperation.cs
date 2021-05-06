@@ -29,22 +29,30 @@ namespace CloudOps.Route53Resolver
             ListResolverDnssecConfigsResponse resp = new ListResolverDnssecConfigsResponse();
             do
             {
-                ListResolverDnssecConfigsRequest req = new ListResolverDnssecConfigsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListResolverDnssecConfigsRequest req = new ListResolverDnssecConfigsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListResolverDnssecConfigsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ResolverDnssecConfigs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListResolverDnssecConfigsAsync(req);
+                    
+                    foreach (var obj in resp.ResolverDnssecConfigs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

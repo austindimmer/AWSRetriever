@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListVoiceConnectorsResponse resp = new ListVoiceConnectorsResponse();
             do
             {
-                ListVoiceConnectorsRequest req = new ListVoiceConnectorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListVoiceConnectorsRequest req = new ListVoiceConnectorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListVoiceConnectorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VoiceConnectors)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVoiceConnectorsAsync(req);
+                    
+                    foreach (var obj in resp.VoiceConnectors)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

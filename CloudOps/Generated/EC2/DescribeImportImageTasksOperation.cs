@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeImportImageTasksResponse resp = new DescribeImportImageTasksResponse();
             do
             {
-                DescribeImportImageTasksRequest req = new DescribeImportImageTasksRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeImportImageTasksRequest req = new DescribeImportImageTasksRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeImportImageTasksAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ImportImageTasks)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeImportImageTasksAsync(req);
+                    
+                    foreach (var obj in resp.ImportImageTasks)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

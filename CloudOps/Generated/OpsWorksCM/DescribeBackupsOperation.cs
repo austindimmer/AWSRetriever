@@ -29,22 +29,30 @@ namespace CloudOps.OpsWorksCM
             DescribeBackupsResponse resp = new DescribeBackupsResponse();
             do
             {
-                DescribeBackupsRequest req = new DescribeBackupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeBackupsRequest req = new DescribeBackupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeBackupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Backups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeBackupsAsync(req);
+                    
+                    foreach (var obj in resp.Backups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

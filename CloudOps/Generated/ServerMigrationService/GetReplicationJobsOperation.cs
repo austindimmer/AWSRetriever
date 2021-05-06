@@ -29,22 +29,30 @@ namespace CloudOps.ServerMigrationService
             GetReplicationJobsResponse resp = new GetReplicationJobsResponse();
             do
             {
-                GetReplicationJobsRequest req = new GetReplicationJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetReplicationJobsRequest req = new GetReplicationJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetReplicationJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReplicationJobList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetReplicationJobsAsync(req);
+                    
+                    foreach (var obj in resp.ReplicationJobList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

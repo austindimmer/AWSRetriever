@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListDominantLanguageDetectionJobsResponse resp = new ListDominantLanguageDetectionJobsResponse();
             do
             {
-                ListDominantLanguageDetectionJobsRequest req = new ListDominantLanguageDetectionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDominantLanguageDetectionJobsRequest req = new ListDominantLanguageDetectionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDominantLanguageDetectionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DominantLanguageDetectionJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDominantLanguageDetectionJobsAsync(req);
+                    
+                    foreach (var obj in resp.DominantLanguageDetectionJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

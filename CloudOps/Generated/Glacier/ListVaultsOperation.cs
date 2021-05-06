@@ -29,22 +29,30 @@ namespace CloudOps.Glacier
             ListVaultsResponse resp = new ListVaultsResponse();
             do
             {
-                ListVaultsRequest req = new ListVaultsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListVaultsRequest req = new ListVaultsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListVaultsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VaultList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListVaultsAsync(req);
+                    
+                    foreach (var obj in resp.VaultList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

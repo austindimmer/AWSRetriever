@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeCacheEngineVersionsResponse resp = new DescribeCacheEngineVersionsResponse();
             do
             {
-                DescribeCacheEngineVersionsRequest req = new DescribeCacheEngineVersionsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeCacheEngineVersionsRequest req = new DescribeCacheEngineVersionsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeCacheEngineVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CacheEngineVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeCacheEngineVersionsAsync(req);
+                    
+                    foreach (var obj in resp.CacheEngineVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

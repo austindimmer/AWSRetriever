@@ -29,22 +29,30 @@ namespace CloudOps.MediaConnect
             ListOfferingsResponse resp = new ListOfferingsResponse();
             do
             {
-                ListOfferingsRequest req = new ListOfferingsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListOfferingsRequest req = new ListOfferingsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListOfferingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Offerings)
-                {
-                    AddObject(obj);
+                    resp = await client.ListOfferingsAsync(req);
+                    
+                    foreach (var obj in resp.Offerings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

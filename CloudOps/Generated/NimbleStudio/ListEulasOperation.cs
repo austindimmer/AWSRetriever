@@ -29,20 +29,28 @@ namespace CloudOps.NimbleStudio
             ListEulasResponse resp = new ListEulasResponse();
             do
             {
-                ListEulasRequest req = new ListEulasRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListEulasRequest req = new ListEulasRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListEulasAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Eulas)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEulasAsync(req);
+                    
+                    foreach (var obj in resp.Eulas)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

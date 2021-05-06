@@ -29,22 +29,30 @@ namespace CloudOps.Imagebuilder
             ListContainerRecipesResponse resp = new ListContainerRecipesResponse();
             do
             {
-                ListContainerRecipesRequest req = new ListContainerRecipesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListContainerRecipesRequest req = new ListContainerRecipesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListContainerRecipesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ContainerRecipeSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListContainerRecipesAsync(req);
+                    
+                    foreach (var obj in resp.ContainerRecipeSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Backup
             ListBackupJobsResponse resp = new ListBackupJobsResponse();
             do
             {
-                ListBackupJobsRequest req = new ListBackupJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBackupJobsRequest req = new ListBackupJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBackupJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BackupJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBackupJobsAsync(req);
+                    
+                    foreach (var obj in resp.BackupJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

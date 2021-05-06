@@ -29,22 +29,30 @@ namespace CloudOps.MachineLearning
             DescribeMLModelsResponse resp = new DescribeMLModelsResponse();
             do
             {
-                DescribeMLModelsRequest req = new DescribeMLModelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeMLModelsRequest req = new DescribeMLModelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeMLModelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Results)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeMLModelsAsync(req);
+                    
+                    foreach (var obj in resp.Results)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

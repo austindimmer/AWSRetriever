@@ -29,22 +29,30 @@ namespace CloudOps.GlobalAccelerator
             ListCustomRoutingAcceleratorsResponse resp = new ListCustomRoutingAcceleratorsResponse();
             do
             {
-                ListCustomRoutingAcceleratorsRequest req = new ListCustomRoutingAcceleratorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCustomRoutingAcceleratorsRequest req = new ListCustomRoutingAcceleratorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCustomRoutingAcceleratorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Accelerators)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCustomRoutingAcceleratorsAsync(req);
+                    
+                    foreach (var obj in resp.Accelerators)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

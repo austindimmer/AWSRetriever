@@ -1,6 +1,6 @@
 using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.Model;
+using Amazon.DynamoDB;
+using Amazon.DynamoDB.Model;
 using Amazon.Runtime;
 
 namespace CloudOps.DynamoDB
@@ -29,22 +29,30 @@ namespace CloudOps.DynamoDB
             ListTablesResponse resp = new ListTablesResponse();
             do
             {
-                ListTablesRequest req = new ListTablesRequest
+                try
                 {
-                    ExclusiveStartTableName = resp.LastEvaluatedTableName
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListTablesRequest req = new ListTablesRequest
+                    {
+                        ExclusiveStartTableName = resp.LastEvaluatedTableName
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListTablesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TableNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTablesAsync(req);
+                    
+                    foreach (var obj in resp.TableNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.LastEvaluatedTableName));
         }

@@ -29,20 +29,28 @@ namespace CloudOps.XRay
             GetGroupsResponse resp = new GetGroupsResponse();
             do
             {
-                GetGroupsRequest req = new GetGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    GetGroupsRequest req = new GetGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.GetGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Groups)
-                {
-                    AddObject(obj);
+                    resp = await client.GetGroupsAsync(req);
+                    
+                    foreach (var obj in resp.Groups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.AuditManager
             ListNotificationsResponse resp = new ListNotificationsResponse();
             do
             {
-                ListNotificationsRequest req = new ListNotificationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListNotificationsRequest req = new ListNotificationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListNotificationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Notifications)
-                {
-                    AddObject(obj);
+                    resp = await client.ListNotificationsAsync(req);
+                    
+                    foreach (var obj in resp.Notifications)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

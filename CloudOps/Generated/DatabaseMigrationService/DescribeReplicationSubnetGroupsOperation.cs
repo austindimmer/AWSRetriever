@@ -29,22 +29,30 @@ namespace CloudOps.DatabaseMigrationService
             DescribeReplicationSubnetGroupsResponse resp = new DescribeReplicationSubnetGroupsResponse();
             do
             {
-                DescribeReplicationSubnetGroupsRequest req = new DescribeReplicationSubnetGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReplicationSubnetGroupsRequest req = new DescribeReplicationSubnetGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReplicationSubnetGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReplicationSubnetGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReplicationSubnetGroupsAsync(req);
+                    
+                    foreach (var obj in resp.ReplicationSubnetGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -21,30 +21,38 @@ namespace CloudOps.SimpleEmail
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSimpleEmailServiceConfig config = new AmazonSimpleEmailServiceConfig();
+            AmazonSimpleEmailConfig config = new AmazonSimpleEmailConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(creds, config);
+            AmazonSimpleEmailClient client = new AmazonSimpleEmailClient(creds, config);
             
             ListIdentitiesResponse resp = new ListIdentitiesResponse();
             do
             {
-                ListIdentitiesRequest req = new ListIdentitiesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListIdentitiesRequest req = new ListIdentitiesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListIdentitiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Identities)
-                {
-                    AddObject(obj);
+                    resp = await client.ListIdentitiesAsync(req);
+                    
+                    foreach (var obj in resp.Identities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListHyperParameterTuningJobsResponse resp = new ListHyperParameterTuningJobsResponse();
             do
             {
-                ListHyperParameterTuningJobsRequest req = new ListHyperParameterTuningJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListHyperParameterTuningJobsRequest req = new ListHyperParameterTuningJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListHyperParameterTuningJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.HyperParameterTuningJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListHyperParameterTuningJobsAsync(req);
+                    
+                    foreach (var obj in resp.HyperParameterTuningJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

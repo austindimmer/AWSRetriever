@@ -29,20 +29,28 @@ namespace CloudOps.CloudFormation
             ListChangeSetsResponse resp = new ListChangeSetsResponse();
             do
             {
-                ListChangeSetsRequest req = new ListChangeSetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListChangeSetsRequest req = new ListChangeSetsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListChangeSetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Summaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListChangeSetsAsync(req);
+                    
+                    foreach (var obj in resp.Summaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

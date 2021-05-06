@@ -29,22 +29,30 @@ namespace CloudOps.Chime
             ListPhoneNumbersResponse resp = new ListPhoneNumbersResponse();
             do
             {
-                ListPhoneNumbersRequest req = new ListPhoneNumbersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPhoneNumbersRequest req = new ListPhoneNumbersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPhoneNumbersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PhoneNumbers)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPhoneNumbersAsync(req);
+                    
+                    foreach (var obj in resp.PhoneNumbers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

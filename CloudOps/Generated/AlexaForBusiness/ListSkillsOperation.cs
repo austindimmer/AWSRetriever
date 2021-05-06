@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             ListSkillsResponse resp = new ListSkillsResponse();
             do
             {
-                ListSkillsRequest req = new ListSkillsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSkillsRequest req = new ListSkillsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSkillsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SkillSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSkillsAsync(req);
+                    
+                    foreach (var obj in resp.SkillSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

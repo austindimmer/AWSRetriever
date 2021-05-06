@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             ListRepositoriesForApprovalRuleTemplateResponse resp = new ListRepositoriesForApprovalRuleTemplateResponse();
             do
             {
-                ListRepositoriesForApprovalRuleTemplateRequest req = new ListRepositoriesForApprovalRuleTemplateRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRepositoriesForApprovalRuleTemplateRequest req = new ListRepositoriesForApprovalRuleTemplateRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRepositoriesForApprovalRuleTemplateAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RepositoryNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRepositoriesForApprovalRuleTemplateAsync(req);
+                    
+                    foreach (var obj in resp.RepositoryNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

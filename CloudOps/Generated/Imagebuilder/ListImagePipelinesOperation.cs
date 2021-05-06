@@ -29,22 +29,30 @@ namespace CloudOps.Imagebuilder
             ListImagePipelinesResponse resp = new ListImagePipelinesResponse();
             do
             {
-                ListImagePipelinesRequest req = new ListImagePipelinesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListImagePipelinesRequest req = new ListImagePipelinesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListImagePipelinesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ImagePipelineList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListImagePipelinesAsync(req);
+                    
+                    foreach (var obj in resp.ImagePipelineList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeClassicLinkInstancesResponse resp = new DescribeClassicLinkInstancesResponse();
             do
             {
-                DescribeClassicLinkInstancesRequest req = new DescribeClassicLinkInstancesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeClassicLinkInstancesRequest req = new DescribeClassicLinkInstancesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClassicLinkInstancesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Instances)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClassicLinkInstancesAsync(req);
+                    
+                    foreach (var obj in resp.Instances)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

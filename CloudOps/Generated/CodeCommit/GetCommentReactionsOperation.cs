@@ -29,22 +29,30 @@ namespace CloudOps.CodeCommit
             GetCommentReactionsResponse resp = new GetCommentReactionsResponse();
             do
             {
-                GetCommentReactionsRequest req = new GetCommentReactionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetCommentReactionsRequest req = new GetCommentReactionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetCommentReactionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReactionsForComment)
-                {
-                    AddObject(obj);
+                    resp = await client.GetCommentReactionsAsync(req);
+                    
+                    foreach (var obj in resp.ReactionsForComment)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

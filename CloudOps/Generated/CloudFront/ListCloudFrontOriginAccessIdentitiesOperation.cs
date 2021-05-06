@@ -29,20 +29,30 @@ namespace CloudOps.CloudFront
             ListCloudFrontOriginAccessIdentitiesResponse resp = new ListCloudFrontOriginAccessIdentitiesResponse();
             do
             {
-                ListCloudFrontOriginAccessIdentitiesRequest req = new ListCloudFrontOriginAccessIdentitiesRequest
+                try
                 {
-                    Marker = resp.CloudFrontOriginAccessIdentityList.NextMarker,
-                    MaxItems = maxItems.ToString()
-                };
+                    ListCloudFrontOriginAccessIdentitiesRequest req = new ListCloudFrontOriginAccessIdentitiesRequest
+                    {
+                        Marker = resp.CloudFrontOriginAccessIdentityList.NextMarker
+                        ,
+                        MaxItems = maxItems.ToString()
+                                            
+                    };
 
-                resp = await client.ListCloudFrontOriginAccessIdentitiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CloudFrontOriginAccessIdentityList.Items)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCloudFrontOriginAccessIdentitiesAsync(req);
+                    
+                    foreach (var obj in resp.CloudFrontOriginAccessIdentityList.Items)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.CloudFrontOriginAccessIdentityList.NextMarker));
         }

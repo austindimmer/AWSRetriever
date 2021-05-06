@@ -29,22 +29,30 @@ namespace CloudOps.MediaConvert
             ListPresetsResponse resp = new ListPresetsResponse();
             do
             {
-                ListPresetsRequest req = new ListPresetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPresetsRequest req = new ListPresetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPresetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Presets)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPresetsAsync(req);
+                    
+                    foreach (var obj in resp.Presets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListCompilationJobsResponse resp = new ListCompilationJobsResponse();
             do
             {
-                ListCompilationJobsRequest req = new ListCompilationJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCompilationJobsRequest req = new ListCompilationJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCompilationJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CompilationJobSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCompilationJobsAsync(req);
+                    
+                    foreach (var obj in resp.CompilationJobSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

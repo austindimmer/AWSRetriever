@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListRolesResponse resp = new ListRolesResponse();
             do
             {
-                ListRolesRequest req = new ListRolesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListRolesRequest req = new ListRolesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListRolesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Roles)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRolesAsync(req);
+                    
+                    foreach (var obj in resp.Roles)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             SearchDevicesResponse resp = new SearchDevicesResponse();
             do
             {
-                SearchDevicesRequest req = new SearchDevicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    SearchDevicesRequest req = new SearchDevicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.SearchDevicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Devices)
-                {
-                    AddObject(obj);
+                    resp = await client.SearchDevicesAsync(req);
+                    
+                    foreach (var obj in resp.Devices)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

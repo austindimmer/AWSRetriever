@@ -29,22 +29,30 @@ namespace CloudOps.MigrationHub
             ListApplicationStatesResponse resp = new ListApplicationStatesResponse();
             do
             {
-                ListApplicationStatesRequest req = new ListApplicationStatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListApplicationStatesRequest req = new ListApplicationStatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListApplicationStatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ApplicationStateList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListApplicationStatesAsync(req);
+                    
+                    foreach (var obj in resp.ApplicationStateList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

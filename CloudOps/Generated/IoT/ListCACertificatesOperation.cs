@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListCACertificatesResponse resp = new ListCACertificatesResponse();
             do
             {
-                ListCACertificatesRequest req = new ListCACertificatesRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListCACertificatesRequest req = new ListCACertificatesRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListCACertificatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Certificates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCACertificatesAsync(req);
+                    
+                    foreach (var obj in resp.Certificates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

@@ -31,12 +31,21 @@ namespace CloudOps.S3
             {                    
                                     
             };
-            resp = await client.ListBucketsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.Buckets)
+            try
             {
-                AddObject(obj);
+                resp = await client.ListBucketsAsync(req);
+                
+                foreach (var obj in resp.Buckets)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

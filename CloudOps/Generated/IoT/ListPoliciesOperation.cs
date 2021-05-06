@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListPoliciesResponse resp = new ListPoliciesResponse();
             do
             {
-                ListPoliciesRequest req = new ListPoliciesRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListPoliciesRequest req = new ListPoliciesRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListPoliciesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Policies)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPoliciesAsync(req);
+                    
+                    foreach (var obj in resp.Policies)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

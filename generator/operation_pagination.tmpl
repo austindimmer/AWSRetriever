@@ -29,22 +29,30 @@ namespace CloudOps.{{.ServiceName}}
             {{.ResponseClassName}} resp = new {{.ResponseClassName}}();
             do
             {
-                {{.ReqeustClassName}} req = new {{.ReqeustClassName}}
+                try
                 {
-                    {{.PagingationInputToken}} = resp.{{.PagingationOutputToken}}
-                    {{if .PagingationLimitKey}},
-                    {{.PagingationLimitKey}} = maxItems
-                    {{end}}                    
-                };
+                    {{.ReqeustClassName}} req = new {{.ReqeustClassName}}
+                    {
+                        {{.PagingationInputToken}} = resp.{{.PagingationOutputToken}}
+                        {{if .PagingationLimitKey}},
+                        {{.PagingationLimitKey}} = maxItems
+                        {{end}}                    
+                    };
 
-                resp = await client.{{.OperationName}}Async(req);
-                CheckError(resp.HttpStatusCode, "{{.ResponseCode}}");                
-                {{range .PaginationResultKey}}
-                foreach (var obj in resp.{{.}})
-                {
-                    AddObject(obj);
+                    resp = await client.{{.OperationName}}Async(req);
+                    {{range .PaginationResultKey}}
+                    foreach (var obj in resp.{{.}})
+                    {
+                        AddObject(obj);
+                    }
+                    {{end}}
                 }
-                {{end}}
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "{{.ResponseCode}}");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.{{.PagingationOutputToken}}));
         }

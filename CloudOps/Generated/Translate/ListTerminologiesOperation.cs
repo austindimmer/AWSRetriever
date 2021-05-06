@@ -29,22 +29,30 @@ namespace CloudOps.Translate
             ListTerminologiesResponse resp = new ListTerminologiesResponse();
             do
             {
-                ListTerminologiesRequest req = new ListTerminologiesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTerminologiesRequest req = new ListTerminologiesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTerminologiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TerminologyPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTerminologiesAsync(req);
+                    
+                    foreach (var obj in resp.TerminologyPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

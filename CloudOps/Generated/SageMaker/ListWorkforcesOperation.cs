@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListWorkforcesResponse resp = new ListWorkforcesResponse();
             do
             {
-                ListWorkforcesRequest req = new ListWorkforcesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListWorkforcesRequest req = new ListWorkforcesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListWorkforcesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Workforces)
-                {
-                    AddObject(obj);
+                    resp = await client.ListWorkforcesAsync(req);
+                    
+                    foreach (var obj in resp.Workforces)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

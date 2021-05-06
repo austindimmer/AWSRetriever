@@ -29,22 +29,30 @@ namespace CloudOps.RoboMaker
             ListRobotsResponse resp = new ListRobotsResponse();
             do
             {
-                ListRobotsRequest req = new ListRobotsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRobotsRequest req = new ListRobotsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRobotsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Robots)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRobotsAsync(req);
+                    
+                    foreach (var obj in resp.Robots)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

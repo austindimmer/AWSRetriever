@@ -29,22 +29,30 @@ namespace CloudOps.Lambda
             ListEventSourceMappingsResponse resp = new ListEventSourceMappingsResponse();
             do
             {
-                ListEventSourceMappingsRequest req = new ListEventSourceMappingsRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListEventSourceMappingsRequest req = new ListEventSourceMappingsRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListEventSourceMappingsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EventSourceMappings)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEventSourceMappingsAsync(req);
+                    
+                    foreach (var obj in resp.EventSourceMappings)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

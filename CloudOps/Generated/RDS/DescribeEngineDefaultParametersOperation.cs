@@ -29,24 +29,32 @@ namespace CloudOps.RDS
             DescribeEngineDefaultParametersResponse resp = new DescribeEngineDefaultParametersResponse();
             do
             {
-                DescribeEngineDefaultParametersRequest req = new DescribeEngineDefaultParametersRequest
+                try
                 {
-                    Marker = resp.EngineDefaults.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeEngineDefaultParametersRequest req = new DescribeEngineDefaultParametersRequest
+                    {
+                        Marker = resp.EngineDefaultsMarker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEngineDefaultParametersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EngineDefaults.Parameters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEngineDefaultParametersAsync(req);
+                    
+                    foreach (var obj in resp.EngineDefaultsParameters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
-            while (!string.IsNullOrEmpty(resp.EngineDefaults.Marker));
+            while (!string.IsNullOrEmpty(resp.EngineDefaultsMarker));
         }
     }
 }

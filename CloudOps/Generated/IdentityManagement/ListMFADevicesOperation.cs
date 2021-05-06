@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListMFADevicesResponse resp = new ListMFADevicesResponse();
             do
             {
-                ListMFADevicesRequest req = new ListMFADevicesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListMFADevicesRequest req = new ListMFADevicesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListMFADevicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.MFADevices)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMFADevicesAsync(req);
+                    
+                    foreach (var obj in resp.MFADevices)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

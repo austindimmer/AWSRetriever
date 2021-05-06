@@ -29,22 +29,30 @@ namespace CloudOps.AccessAnalyzer
             ListPolicyGenerationsResponse resp = new ListPolicyGenerationsResponse();
             do
             {
-                ListPolicyGenerationsRequest req = new ListPolicyGenerationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListPolicyGenerationsRequest req = new ListPolicyGenerationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListPolicyGenerationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PolicyGenerations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListPolicyGenerationsAsync(req);
+                    
+                    foreach (var obj in resp.PolicyGenerations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeTrafficMirrorFiltersResponse resp = new DescribeTrafficMirrorFiltersResponse();
             do
             {
-                DescribeTrafficMirrorFiltersRequest req = new DescribeTrafficMirrorFiltersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeTrafficMirrorFiltersRequest req = new DescribeTrafficMirrorFiltersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTrafficMirrorFiltersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TrafficMirrorFilters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTrafficMirrorFiltersAsync(req);
+                    
+                    foreach (var obj in resp.TrafficMirrorFilters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

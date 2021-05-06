@@ -29,22 +29,30 @@ namespace CloudOps.ApplicationDiscoveryService
             DescribeContinuousExportsResponse resp = new DescribeContinuousExportsResponse();
             do
             {
-                DescribeContinuousExportsRequest req = new DescribeContinuousExportsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeContinuousExportsRequest req = new DescribeContinuousExportsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeContinuousExportsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Descriptions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeContinuousExportsAsync(req);
+                    
+                    foreach (var obj in resp.Descriptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

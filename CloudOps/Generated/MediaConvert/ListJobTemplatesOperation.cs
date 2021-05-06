@@ -29,22 +29,30 @@ namespace CloudOps.MediaConvert
             ListJobTemplatesResponse resp = new ListJobTemplatesResponse();
             do
             {
-                ListJobTemplatesRequest req = new ListJobTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListJobTemplatesRequest req = new ListJobTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListJobTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.JobTemplates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListJobTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.JobTemplates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

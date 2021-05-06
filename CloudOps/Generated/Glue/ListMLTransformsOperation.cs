@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             ListMLTransformsResponse resp = new ListMLTransformsResponse();
             do
             {
-                ListMLTransformsRequest req = new ListMLTransformsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMLTransformsRequest req = new ListMLTransformsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMLTransformsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TransformIds)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMLTransformsAsync(req);
+                    
+                    foreach (var obj in resp.TransformIds)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

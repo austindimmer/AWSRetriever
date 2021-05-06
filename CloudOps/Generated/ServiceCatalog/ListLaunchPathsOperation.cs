@@ -29,22 +29,30 @@ namespace CloudOps.ServiceCatalog
             ListLaunchPathsResponse resp = new ListLaunchPathsResponse();
             do
             {
-                ListLaunchPathsRequest req = new ListLaunchPathsRequest
+                try
                 {
-                    PageToken = resp.NextPageToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListLaunchPathsRequest req = new ListLaunchPathsRequest
+                    {
+                        PageToken = resp.NextPageToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListLaunchPathsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LaunchPathSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLaunchPathsAsync(req);
+                    
+                    foreach (var obj in resp.LaunchPathSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextPageToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             GetClassifiersResponse resp = new GetClassifiersResponse();
             do
             {
-                GetClassifiersRequest req = new GetClassifiersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetClassifiersRequest req = new GetClassifiersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetClassifiersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Classifiers)
-                {
-                    AddObject(obj);
+                    resp = await client.GetClassifiersAsync(req);
+                    
+                    foreach (var obj in resp.Classifiers)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

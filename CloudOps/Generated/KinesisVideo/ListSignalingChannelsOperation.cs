@@ -29,22 +29,30 @@ namespace CloudOps.KinesisVideo
             ListSignalingChannelsResponse resp = new ListSignalingChannelsResponse();
             do
             {
-                ListSignalingChannelsRequest req = new ListSignalingChannelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSignalingChannelsRequest req = new ListSignalingChannelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSignalingChannelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ChannelInfoList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSignalingChannelsAsync(req);
+                    
+                    foreach (var obj in resp.ChannelInfoList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

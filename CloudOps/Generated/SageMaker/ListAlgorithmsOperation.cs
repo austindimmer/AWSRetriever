@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListAlgorithmsResponse resp = new ListAlgorithmsResponse();
             do
             {
-                ListAlgorithmsRequest req = new ListAlgorithmsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAlgorithmsRequest req = new ListAlgorithmsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAlgorithmsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AlgorithmSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAlgorithmsAsync(req);
+                    
+                    foreach (var obj in resp.AlgorithmSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

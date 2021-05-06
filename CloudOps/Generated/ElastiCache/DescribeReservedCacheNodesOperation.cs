@@ -29,22 +29,30 @@ namespace CloudOps.ElastiCache
             DescribeReservedCacheNodesResponse resp = new DescribeReservedCacheNodesResponse();
             do
             {
-                DescribeReservedCacheNodesRequest req = new DescribeReservedCacheNodesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReservedCacheNodesRequest req = new DescribeReservedCacheNodesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReservedCacheNodesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReservedCacheNodes)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReservedCacheNodesAsync(req);
+                    
+                    foreach (var obj in resp.ReservedCacheNodes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

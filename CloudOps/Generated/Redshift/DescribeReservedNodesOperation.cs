@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeReservedNodesResponse resp = new DescribeReservedNodesResponse();
             do
             {
-                DescribeReservedNodesRequest req = new DescribeReservedNodesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeReservedNodesRequest req = new DescribeReservedNodesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeReservedNodesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReservedNodes)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeReservedNodesAsync(req);
+                    
+                    foreach (var obj in resp.ReservedNodes)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

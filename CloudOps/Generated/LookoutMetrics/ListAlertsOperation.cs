@@ -29,22 +29,30 @@ namespace CloudOps.LookoutMetrics
             ListAlertsResponse resp = new ListAlertsResponse();
             do
             {
-                ListAlertsRequest req = new ListAlertsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAlertsRequest req = new ListAlertsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAlertsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AlertSummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAlertsAsync(req);
+                    
+                    foreach (var obj in resp.AlertSummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

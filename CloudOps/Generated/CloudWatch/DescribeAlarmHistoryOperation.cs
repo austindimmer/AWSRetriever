@@ -29,22 +29,30 @@ namespace CloudOps.CloudWatch
             DescribeAlarmHistoryResponse resp = new DescribeAlarmHistoryResponse();
             do
             {
-                DescribeAlarmHistoryRequest req = new DescribeAlarmHistoryRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeAlarmHistoryRequest req = new DescribeAlarmHistoryRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeAlarmHistoryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AlarmHistoryItems)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAlarmHistoryAsync(req);
+                    
+                    foreach (var obj in resp.AlarmHistoryItems)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

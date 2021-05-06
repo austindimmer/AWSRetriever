@@ -29,22 +29,30 @@ namespace CloudOps.GroundStation
             ListConfigsResponse resp = new ListConfigsResponse();
             do
             {
-                ListConfigsRequest req = new ListConfigsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListConfigsRequest req = new ListConfigsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListConfigsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConfigList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListConfigsAsync(req);
+                    
+                    foreach (var obj in resp.ConfigList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Shield
             ListProtectionGroupsResponse resp = new ListProtectionGroupsResponse();
             do
             {
-                ListProtectionGroupsRequest req = new ListProtectionGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListProtectionGroupsRequest req = new ListProtectionGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListProtectionGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ProtectionGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListProtectionGroupsAsync(req);
+                    
+                    foreach (var obj in resp.ProtectionGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

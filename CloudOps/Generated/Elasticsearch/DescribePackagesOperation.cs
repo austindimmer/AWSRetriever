@@ -29,22 +29,30 @@ namespace CloudOps.Elasticsearch
             DescribePackagesResponse resp = new DescribePackagesResponse();
             do
             {
-                DescribePackagesRequest req = new DescribePackagesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePackagesRequest req = new DescribePackagesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePackagesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PackageDetailsList)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePackagesAsync(req);
+                    
+                    foreach (var obj in resp.PackageDetailsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

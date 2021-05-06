@@ -29,22 +29,30 @@ namespace CloudOps.GameLift
             DescribeFleetCapacityResponse resp = new DescribeFleetCapacityResponse();
             do
             {
-                DescribeFleetCapacityRequest req = new DescribeFleetCapacityRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeFleetCapacityRequest req = new DescribeFleetCapacityRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeFleetCapacityAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FleetCapacity)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeFleetCapacityAsync(req);
+                    
+                    foreach (var obj in resp.FleetCapacity)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

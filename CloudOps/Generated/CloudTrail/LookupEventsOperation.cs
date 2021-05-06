@@ -29,22 +29,30 @@ namespace CloudOps.CloudTrail
             LookupEventsResponse resp = new LookupEventsResponse();
             do
             {
-                LookupEventsRequest req = new LookupEventsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    LookupEventsRequest req = new LookupEventsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.LookupEventsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Events)
-                {
-                    AddObject(obj);
+                    resp = await client.LookupEventsAsync(req);
+                    
+                    foreach (var obj in resp.Events)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

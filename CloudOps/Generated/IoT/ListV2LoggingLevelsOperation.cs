@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListV2LoggingLevelsResponse resp = new ListV2LoggingLevelsResponse();
             do
             {
-                ListV2LoggingLevelsRequest req = new ListV2LoggingLevelsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListV2LoggingLevelsRequest req = new ListV2LoggingLevelsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListV2LoggingLevelsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.LogTargetConfigurations)
-                {
-                    AddObject(obj);
+                    resp = await client.ListV2LoggingLevelsAsync(req);
+                    
+                    foreach (var obj in resp.LogTargetConfigurations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

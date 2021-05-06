@@ -31,12 +31,21 @@ namespace CloudOps.OpsWorks
             {                    
                                     
             };
-            resp = await client.DescribeElasticLoadBalancersAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.ElasticLoadBalancers)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeElasticLoadBalancersAsync(req);
+                
+                foreach (var obj in resp.ElasticLoadBalancers)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

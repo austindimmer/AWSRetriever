@@ -29,22 +29,30 @@ namespace CloudOps.RDS
             DescribeGlobalClustersResponse resp = new DescribeGlobalClustersResponse();
             do
             {
-                DescribeGlobalClustersRequest req = new DescribeGlobalClustersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeGlobalClustersRequest req = new DescribeGlobalClustersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeGlobalClustersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GlobalClusters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeGlobalClustersAsync(req);
+                    
+                    foreach (var obj in resp.GlobalClusters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

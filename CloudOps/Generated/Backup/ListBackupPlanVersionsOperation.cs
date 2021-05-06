@@ -29,22 +29,30 @@ namespace CloudOps.Backup
             ListBackupPlanVersionsResponse resp = new ListBackupPlanVersionsResponse();
             do
             {
-                ListBackupPlanVersionsRequest req = new ListBackupPlanVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBackupPlanVersionsRequest req = new ListBackupPlanVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBackupPlanVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BackupPlanVersionsList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBackupPlanVersionsAsync(req);
+                    
+                    foreach (var obj in resp.BackupPlanVersionsList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

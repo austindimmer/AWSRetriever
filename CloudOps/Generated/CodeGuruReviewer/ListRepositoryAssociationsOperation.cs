@@ -29,22 +29,30 @@ namespace CloudOps.CodeGuruReviewer
             ListRepositoryAssociationsResponse resp = new ListRepositoryAssociationsResponse();
             do
             {
-                ListRepositoryAssociationsRequest req = new ListRepositoryAssociationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRepositoryAssociationsRequest req = new ListRepositoryAssociationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRepositoryAssociationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.RepositoryAssociationSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRepositoryAssociationsAsync(req);
+                    
+                    foreach (var obj in resp.RepositoryAssociationSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

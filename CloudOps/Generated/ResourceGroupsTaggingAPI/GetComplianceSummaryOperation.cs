@@ -29,22 +29,30 @@ namespace CloudOps.ResourceGroupsTaggingAPI
             GetComplianceSummaryResponse resp = new GetComplianceSummaryResponse();
             do
             {
-                GetComplianceSummaryRequest req = new GetComplianceSummaryRequest
+                try
                 {
-                    PaginationToken = resp.PaginationToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetComplianceSummaryRequest req = new GetComplianceSummaryRequest
+                    {
+                        PaginationToken = resp.PaginationToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetComplianceSummaryAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SummaryList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetComplianceSummaryAsync(req);
+                    
+                    foreach (var obj in resp.SummaryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.PaginationToken));
         }

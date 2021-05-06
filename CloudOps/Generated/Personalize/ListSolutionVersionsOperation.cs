@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListSolutionVersionsResponse resp = new ListSolutionVersionsResponse();
             do
             {
-                ListSolutionVersionsRequest req = new ListSolutionVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSolutionVersionsRequest req = new ListSolutionVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSolutionVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.SolutionVersions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSolutionVersionsAsync(req);
+                    
+                    foreach (var obj in resp.SolutionVersions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

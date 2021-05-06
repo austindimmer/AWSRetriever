@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListBillingGroupsResponse resp = new ListBillingGroupsResponse();
             do
             {
-                ListBillingGroupsRequest req = new ListBillingGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBillingGroupsRequest req = new ListBillingGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBillingGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BillingGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBillingGroupsAsync(req);
+                    
+                    foreach (var obj in resp.BillingGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

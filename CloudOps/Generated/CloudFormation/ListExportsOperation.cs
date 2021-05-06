@@ -29,20 +29,28 @@ namespace CloudOps.CloudFormation
             ListExportsResponse resp = new ListExportsResponse();
             do
             {
-                ListExportsRequest req = new ListExportsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    ListExportsRequest req = new ListExportsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.ListExportsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Exports)
-                {
-                    AddObject(obj);
+                    resp = await client.ListExportsAsync(req);
+                    
+                    foreach (var obj in resp.Exports)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

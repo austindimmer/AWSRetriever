@@ -29,22 +29,30 @@ namespace CloudOps.ForecastService
             ListDatasetGroupsResponse resp = new ListDatasetGroupsResponse();
             do
             {
-                ListDatasetGroupsRequest req = new ListDatasetGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDatasetGroupsRequest req = new ListDatasetGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDatasetGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatasetGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDatasetGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DatasetGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

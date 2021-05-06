@@ -29,22 +29,30 @@ namespace CloudOps.IdentityManagement
             ListUsersResponse resp = new ListUsersResponse();
             do
             {
-                ListUsersRequest req = new ListUsersRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxItems = maxItems
-                                        
-                };
+                    ListUsersRequest req = new ListUsersRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxItems = maxItems
+                                            
+                    };
 
-                resp = await client.ListUsersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Users)
-                {
-                    AddObject(obj);
+                    resp = await client.ListUsersAsync(req);
+                    
+                    foreach (var obj in resp.Users)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

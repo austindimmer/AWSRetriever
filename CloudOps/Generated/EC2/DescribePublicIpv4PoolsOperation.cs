@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribePublicIpv4PoolsResponse resp = new DescribePublicIpv4PoolsResponse();
             do
             {
-                DescribePublicIpv4PoolsRequest req = new DescribePublicIpv4PoolsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribePublicIpv4PoolsRequest req = new DescribePublicIpv4PoolsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribePublicIpv4PoolsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PublicIpv4Pools)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribePublicIpv4PoolsAsync(req);
+                    
+                    foreach (var obj in resp.PublicIpv4Pools)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

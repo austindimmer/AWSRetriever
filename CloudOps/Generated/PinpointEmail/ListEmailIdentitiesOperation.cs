@@ -29,22 +29,30 @@ namespace CloudOps.PinpointEmail
             ListEmailIdentitiesResponse resp = new ListEmailIdentitiesResponse();
             do
             {
-                ListEmailIdentitiesRequest req = new ListEmailIdentitiesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListEmailIdentitiesRequest req = new ListEmailIdentitiesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListEmailIdentitiesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EmailIdentities)
-                {
-                    AddObject(obj);
+                    resp = await client.ListEmailIdentitiesAsync(req);
+                    
+                    foreach (var obj in resp.EmailIdentities)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

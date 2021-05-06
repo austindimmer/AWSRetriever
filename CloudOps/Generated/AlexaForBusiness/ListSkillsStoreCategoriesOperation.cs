@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             ListSkillsStoreCategoriesResponse resp = new ListSkillsStoreCategoriesResponse();
             do
             {
-                ListSkillsStoreCategoriesRequest req = new ListSkillsStoreCategoriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSkillsStoreCategoriesRequest req = new ListSkillsStoreCategoriesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSkillsStoreCategoriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CategoryList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSkillsStoreCategoriesAsync(req);
+                    
+                    foreach (var obj in resp.CategoryList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

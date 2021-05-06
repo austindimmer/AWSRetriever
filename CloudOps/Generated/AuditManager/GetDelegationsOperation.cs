@@ -29,22 +29,30 @@ namespace CloudOps.AuditManager
             GetDelegationsResponse resp = new GetDelegationsResponse();
             do
             {
-                GetDelegationsRequest req = new GetDelegationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetDelegationsRequest req = new GetDelegationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetDelegationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Delegations)
-                {
-                    AddObject(obj);
+                    resp = await client.GetDelegationsAsync(req);
+                    
+                    foreach (var obj in resp.Delegations)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

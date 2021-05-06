@@ -29,22 +29,30 @@ namespace CloudOps.FraudDetector
             DescribeModelVersionsResponse resp = new DescribeModelVersionsResponse();
             do
             {
-                DescribeModelVersionsRequest req = new DescribeModelVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeModelVersionsRequest req = new DescribeModelVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeModelVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ModelVersionDetails)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeModelVersionsAsync(req);
+                    
+                    foreach (var obj in resp.ModelVersionDetails)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

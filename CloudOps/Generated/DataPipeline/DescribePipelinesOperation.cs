@@ -31,12 +31,21 @@ namespace CloudOps.DataPipeline
             {                    
                                     
             };
-            resp = await client.DescribePipelinesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.PipelineDescriptionList)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribePipelinesAsync(req);
+                
+                foreach (var obj in resp.PipelineDescriptionList)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

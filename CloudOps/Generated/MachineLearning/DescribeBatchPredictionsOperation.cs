@@ -29,22 +29,30 @@ namespace CloudOps.MachineLearning
             DescribeBatchPredictionsResponse resp = new DescribeBatchPredictionsResponse();
             do
             {
-                DescribeBatchPredictionsRequest req = new DescribeBatchPredictionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeBatchPredictionsRequest req = new DescribeBatchPredictionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeBatchPredictionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Results)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeBatchPredictionsAsync(req);
+                    
+                    foreach (var obj in resp.Results)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

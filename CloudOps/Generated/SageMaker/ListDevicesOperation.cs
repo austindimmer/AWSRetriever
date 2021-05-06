@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListDevicesResponse resp = new ListDevicesResponse();
             do
             {
-                ListDevicesRequest req = new ListDevicesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDevicesRequest req = new ListDevicesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDevicesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DeviceSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDevicesAsync(req);
+                    
+                    foreach (var obj in resp.DeviceSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

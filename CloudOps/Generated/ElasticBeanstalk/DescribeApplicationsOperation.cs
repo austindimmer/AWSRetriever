@@ -31,12 +31,21 @@ namespace CloudOps.ElasticBeanstalk
             {                    
                                     
             };
-            resp = await client.DescribeApplicationsAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.Applications)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeApplicationsAsync(req);
+                
+                foreach (var obj in resp.Applications)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

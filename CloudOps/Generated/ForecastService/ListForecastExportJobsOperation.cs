@@ -29,22 +29,30 @@ namespace CloudOps.ForecastService
             ListForecastExportJobsResponse resp = new ListForecastExportJobsResponse();
             do
             {
-                ListForecastExportJobsRequest req = new ListForecastExportJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListForecastExportJobsRequest req = new ListForecastExportJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListForecastExportJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ForecastExportJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListForecastExportJobsAsync(req);
+                    
+                    foreach (var obj in resp.ForecastExportJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

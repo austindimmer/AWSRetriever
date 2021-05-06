@@ -31,12 +31,21 @@ namespace CloudOps.CloudWatch
             {                    
                                     
             };
-            resp = await client.DescribeAlarmsForMetricAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.MetricAlarms)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeAlarmsForMetricAsync(req);
+                
+                foreach (var obj in resp.MetricAlarms)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

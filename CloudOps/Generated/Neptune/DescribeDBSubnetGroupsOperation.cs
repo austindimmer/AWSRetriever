@@ -29,22 +29,30 @@ namespace CloudOps.Neptune
             DescribeDBSubnetGroupsResponse resp = new DescribeDBSubnetGroupsResponse();
             do
             {
-                DescribeDBSubnetGroupsRequest req = new DescribeDBSubnetGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeDBSubnetGroupsRequest req = new DescribeDBSubnetGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDBSubnetGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DBSubnetGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDBSubnetGroupsAsync(req);
+                    
+                    foreach (var obj in resp.DBSubnetGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

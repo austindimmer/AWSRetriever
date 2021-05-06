@@ -29,22 +29,30 @@ namespace CloudOps.TranscribeService
             ListMedicalVocabulariesResponse resp = new ListMedicalVocabulariesResponse();
             do
             {
-                ListMedicalVocabulariesRequest req = new ListMedicalVocabulariesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListMedicalVocabulariesRequest req = new ListMedicalVocabulariesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListMedicalVocabulariesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Vocabularies)
-                {
-                    AddObject(obj);
+                    resp = await client.ListMedicalVocabulariesAsync(req);
+                    
+                    foreach (var obj in resp.Vocabularies)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

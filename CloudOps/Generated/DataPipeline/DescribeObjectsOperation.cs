@@ -29,20 +29,28 @@ namespace CloudOps.DataPipeline
             DescribeObjectsResponse resp = new DescribeObjectsResponse();
             do
             {
-                DescribeObjectsRequest req = new DescribeObjectsRequest
+                try
                 {
-                    Marker = resp.Marker
-                                        
-                };
+                    DescribeObjectsRequest req = new DescribeObjectsRequest
+                    {
+                        Marker = resp.Marker
+                                            
+                    };
 
-                resp = await client.DescribeObjectsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.PipelineObjects)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeObjectsAsync(req);
+                    
+                    foreach (var obj in resp.PipelineObjects)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

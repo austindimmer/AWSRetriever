@@ -29,22 +29,30 @@ namespace CloudOps.SQS
             ListQueuesResponse resp = new ListQueuesResponse();
             do
             {
-                ListQueuesRequest req = new ListQueuesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListQueuesRequest req = new ListQueuesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListQueuesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.QueueUrls)
-                {
-                    AddObject(obj);
+                    resp = await client.ListQueuesAsync(req);
+                    
+                    foreach (var obj in resp.QueueUrls)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Comprehend
             ListKeyPhrasesDetectionJobsResponse resp = new ListKeyPhrasesDetectionJobsResponse();
             do
             {
-                ListKeyPhrasesDetectionJobsRequest req = new ListKeyPhrasesDetectionJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListKeyPhrasesDetectionJobsRequest req = new ListKeyPhrasesDetectionJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListKeyPhrasesDetectionJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.KeyPhrasesDetectionJobPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListKeyPhrasesDetectionJobsAsync(req);
+                    
+                    foreach (var obj in resp.KeyPhrasesDetectionJobPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

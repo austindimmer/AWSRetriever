@@ -29,22 +29,30 @@ namespace CloudOps.CodePipeline
             ListTagsForResourceResponse resp = new ListTagsForResourceResponse();
             do
             {
-                ListTagsForResourceRequest req = new ListTagsForResourceRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTagsForResourceRequest req = new ListTagsForResourceRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTagsForResourceAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tags)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTagsForResourceAsync(req);
+                    
+                    foreach (var obj in resp.Tags)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

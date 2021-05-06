@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeVpcClassicLinkDnsSupportResponse resp = new DescribeVpcClassicLinkDnsSupportResponse();
             do
             {
-                DescribeVpcClassicLinkDnsSupportRequest req = new DescribeVpcClassicLinkDnsSupportRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeVpcClassicLinkDnsSupportRequest req = new DescribeVpcClassicLinkDnsSupportRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeVpcClassicLinkDnsSupportAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Vpcs)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeVpcClassicLinkDnsSupportAsync(req);
+                    
+                    foreach (var obj in resp.Vpcs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -21,30 +21,38 @@ namespace CloudOps.SimpleEmail
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSimpleEmailServiceConfig config = new AmazonSimpleEmailServiceConfig();
+            AmazonSimpleEmailConfig config = new AmazonSimpleEmailConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(creds, config);
+            AmazonSimpleEmailClient client = new AmazonSimpleEmailClient(creds, config);
             
             ListCustomVerificationEmailTemplatesResponse resp = new ListCustomVerificationEmailTemplatesResponse();
             do
             {
-                ListCustomVerificationEmailTemplatesRequest req = new ListCustomVerificationEmailTemplatesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCustomVerificationEmailTemplatesRequest req = new ListCustomVerificationEmailTemplatesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCustomVerificationEmailTemplatesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CustomVerificationEmailTemplates)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCustomVerificationEmailTemplatesAsync(req);
+                    
+                    foreach (var obj in resp.CustomVerificationEmailTemplates)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

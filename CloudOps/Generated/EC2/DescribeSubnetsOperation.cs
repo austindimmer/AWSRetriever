@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeSubnetsResponse resp = new DescribeSubnetsResponse();
             do
             {
-                DescribeSubnetsRequest req = new DescribeSubnetsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeSubnetsRequest req = new DescribeSubnetsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeSubnetsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Subnets)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeSubnetsAsync(req);
+                    
+                    foreach (var obj in resp.Subnets)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

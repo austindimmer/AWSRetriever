@@ -29,22 +29,30 @@ namespace CloudOps.Kafka
             ListClustersResponse resp = new ListClustersResponse();
             do
             {
-                ListClustersRequest req = new ListClustersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListClustersRequest req = new ListClustersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListClustersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ClusterInfoList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListClustersAsync(req);
+                    
+                    foreach (var obj in resp.ClusterInfoList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

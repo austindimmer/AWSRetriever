@@ -29,22 +29,30 @@ namespace CloudOps.ServerMigrationService
             GetConnectorsResponse resp = new GetConnectorsResponse();
             do
             {
-                GetConnectorsRequest req = new GetConnectorsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetConnectorsRequest req = new GetConnectorsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetConnectorsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ConnectorList)
-                {
-                    AddObject(obj);
+                    resp = await client.GetConnectorsAsync(req);
+                    
+                    foreach (var obj in resp.ConnectorList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

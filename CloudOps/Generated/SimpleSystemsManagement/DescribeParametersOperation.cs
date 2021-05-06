@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             DescribeParametersResponse resp = new DescribeParametersResponse();
             do
             {
-                DescribeParametersRequest req = new DescribeParametersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeParametersRequest req = new DescribeParametersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeParametersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Parameters)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeParametersAsync(req);
+                    
+                    foreach (var obj in resp.Parameters)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -31,12 +31,21 @@ namespace CloudOps.EC2
             {                    
                                     
             };
-            resp = await client.DescribeVpnGatewaysAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.VpnGateways)
+            try
             {
-                AddObject(obj);
+                resp = await client.DescribeVpnGatewaysAsync(req);
+                
+                foreach (var obj in resp.VpnGateways)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

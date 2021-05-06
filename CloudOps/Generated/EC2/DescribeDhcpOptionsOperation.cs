@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeDhcpOptionsResponse resp = new DescribeDhcpOptionsResponse();
             do
             {
-                DescribeDhcpOptionsRequest req = new DescribeDhcpOptionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeDhcpOptionsRequest req = new DescribeDhcpOptionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeDhcpOptionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DhcpOptions)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeDhcpOptionsAsync(req);
+                    
+                    foreach (var obj in resp.DhcpOptions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.Translate
             ListParallelDataResponse resp = new ListParallelDataResponse();
             do
             {
-                ListParallelDataRequest req = new ListParallelDataRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListParallelDataRequest req = new ListParallelDataRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListParallelDataAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ParallelDataPropertiesList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListParallelDataAsync(req);
+                    
+                    foreach (var obj in resp.ParallelDataPropertiesList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

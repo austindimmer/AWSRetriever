@@ -29,22 +29,30 @@ namespace CloudOps.SageMaker
             ListFlowDefinitionsResponse resp = new ListFlowDefinitionsResponse();
             do
             {
-                ListFlowDefinitionsRequest req = new ListFlowDefinitionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListFlowDefinitionsRequest req = new ListFlowDefinitionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListFlowDefinitionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FlowDefinitionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFlowDefinitionsAsync(req);
+                    
+                    foreach (var obj in resp.FlowDefinitionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

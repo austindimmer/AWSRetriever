@@ -29,22 +29,30 @@ namespace CloudOps.SimpleSystemsManagement
             GetInventorySchemaResponse resp = new GetInventorySchemaResponse();
             do
             {
-                GetInventorySchemaRequest req = new GetInventorySchemaRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    GetInventorySchemaRequest req = new GetInventorySchemaRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.GetInventorySchemaAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Schemas)
-                {
-                    AddObject(obj);
+                    resp = await client.GetInventorySchemaAsync(req);
+                    
+                    foreach (var obj in resp.Schemas)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

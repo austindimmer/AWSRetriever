@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeClusterSecurityGroupsResponse resp = new DescribeClusterSecurityGroupsResponse();
             do
             {
-                DescribeClusterSecurityGroupsRequest req = new DescribeClusterSecurityGroupsRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeClusterSecurityGroupsRequest req = new DescribeClusterSecurityGroupsRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeClusterSecurityGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ClusterSecurityGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeClusterSecurityGroupsAsync(req);
+                    
+                    foreach (var obj in resp.ClusterSecurityGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

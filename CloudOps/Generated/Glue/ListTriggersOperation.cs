@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             ListTriggersResponse resp = new ListTriggersResponse();
             do
             {
-                ListTriggersRequest req = new ListTriggersRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTriggersRequest req = new ListTriggersRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTriggersAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TriggerNames)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTriggersAsync(req);
+                    
+                    foreach (var obj in resp.TriggerNames)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

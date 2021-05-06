@@ -29,22 +29,30 @@ namespace CloudOps.Signer
             ListSigningJobsResponse resp = new ListSigningJobsResponse();
             do
             {
-                ListSigningJobsRequest req = new ListSigningJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSigningJobsRequest req = new ListSigningJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSigningJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Jobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSigningJobsAsync(req);
+                    
+                    foreach (var obj in resp.Jobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

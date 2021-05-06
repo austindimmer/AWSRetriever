@@ -29,22 +29,30 @@ namespace CloudOps.Rekognition
             ListCollectionsResponse resp = new ListCollectionsResponse();
             do
             {
-                ListCollectionsRequest req = new ListCollectionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListCollectionsRequest req = new ListCollectionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListCollectionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.CollectionIds)
-                {
-                    AddObject(obj);
+                    resp = await client.ListCollectionsAsync(req);
+                    
+                    foreach (var obj in resp.CollectionIds)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

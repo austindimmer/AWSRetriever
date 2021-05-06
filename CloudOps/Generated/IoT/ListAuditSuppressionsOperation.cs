@@ -29,22 +29,30 @@ namespace CloudOps.IoT
             ListAuditSuppressionsResponse resp = new ListAuditSuppressionsResponse();
             do
             {
-                ListAuditSuppressionsRequest req = new ListAuditSuppressionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListAuditSuppressionsRequest req = new ListAuditSuppressionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListAuditSuppressionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Suppressions)
-                {
-                    AddObject(obj);
+                    resp = await client.ListAuditSuppressionsAsync(req);
+                    
+                    foreach (var obj in resp.Suppressions)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.ForecastService
             ListDatasetImportJobsResponse resp = new ListDatasetImportJobsResponse();
             do
             {
-                ListDatasetImportJobsRequest req = new ListDatasetImportJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListDatasetImportJobsRequest req = new ListDatasetImportJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListDatasetImportJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DatasetImportJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDatasetImportJobsAsync(req);
+                    
+                    foreach (var obj in resp.DatasetImportJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

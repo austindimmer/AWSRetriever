@@ -29,22 +29,30 @@ namespace CloudOps.Glue
             ListRegistriesResponse resp = new ListRegistriesResponse();
             do
             {
-                ListRegistriesRequest req = new ListRegistriesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListRegistriesRequest req = new ListRegistriesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListRegistriesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Registries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListRegistriesAsync(req);
+                    
+                    foreach (var obj in resp.Registries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

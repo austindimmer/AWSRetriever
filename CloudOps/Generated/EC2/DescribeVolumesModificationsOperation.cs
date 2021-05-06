@@ -29,22 +29,30 @@ namespace CloudOps.EC2
             DescribeVolumesModificationsResponse resp = new DescribeVolumesModificationsResponse();
             do
             {
-                DescribeVolumesModificationsRequest req = new DescribeVolumesModificationsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    DescribeVolumesModificationsRequest req = new DescribeVolumesModificationsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeVolumesModificationsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.VolumesModifications)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeVolumesModificationsAsync(req);
+                    
+                    foreach (var obj in resp.VolumesModifications)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

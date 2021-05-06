@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             DescribeTapeArchivesResponse resp = new DescribeTapeArchivesResponse();
             do
             {
-                DescribeTapeArchivesRequest req = new DescribeTapeArchivesRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    DescribeTapeArchivesRequest req = new DescribeTapeArchivesRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeTapeArchivesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TapeArchives)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeTapeArchivesAsync(req);
+                    
+                    foreach (var obj in resp.TapeArchives)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

@@ -29,22 +29,30 @@ namespace CloudOps.PinpointEmail
             ListDedicatedIpPoolsResponse resp = new ListDedicatedIpPoolsResponse();
             do
             {
-                ListDedicatedIpPoolsRequest req = new ListDedicatedIpPoolsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    PageSize = maxItems
-                                        
-                };
+                    ListDedicatedIpPoolsRequest req = new ListDedicatedIpPoolsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        PageSize = maxItems
+                                            
+                    };
 
-                resp = await client.ListDedicatedIpPoolsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.DedicatedIpPools)
-                {
-                    AddObject(obj);
+                    resp = await client.ListDedicatedIpPoolsAsync(req);
+                    
+                    foreach (var obj in resp.DedicatedIpPools)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

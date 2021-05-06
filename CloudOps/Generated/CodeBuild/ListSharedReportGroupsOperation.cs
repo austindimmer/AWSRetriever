@@ -29,22 +29,30 @@ namespace CloudOps.CodeBuild
             ListSharedReportGroupsResponse resp = new ListSharedReportGroupsResponse();
             do
             {
-                ListSharedReportGroupsRequest req = new ListSharedReportGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListSharedReportGroupsRequest req = new ListSharedReportGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListSharedReportGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.ReportGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListSharedReportGroupsAsync(req);
+                    
+                    foreach (var obj in resp.ReportGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

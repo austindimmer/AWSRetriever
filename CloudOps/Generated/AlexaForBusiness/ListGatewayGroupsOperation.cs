@@ -29,22 +29,30 @@ namespace CloudOps.AlexaForBusiness
             ListGatewayGroupsResponse resp = new ListGatewayGroupsResponse();
             do
             {
-                ListGatewayGroupsRequest req = new ListGatewayGroupsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListGatewayGroupsRequest req = new ListGatewayGroupsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListGatewayGroupsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.GatewayGroups)
-                {
-                    AddObject(obj);
+                    resp = await client.ListGatewayGroupsAsync(req);
+                    
+                    foreach (var obj in resp.GatewayGroups)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

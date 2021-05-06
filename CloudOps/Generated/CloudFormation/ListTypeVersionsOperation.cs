@@ -29,22 +29,30 @@ namespace CloudOps.CloudFormation
             ListTypeVersionsResponse resp = new ListTypeVersionsResponse();
             do
             {
-                ListTypeVersionsRequest req = new ListTypeVersionsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTypeVersionsRequest req = new ListTypeVersionsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTypeVersionsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.TypeVersionSummaries)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTypeVersionsAsync(req);
+                    
+                    foreach (var obj in resp.TypeVersionSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

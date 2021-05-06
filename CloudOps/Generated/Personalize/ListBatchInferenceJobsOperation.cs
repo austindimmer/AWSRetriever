@@ -29,22 +29,30 @@ namespace CloudOps.Personalize
             ListBatchInferenceJobsResponse resp = new ListBatchInferenceJobsResponse();
             do
             {
-                ListBatchInferenceJobsRequest req = new ListBatchInferenceJobsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListBatchInferenceJobsRequest req = new ListBatchInferenceJobsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListBatchInferenceJobsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.BatchInferenceJobs)
-                {
-                    AddObject(obj);
+                    resp = await client.ListBatchInferenceJobsAsync(req);
+                    
+                    foreach (var obj in resp.BatchInferenceJobs)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

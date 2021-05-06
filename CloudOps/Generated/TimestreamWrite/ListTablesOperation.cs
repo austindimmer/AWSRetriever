@@ -29,22 +29,30 @@ namespace CloudOps.TimestreamWrite
             ListTablesResponse resp = new ListTablesResponse();
             do
             {
-                ListTablesRequest req = new ListTablesRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListTablesRequest req = new ListTablesRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListTablesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.Tables)
-                {
-                    AddObject(obj);
+                    resp = await client.ListTablesAsync(req);
+                    
+                    foreach (var obj in resp.Tables)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

@@ -29,33 +29,41 @@ namespace CloudOps.WellArchitected
             ListLensReviewImprovementsResponse resp = new ListLensReviewImprovementsResponse();
             do
             {
-                ListLensReviewImprovementsRequest req = new ListLensReviewImprovementsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                    ,
-                    MaxResults = maxItems
-                                        
-                };
+                    ListLensReviewImprovementsRequest req = new ListLensReviewImprovementsRequest
+                    {
+                        NextToken = resp.NextToken
+                        ,
+                        MaxResults = maxItems
+                                            
+                    };
 
-                resp = await client.ListLensReviewImprovementsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.WorkloadId)
-                {
-                    AddObject(obj);
+                    resp = await client.ListLensReviewImprovementsAsync(req);
+                    
+                    foreach (var obj in resp.WorkloadId)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    
+                    foreach (var obj in resp.LensAlias)
+                    {
+                        AddObject(obj);
+                    }
+                    
+                    foreach (var obj in resp.ImprovementSummaries)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
-                
-                foreach (var obj in resp.LensAlias)
+                catch (System.Exception)
                 {
-                    AddObject(obj);
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
                 }
-                
-                foreach (var obj in resp.ImprovementSummaries)
-                {
-                    AddObject(obj);
-                }
-                
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }

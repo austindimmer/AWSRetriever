@@ -29,22 +29,30 @@ namespace CloudOps.StorageGateway
             ListFileSharesResponse resp = new ListFileSharesResponse();
             do
             {
-                ListFileSharesRequest req = new ListFileSharesRequest
+                try
                 {
-                    Marker = resp.NextMarker
-                    ,
-                    Limit = maxItems
-                                        
-                };
+                    ListFileSharesRequest req = new ListFileSharesRequest
+                    {
+                        Marker = resp.NextMarker
+                        ,
+                        Limit = maxItems
+                                            
+                    };
 
-                resp = await client.ListFileSharesAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.FileShareInfoList)
-                {
-                    AddObject(obj);
+                    resp = await client.ListFileSharesAsync(req);
+                    
+                    foreach (var obj in resp.FileShareInfoList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextMarker));
         }

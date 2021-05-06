@@ -29,22 +29,30 @@ namespace CloudOps.Redshift
             DescribeEndpointAuthorizationResponse resp = new DescribeEndpointAuthorizationResponse();
             do
             {
-                DescribeEndpointAuthorizationRequest req = new DescribeEndpointAuthorizationRequest
+                try
                 {
-                    Marker = resp.Marker
-                    ,
-                    MaxRecords = maxItems
-                                        
-                };
+                    DescribeEndpointAuthorizationRequest req = new DescribeEndpointAuthorizationRequest
+                    {
+                        Marker = resp.Marker
+                        ,
+                        MaxRecords = maxItems
+                                            
+                    };
 
-                resp = await client.DescribeEndpointAuthorizationAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.EndpointAuthorizationList)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeEndpointAuthorizationAsync(req);
+                    
+                    foreach (var obj in resp.EndpointAuthorizationList)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.Marker));
         }

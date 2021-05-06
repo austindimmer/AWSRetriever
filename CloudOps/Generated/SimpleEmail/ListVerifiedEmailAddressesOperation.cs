@@ -21,22 +21,31 @@ namespace CloudOps.SimpleEmail
 
         public override async void Invoke(AWSCredentials creds, RegionEndpoint region, int maxItems)
         {
-            AmazonSimpleEmailServiceConfig config = new AmazonSimpleEmailServiceConfig();
+            AmazonSimpleEmailConfig config = new AmazonSimpleEmailConfig();
             config.RegionEndpoint = region;
             ConfigureClient(config);            
-            AmazonSimpleEmailServiceClient client = new AmazonSimpleEmailServiceClient(creds, config);
+            AmazonSimpleEmailClient client = new AmazonSimpleEmailClient(creds, config);
             
             ListVerifiedEmailAddressesResponse resp = new ListVerifiedEmailAddressesResponse();
             ListVerifiedEmailAddressesRequest req = new ListVerifiedEmailAddressesRequest
             {                    
                                     
             };
-            resp = await client.ListVerifiedEmailAddressesAsync(req);
-            CheckError(resp.HttpStatusCode, "200");                
             
-            foreach (var obj in resp.VerifiedEmailAddresses)
+            try
             {
-                AddObject(obj);
+                resp = await client.ListVerifiedEmailAddressesAsync(req);
+                
+                foreach (var obj in resp.VerifiedEmailAddresses)
+                {
+                    AddObject(obj);
+                }
+                
+            }
+            catch (System.Exception)
+            {
+                CheckError(resp.HttpStatusCode, "200");                
+                throw;
             }
             
         }

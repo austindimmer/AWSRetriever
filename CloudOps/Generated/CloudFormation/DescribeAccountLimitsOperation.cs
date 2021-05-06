@@ -29,20 +29,28 @@ namespace CloudOps.CloudFormation
             DescribeAccountLimitsResponse resp = new DescribeAccountLimitsResponse();
             do
             {
-                DescribeAccountLimitsRequest req = new DescribeAccountLimitsRequest
+                try
                 {
-                    NextToken = resp.NextToken
-                                        
-                };
+                    DescribeAccountLimitsRequest req = new DescribeAccountLimitsRequest
+                    {
+                        NextToken = resp.NextToken
+                                            
+                    };
 
-                resp = await client.DescribeAccountLimitsAsync(req);
-                CheckError(resp.HttpStatusCode, "200");                
-                
-                foreach (var obj in resp.AccountLimits)
-                {
-                    AddObject(obj);
+                    resp = await client.DescribeAccountLimitsAsync(req);
+                    
+                    foreach (var obj in resp.AccountLimits)
+                    {
+                        AddObject(obj);
+                    }
+                    
                 }
-                
+                catch (System.Exception)
+                {
+                    CheckError(resp.HttpStatusCode, "200");                
+                    throw;
+                }
+
             }
             while (!string.IsNullOrEmpty(resp.NextToken));
         }
