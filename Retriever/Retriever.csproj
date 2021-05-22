@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Retriever</RootNamespace>
     <AssemblyName>AWSRetriever</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -198,6 +198,7 @@
     <Content Include="Images\icons8-save-as-50.png" />
     <Content Include="Images\icons8-xls-import-50.png" />
     <None Include="app.config" />
+    <None Include="ConfigGenerator.xlsx" />
     <None Include="Images\korra_circle.png" />
     <None Include="Images\korra.png" />
     <EmbeddedResource Include="FormAbout.resx">
